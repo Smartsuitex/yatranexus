@@ -1,0 +1,110 @@
+[
+  {
+    "Country": "🇦🇺 Australia",
+    "Tourist Visa": "Visitor Visa (Subclass 600)",
+    "Business Visa": "Business Visitor Stream (Subclass 600)",
+    "Processing Time": "Tourist: 15–30 days; Business: 15–30 days (Some applications may take longer)"
+  },
+  {
+    "Country": "🇨🇦 Canada",
+    "Tourist Visa": "Temporary Resident Visa (TRV)",
+    "Business Visa": "Business Visitor",
+    "Processing Time": "Tourist: 3–8 weeks; Business: 3–8 weeks (Varies by biometrics & IRCC workload)"
+  },
+  {
+    "Country": "🇦🇪 Dubai / UAE",
+    "Tourist Visa": "30/60-Day Tourist Visa",
+    "Business Visa": "Business Visit Visa",
+    "Processing Time": "Tourist: 2–5 working days (Express: 24–48 hours); Business: 3–5 working days"
+  },
+  {
+    "Country": "🇪🇺 Schengen Countries (Europe)",
+    "Tourist Visa": "Short-Stay (Type C)",
+    "Business Visa": "Business Schengen Visa",
+    "Processing Time": "Tourist: 15–30 calendar days; Business: 15–30 calendar days (Apply 30–45 days before travel)"
+  },
+  {
+    "Country": "🇮🇩 Indonesia (Bali)",
+    "Tourist Visa": "Tourist Visa / Visa on Arrival",
+    "Business Visa": "Business Visa",
+    "Processing Time": "Tourist: Instant (VOA) / 3–5 working days (eVisa); Business: 5–10 working days"
+  },
+  {
+    "Country": "🇯🇵 Japan",
+    "Tourist Visa": "Short-Term Tourist",
+    "Business Visa": "Temporary Business Visitor",
+    "Processing Time": "Tourist: 5–7 working days; Business: 5–7 working days"
+  },
+  {
+    "Country": "🇲🇾 Malaysia",
+    "Tourist Visa": "Tourist eVisa",
+    "Business Visa": "Business Visa",
+    "Processing Time": "Tourist: 2–5 working days; Business: 3–5 working days"
+  },
+  {
+    "Country": "🇲🇻 Maldives",
+    "Tourist Visa": "Visa on Arrival",
+    "Business Visa": "Business Visa",
+    "Processing Time": "Tourist: Visa on Arrival; Business: 5–10 working days"
+  },
+  {
+    "Country": "🇳🇿 New Zealand",
+    "Tourist Visa": "Visitor Visa",
+    "Business Visa": "Business Visitor Visa",
+    "Processing Time": "Tourist: 20–30 working days; Business: 20–30 working days"
+  },
+  {
+    "Country": "🇸🇦 Saudi Arabia",
+    "Tourist Visa": "Tourist eVisa",
+    "Business Visa": "Business Visit Visa",
+    "Processing Time": "Tourist: 1–3 working days; Business: 3–7 working days"
+  },
+  {
+    "Country": "🇸🇬 Singapore",
+    "Tourist Visa": "Tourist eVisa",
+    "Business Visa": "Business Visit Visa",
+    "Processing Time": "Tourist: 3–5 working days; Business: 3–5 working days"
+  },
+  {
+    "Country": "🇿🇦 South Africa",
+    "Tourist Visa": "Visitor Visa",
+    "Business Visa": "Business Visa",
+    "Processing Time": "Tourist: 5–10 working days; Business: 5–10 working days"
+  },
+  {
+    "Country": "🇰🇷 South Korea",
+    "Tourist Visa": "Tourist Visa",
+    "Business Visa": "Business Visa",
+    "Processing Time": "Tourist: 7–15 working days; Business: 7–15 working days"
+  },
+  {
+    "Country": "🇹🇭 Thailand",
+    "Tourist Visa": "Tourist Visa / eVOA",
+    "Business Visa": "Non-Immigrant B (Business)",
+    "Processing Time": "Tourist: 3–7 working days; Business: 5–10 working days"
+  },
+  {
+    "Country": "🇹🇷 Turkey",
+    "Tourist Visa": "eVisa",
+    "Business Visa": "Business eVisa / Sticker Visa",
+    "Processing Time": "Tourist eVisa: Within 24 hours; Business: 5–15 working days"
+  },
+  {
+    "Country": "🇬🇧 United Kingdom",
+    "Tourist Visa": "Standard Visitor",
+    "Business Visa": "Standard Visitor (Business Activities)",
+    "Processing Time": "Tourist: 15 working days (Priority: 5 days); Business: 15 working days (Priority & Super Priority available)"
+  },
+  {
+    "Country": "🇺🇸 United States",
+    "Tourist Visa": "B1/B2 Visitor",
+    "Business Visa": "B1 Business",
+    "Processing Time": "Tourist: Visa approval 3–10 working days after interview. Interview appointment may take a few days to several months. Business: Same timeline."
+  },
+  {
+    "Country": "🇻🇳 Vietnam",
+    "Tourist Visa": "Tourist eVisa",
+    "Business Visa": "Business Visa",
+    "Processing Time": "Tourist: 3–5 working days; Business: 5–7 working days"
+  }
+]

@@ -1,0 +1,137 @@
+import {
+  BadgePercent,
+  Briefcase,
+  CreditCard,
+  Globe2,
+  GraduationCap,
+  RefreshCw,
+  ShieldCheck,
+  Star,
+  Truck,
+} from "lucide-react";
+import type { ServiceHeroCopy, ServiceIconItem } from "@/components/site/service-premium/types";
+
+export const FOREX_HERO: ServiceHeroCopy = {
+  titleFirst: "Forex Cards",
+  titleAccent: "Smart Travel. Simple Payments.",
+  subtitle:
+    "A secure, convenient and smarter way to carry foreign currency on your international trips.",
+};
+
+/** Hero section badges. */
+export const FOREX_HERO_BADGES: ServiceIconItem[] = [
+  { icon: ShieldCheck, title: "Secure &", detail: "Safe" },
+  { icon: Star, title: "Best Rates", detail: "Guaranteed" },
+  { icon: Globe2, title: "Widely", detail: "Accepted" },
+  { icon: RefreshCw, title: "Reloadable", detail: "Convenient" },
+];
+
+/** Services ribbon under hero. */
+export const FOREX_TRUST_ROW: ServiceIconItem[] = [
+  {
+    icon: ShieldCheck,
+    title: "100% Secure",
+    detail: "Your money is safe with advanced security",
+  },
+  {
+    icon: BadgePercent,
+    title: "Zero Hidden Charges",
+    detail: "Transparent pricing you can trust",
+  },
+  {
+    icon: Globe2,
+    title: "200+ Countries",
+    detail: "Use your card across the globe",
+  },
+  {
+    icon: RefreshCw,
+    title: "Instant Activation",
+    detail: "Get your card quickly and start your journey",
+  },
+  {
+    icon: Truck,
+    title: "Doorstep Delivery",
+    detail: "Get your forex card delivered to you",
+  },
+];
+
+export type ForexCardType = {
+  slug: string;
+  title: string;
+  description: string;
+  icon: typeof CreditCard;
+  image?: string;
+  features: string[];
+  accent: "purple" | "pink" | "orange" | "blue";
+};
+
+export const FOREX_CARD_TYPES: ForexCardType[] = [
+  {
+    slug: "single-currency",
+    title: "Single Currency Forex Card",
+    description: "Perfect for travelers visiting a single destination.",
+    icon: CreditCard,
+    image: "/images/Forex/Forex_Single-Currency.png",
+    accent: "purple",
+    features: [
+      "Load one foreign currency",
+      "Lock exchange rates before travel",
+      "Secure Chip & PIN protection",
+      "Accepted worldwide at merchants & ATMs",
+      "Easy reload when required",
+    ],
+  },
+  {
+    slug: "multi-currency",
+    title: "Multi Currency Forex Card",
+    description: "One card for multiple international destinations.",
+    icon: Globe2,
+    image: "/images/Forex/Forex_Multi-Currency.png",
+    accent: "pink",
+    features: [
+      "Load multiple currencies on one card",
+      "Seamless currency switching",
+      "No need to carry multiple cards",
+      "Worldwide merchant & ATM acceptance",
+      "Convenient online reload facility",
+    ],
+  },
+  {
+    slug: "student",
+    title: "Student Forex Card",
+    description: "Specially designed for students studying abroad.",
+    icon: GraduationCap,
+    image: "/images/Forex/ForexCard-GlobalJourney.png",
+    accent: "orange",
+    features: [
+      "Ideal for tuition & living expenses",
+      "Parents can easily reload funds",
+      "Worldwide ATM & merchant access",
+      "Secure Chip & PIN protection",
+      "Competitive exchange rates",
+    ],
+  },
+  {
+    slug: "corporate",
+    title: "Corporate Forex Card",
+    description: "Smart travel solution for business professionals.",
+    icon: Briefcase,
+    image: "/images/Forex/Single Currency Forex card (1).png",
+    accent: "blue",
+    features: [
+      "Manage international business expenses",
+      "Accepted globally for travel & payments",
+      "Easy expense tracking & control",
+      "Convenient reload & fund management",
+      "Secure transactions with Chip & PIN",
+    ],
+  },
+];
+
+export const FOREX_CTA = {
+  title: "Travel the world with confidence!",
+  subtitle:
+    "Get your forex card today and enjoy a hassle-free international experience.",
+  buttonLabel: "Send Forex Inquiry",
+  buttonHint: "Our team will contact you soon!",
+} as const;

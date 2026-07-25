@@ -1,0 +1,107 @@
+{
+  "started": "2026-07-03T05:00:16.211541+00:00",
+  "completed": [
+    {
+      "id": "cabs-hero-desktop",
+      "path": "public/images/hero/cabs-hero-desktop.png",
+      "at": "2026-07-03T05:01:14.320002+00:00"
+    },
+    {
+      "id": "flights-hero-desktop",
+      "path": "public/images/hero/flights-hero-desktop.png",
+      "at": "2026-07-03T05:03:51.258232+00:00"
+    },
+    {
+      "id": "hotels-hero-desktop",
+      "path": "public/images/hero/hotels-hero-desktop.png",
+      "at": "2026-07-03T05:04:49.796992+00:00"
+    },
+    {
+      "id": "visa-hero-desktop",
+      "path": "public/images/hero/visa-hero-desktop.png",
+      "at": "2026-07-03T05:05:48.371020+00:00"
+    },
+    {
+      "id": "insurance-hero-desktop",
+      "path": "public/images/hero/insurance-hero-desktop.png",
+      "at": "2026-07-03T05:06:44.424263+00:00"
+    },
+    {
+      "id": "forex-hero-desktop",
+      "path": "public/images/hero/forex-hero-desktop.png",
+      "at": "2026-07-03T05:07:33.382112+00:00"
+    },
+    {
+      "id": "corporate-hero-desktop",
+      "path": "public/images/corporate/corporate-hero-desktop.png",
+      "at": "2026-07-03T05:08:36.696044+00:00"
+    },
+    {
+      "id": "holiday-packages-hero-desktop",
+      "path": "public/images/hero/holiday-packages-hero-desktop.png",
+      "at": "2026-07-03T05:10:05.134466+00:00"
+    },
+    {
+      "id": "kashmir-kashmir-highlights-tour-5d4n-v1",
+      "path": "public/images/packages/kashmir-kashmir-highlights-tour-5d4n-v1.png",
+      "at": "2026-07-03T05:14:58.783976+00:00"
+    },
+    {
+      "id": "kashmir-kashmir-family-tour-package-5d4n-v1",
+      "path": "public/images/packages/kashmir-kashmir-family-tour-package-5d4n-v1.png",
+      "at": "2026-07-03T05:15:58.981905+00:00"
+    },
+    {
+      "id": "kashmir-kashmir-honeymoon-package-6d5n-v1",
+      "path": "public/images/packages/kashmir-kashmir-honeymoon-package-6d5n-v1.png",
+      "at": "2026-07-03T05:16:55.087482+00:00"
+    },
+    {
+      "id": "kashmir-vaishno-devi-with-kashmir-tour-6d5n-v1",
+      "path": "public/images/packages/kashmir-vaishno-devi-with-kashmir-tour-6d5n-v1.png",
+      "at": "2026-07-03T05:17:51.271933+00:00"
+    },
+    {
+      "id": "kashmir-amritsar-jammu-kashmir-tour-7d6n-v1",
+      "path": "public/images/packages/kashmir-amritsar-jammu-kashmir-tour-7d6n-v1.png",
+      "at": "2026-07-03T05:18:53.132418+00:00"
+    },
+    {
+      "id": "kashmir-premium-kashmir-honeymoon-with-vaishno-devi-9d8n-v1",
+      "path": "public/images/packages/kashmir-premium-kashmir-honeymoon-with-vaishno-devi-9d8n-v1.png",
+      "at": "2026-07-03T05:19:49.545718+00:00"
+    },
+    {
+      "id": "tamil-nadu-ooty-coonoor-madurai-heritage-escape-6d5n-v1",
+      "path": "public/images/packages/tamil-nadu-ooty-coonoor-madurai-heritage-escape-6d5n-v1.png",
+      "at": "2026-07-03T05:27:47.871389+00:00"
+    }
+  ],
+  "failed": [
+    {
+      "id": "tamil-nadu-chennai-mahabalipuram-pondicherry-coastal-escape-4d3n-v1",
+      "error": "Connection error."
+    },
+    {
+      "id": "tamil-nadu-madurai-rameswaram-kanyakumari-pilgrimage-tour-5d4n-v1",
+      "error": "Connection error."
+    }
+  ],
+  "skipped": [
+    "cabs-hero-desktop",
+    "cabs-hero-desktop",
+    "flights-hero-desktop",
+    "hotels-hero-desktop",
+    "visa-hero-desktop",
+    "insurance-hero-desktop",
+    "forex-hero-desktop",
+    "corporate-hero-desktop",
+    "holiday-packages-hero-desktop",
+    "kashmir-kashmir-highlights-tour-5d4n-v1",
+    "kashmir-kashmir-family-tour-package-5d4n-v1",
+    "kashmir-kashmir-honeymoon-package-6d5n-v1",
+    "kashmir-vaishno-devi-with-kashmir-tour-6d5n-v1",
+    "kashmir-amritsar-jammu-kashmir-tour-7d6n-v1",
+    "kashmir-premium-kashmir-honeymoon-with-vaishno-devi-9d8n-v1"
+  ]
+}

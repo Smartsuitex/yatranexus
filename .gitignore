@@ -1,0 +1,62 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+~$*
+*.tmp
+
+# Local deploy archives / backups
+deploy-*.tgz
+*.tgz
+
+# Unrelated / sensitive local files (do not publish)
+FortiGate*
+Detail_Billing*
+*.docx
+*.pdf
+*.zip
+Nuanza*
+"Forex card Images"/
+Forex card Images/
+ServerMonitor.ps1
+YatraNexus Portfolio.html
+Website Home page*
+seo-audit-tool.html
+seo_audit_tool/
+seo_audit_tool.zip
+G1207*
+YatraNexus/
+deploy/

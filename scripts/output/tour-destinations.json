@@ -1,0 +1,256 @@
+[
+  {
+    "name": "Kashmir",
+    "slug": "kashmir",
+    "region": "Kashmir",
+    "blurb": "Holiday packages in Kashmir.",
+    "highlights": [
+      "Shikara Ride on Dal Lake",
+      "Gulmarg Gondola Ride",
+      "Sonmarg Day Excursion",
+      "Explore Pahalgam Valleys",
+      "Stay in a Traditional Houseboat",
+      "Vaishno Devi Darshan"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1566837497312-7be4a47dd6e1?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "1. Jammu and Kashmir_Tour Package.docx"
+  },
+  {
+    "name": "Tamil Nadu",
+    "slug": "tamil-nadu",
+    "region": "Tamil Nadu",
+    "blurb": "Explore Tamil Nadu, where ancient temples, scenic hill stations, pristine beaches, UNESCO heritage monuments and vibrant South Indian culture create unforgettable travel experiences.",
+    "highlights": [
+      "Meenakshi Amman Temple",
+      "Marina Beach & Mahabalipuram",
+      "Ooty & Coonoor Kanyakumari Sunrise & Vivekananda Rock Memorial",
+      "Rameswaram & Pamban Bridge",
+      "Pondicherry & Auroville"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "10. Tamil Nadu  Tour Package.docx"
+  },
+  {
+    "name": "Kerala",
+    "slug": "kerala",
+    "region": "Keralam",
+    "blurb": "Experience Kerala, God's Own Country, where misty hill stations, tranquil backwaters, golden beaches, wildlife sanctuaries and rich cultural heritage create the perfect holiday.",
+    "highlights": [
+      "Munnar Tea Gardens Alleppey Houseboat Cruise Periyar Wildlife Sanctuary",
+      "Kovalam Beach",
+      "Athirappilly Waterfalls",
+      "Kumarakom Backwaters"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "11. Keralam Tour Package.docx"
+  },
+  {
+    "name": "North East India",
+    "slug": "northeast",
+    "region": "Assam",
+    "blurb": "Explore Assam, the gateway to North East India, famous for its rich wildlife, lush tea gardens, mighty Brahmaputra River, ancient temples and vibrant cultural heritage.",
+    "highlights": [
+      "Kamakhya Temple",
+      "Majuli River Island Assam Tea Gardens Brahmaputra River Cruise Sivasagar Heritag",
+      "Guwahati & Kaziranga Tour ⭐ Complete Assam Explorer"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "12. Assam Tour Packages.docx"
+  },
+  {
+    "name": "Madhya Pradesh",
+    "slug": "madhya-pradesh",
+    "region": "Madhya Pradesh",
+    "blurb": "Holiday packages in Madhya Pradesh.",
+    "highlights": [
+      "Mahakaleshwar Temple",
+      "Bandhavgarh Safari Kanha National Park",
+      "Khajuraho Temples",
+      "Bhedaghat Waterfalls",
+      "Orchha & Gwalior Forts"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1593691509543-cb9612be4bb6?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "2. Madhya Pradesh Tour Packages.docx"
+  },
+  {
+    "name": "Ladakh",
+    "slug": "ladakh",
+    "region": "Ladakh",
+    "blurb": "Experience the breathtaking landscapes of Ladakh, where majestic mountains, crystal-clear lakes, ancient monasteries, and thrilling road trips create an unforgettable Himalayan adventure.",
+    "highlights": [
+      "Khardung La Pass Pangong Lake Nubra Valley Camel Safari Hemis & Thiksey Monaster",
+      "Magnetic Hill",
+      "Srinagar–Leh & Manali–Leh Road Trip"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1589552416260-f5deb55a9341?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "3. Ladakh Tour Package.docx"
+  },
+  {
+    "name": "Himachal Pradesh",
+    "slug": "himachal",
+    "region": "Himachal",
+    "blurb": "Explore the breathtaking beauty of Himachal Pradesh with snow-capped mountains, scenic valleys, charming hill stations, ancient temples, and unforgettable Himalayan adventures.",
+    "highlights": [
+      "Shimla & Manali",
+      "Atal Tunnel",
+      "Spiti Valley Road Trip",
+      "Dharamshala & Dalai Lama Temple",
+      "Kinnaur Valley",
+      "Solang Valley & Rohtang Pass"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "4. Himachal Pradesh.docx"
+  },
+  {
+    "name": "Gujarat",
+    "slug": "gujarat",
+    "region": "Gujarat",
+    "blurb": "Experience Gujarat — a land of sacred temples, majestic wildlife, white deserts, serene beaches, vibrant culture, and iconic modern attractions.",
+    "highlights": [
+      "Experience Gujarat — a land of sacred temples, majestic wildlife, white deserts,"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "5. Gujarat Tour Package.docx"
+  },
+  {
+    "name": "Uttar Pradesh",
+    "slug": "uttar-pradesh",
+    "region": "Uttar Pradesh",
+    "blurb": "Discover Uttar Pradesh, the heart of India's spiritual heritage, where sacred temples, ancient cities, Mughal monuments, wildlife and vibrant culture create unforgettable travel experiences.",
+    "highlights": [
+      "Kashi Vishwanath Temple",
+      "Shri Ram Janmabhoomi, Ayodhya",
+      "Taj Mahal, Agra Triveni Sangam, Prayagraj Dudhwa National Park Mathura & Vrindav"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "6. Uttar Pradesh Tour Package.docx"
+  },
+  {
+    "name": "Goa",
+    "slug": "goa",
+    "region": "Goa",
+    "blurb": "Discover Goa, India's favourite beach destination, where golden beaches, Portuguese heritage, vibrant nightlife, thrilling water sports and luxurious coastal escapes promise an unforgettable holiday.",
+    "highlights": [
+      "Baga & Calangute Beach Palolem & Butterfly Beach",
+      "Fort Aguada & Chapora Fort Basilica of Bom Jesus Tito's Lane & Goa Nightlife Wat"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "7. Goa Tour Package.docx"
+  },
+  {
+    "name": "Andaman Islands",
+    "slug": "andaman",
+    "region": "Andaman",
+    "blurb": "Escape to the tropical paradise of the Andaman Islands, where crystal-clear waters, white sandy beaches, vibrant coral reefs and unforgettable island adventures await.",
+    "highlights": [
+      "Radhanagar Beach",
+      "Havelock Island (Swaraj Dweep)",
+      "Neil Island (Shaheed Dweep) Scuba Diving & Snorkeling",
+      "Cellular Jail & Light & Sound Show Ross Island & North Bay"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1586500036706-41963de24d8b?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "8. Andman Tour Package.docx"
+  },
+  {
+    "name": "Lakshadweep",
+    "slug": "lakshadweep",
+    "region": "Lakshadweep",
+    "blurb": "Discover Lakshadweep, India's hidden tropical paradise, where turquoise lagoons, coral reefs, untouched islands and serene beaches offer an unforgettable island escape.",
+    "highlights": [
+      "Agatti Island",
+      "Bangaram Island Scuba Diving & Snorkeling Glass Bottom Boat Ride Sunset at Kadma"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "9. Lakshadweep Tour Package.docx"
+  },
+  {
+    "name": "Karnataka",
+    "slug": "karnataka",
+    "region": "Karnataka",
+    "blurb": "Discover Karnataka, a perfect blend of royal heritage, lush coffee plantations, scenic hill stations, pristine beaches, ancient temples and thrilling wildlife experiences.",
+    "highlights": [
+      "Mysore Palace",
+      "Coorg Coffee Plantations Hampi UNESCO Heritage Kabini Wildlife Safari",
+      "Chikmagalur Hills",
+      "Gokarna & Murudeshwar BeachesExplore Our Karnataka Tour",
+      "Bangalore – Mysore – Coorg Heritage Tour (5D/4N)",
+      "Coorg – Chikmagalur Coffee Trail (5D/4N) Bangalore – Hampi Heritage Expedition ("
+    ],
+    "image_url": "https://images.unsplash.com/photo-1596176530629-397b78511ed5?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "Document_4.docx"
+  },
+  {
+    "name": "Maharashtra",
+    "slug": "maharashtra",
+    "region": "Maharashtra",
+    "blurb": "Experience the vibrant charm of Maharashtra, where bustling cities, scenic hill stations, sacred temples, pristine beaches and thrilling wildlife create unforgettable journeys.",
+    "highlights": [
+      "Marine Drive",
+      "Gateway of India Mahabaleshwar Strawberry Farms",
+      "Shirdi Sai Baba Temple",
+      "Tadoba Tiger Safari",
+      "Lonavala & KhandalaExplore Our Tour"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "Maharashtra_Website_Packages.docx"
+  },
+  {
+    "name": "Odisha",
+    "slug": "odisha",
+    "region": "Odisha – West Bengal",
+    "blurb": "Discover the timeless charm of East India with Odisha's sacred temples, pristine beaches and rich heritage, combined with West Bengal's colonial grandeur, Himalayan hill stations, tea gardens and vibrant culture.",
+    "highlights": [
+      "Jagannath Temple, Puri",
+      "Konark Sun Temple",
+      "Victoria Memorial, Kolkata Howrah Bridge",
+      "Darjeeling & Tiger Hill Sunrise",
+      "Sundarbans Mangrove SafariExplore Our Odisha – West Bengal Tour",
+      "Jagannath & Kolkata Heritage Tour (6D/5N) ⭐ Best Seller"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "Odisha_-_West_Bengal__Website_Package.docx"
+  },
+  {
+    "name": "Rajasthan",
+    "slug": "rajasthan",
+    "region": "Rajasthan",
+    "blurb": "Discover the royal land of Rajasthan, where magnificent forts, grand palaces, golden deserts, vibrant culture, and unforgettable wildlife experiences await every traveler.",
+    "highlights": [
+      "Jaipur Heritage",
+      "Jaisalmer Desert Safari Udaipur Lake Pichola Mehrangarh Fort Jawai Leopard Safar"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "Rajasthan_Package_Website.docx"
+  },
+  {
+    "name": "Uttarakhand",
+    "slug": "uttarakhand",
+    "region": "Uttarakhand",
+    "blurb": "Discover the serene beauty of Uttarakhand with majestic Himalayas, sacred temples, peaceful lakes, lush forests, thrilling wildlife and unforgettable hill station experiences.",
+    "highlights": [
+      "Har Ki Pauri Ganga Aarti",
+      "Mussoorie & Kempty Falls Nainital Lake Boating",
+      "Jim Corbett Safari",
+      "Char Dham Yatra",
+      "Rishikesh River Rafting & AdventureExplore Our Uttarakhand Tour"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "Uttarakhand__Website_Package.docx"
+  },
+  {
+    "name": "West Bengal",
+    "slug": "west-bengal",
+    "region": "West Bengal",
+    "blurb": "Experience the cultural soul of West Bengal with colonial heritage, Himalayan hill stations, tea gardens, wildlife sanctuaries, pristine beaches and spiritual destinations.",
+    "highlights": [
+      "Darjeeling & Tiger Hill",
+      "Victoria Memorial & Howrah Bridge",
+      "Sundarbans Mangrove Safari Dooars Tea Gardens & Rhino Safari",
+      "Digha & Mandarmani Beaches",
+      "Dakshineswar Temple & GangasagarExplore Our West Bengal Tour",
+      "Darjeeling Himalayan Escape (5D/4N) ⭐ Best Seller Dooars Wildlife & Tea Garden T"
+    ],
+    "image_url": "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=70",
+    "source_file": "West_Bengal__Website_Package.docx"
+  }
+]

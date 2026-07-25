@@ -1,0 +1,91 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { fetchPublicDestinations } from "@/lib/public-cms";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { DestinationCard } from "@/components/site/DestinationCard";
+import { HolidayPageHero } from "@/components/site/HolidayPageHero";
+import { InquirySection } from "@/components/site/InquirySection";
+import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
+import { useSiteConfig } from "@/contexts/site-config";
+import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
+import {
+  HOLIDAY_DOMESTIC_HERO,
+  resolveHolidayHubHero,
+} from "@/lib/holiday-packages-page-data";
+
+export const Route = createFileRoute("/holiday-packages/domestic/")({
+  loader: async () => {
+    const destinations = await fetchPublicDestinations("domestic");
+    return { destinations };
+  },
+  head: () => ({
+    meta: [
+      { title: "Domestic Holiday Packages — India | YatraNexus" },
+      {
+        name: "description",
+        content:
+          "Domestic holiday packages across India — Goa, Kerala, Rajasthan, Kashmir, Himachal and more.",
+      },
+      { property: "og:title", content: "Domestic Holiday Packages | YatraNexus" },
+    ],
+  }),
+  component: DomesticIndex,
+});
+
+function DomesticIndex() {
+  const { destinations } = Route.useLoaderData();
+  const site = useSiteConfig();
+  const cmsHero = site.pageContent.holidayDomestic ?? DEFAULT_PAGE_CONTENT.holidayDomestic ?? {};
+  const hero = resolveHolidayHubHero(cmsHero.bannerUrl);
+
+  return (
+    <div className="holiday-packages-page">
+      <Breadcrumbs
+        items={[
+          { label: "Holiday packages", to: "/holiday-packages" },
+          { label: "Domestic holidays" },
+        ]}
+      />
+      <HolidayPageHero
+        headingId="holiday-domestic-hero-heading"
+        eyebrow={cmsHero.eyebrow || HOLIDAY_DOMESTIC_HERO.eyebrow}
+        titleFirst={cmsHero.titleFirst || HOLIDAY_DOMESTIC_HERO.titleFirst}
+        titleAccent={cmsHero.titleAccent || HOLIDAY_DOMESTIC_HERO.titleAccent}
+        subtitle={cmsHero.subtitle || HOLIDAY_DOMESTIC_HERO.subtitle}
+        imagePrimary={hero.primary}
+        imageFallback={hero.fallback}
+        compact="hub"
+      />
+      <section className="about-section" aria-labelledby="holiday-states-heading">
+        <div className="about-section__inner">
+          <ServiceSectionHeading
+            id="holiday-states-heading"
+            title={
+              <>
+                Choose your <span className="text-brand-gradient">destination</span>
+              </>
+            }
+            subtitle="Every state card opens highlights and sample packages you can customise."
+          />
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {destinations.map((d) => (
+              <DestinationCard
+                key={d.slug}
+                d={d}
+                to="/holiday-packages/domestic/$state"
+                params={{ state: d.slug }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <InquirySection
+        heading="Plan a domestic holiday"
+        subtitle="Not sure which state to pick? Tell us your dates and budget — we'll suggest the best options."
+        defaultService="packages"
+        hideServiceSelect
+        sourcePage="/holiday-packages/domestic"
+      />
+    </div>
+  );
+}

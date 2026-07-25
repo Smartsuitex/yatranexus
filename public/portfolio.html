@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YatraNexus — Project Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f1b3d;
+      --navy-deep: #0a1228;
+      --orange: #f97316;
+      --purple: #7c3aed;
+      --gradient: linear-gradient(135deg, #7c3aed 0%, #f97316 100%);
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(15, 27, 61, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--navy-deep);
+      color: #fff;
+      padding: 4rem 1.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 70% 0%, rgba(124,58,237,.35), transparent),
+                  radial-gradient(ellipse 50% 50% at 10% 80%, rgba(249,115,22,.2), transparent);
+    }
+    .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+    .hero-badge {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p { max-width: 640px; color: rgba(255,255,255,.8); font-size: 1.05rem; }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      font-size: .9rem;
+      color: rgba(255,255,255,.65);
+    }
+    .hero-meta strong { color: #fff; display: block; font-size: 1.1rem; }
+
+    /* ── Nav ── */
+    .toc {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: .75rem 1.5rem;
+    }
+    .toc-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1.25rem;
+      align-items: center;
+    }
+    .toc-brand { font-weight: 700; color: var(--navy); margin-right: auto; font-size: .95rem; }
+    .toc-brand span { color: var(--orange); }
+    .toc a {
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      padding: .35rem .6rem;
+      border-radius: 8px;
+      transition: color .15s, background .15s;
+    }
+    .toc a:hover { color: var(--navy); background: #f1f5f9; }
+
+    /* ── Sections ── */
+    main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    section { margin-bottom: 4rem; scroll-margin-top: 4rem; }
+    .section-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: .5rem;
+    }
+    section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .75rem;
+    }
+    section > p.desc { color: var(--muted); max-width: 720px; margin-bottom: 1.75rem; }
+
+    /* ── Screenshot frames ── */
+    .shot-grid { display: grid; gap: 1.5rem; }
+    .shot-grid.two { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .shot-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .shot-card figcaption {
+      padding: .85rem 1.1rem;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--navy);
+      border-top: 1px solid var(--border);
+      background: #fafbfc;
+    }
+    .shot-card img {
+      width: 100%;
+      display: block;
+      background: #f8fafc;
+    }
+    .shot-card.mobile img { max-height: 520px; object-fit: cover; object-position: top; }
+
+    /* ── Admin mockup frames ── */
+    .admin-frame {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      background: #f1f5f9;
+      font-size: 11px;
+    }
+    .admin-layout { display: flex; min-height: 420px; }
+    .admin-sidebar {
+      width: 180px;
+      flex-shrink: 0;
+      background: var(--navy-deep);
+      color: #fff;
+      padding: 14px 0;
+    }
+    .admin-sidebar .brand {
+      padding: 0 14px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .admin-sidebar .brand span { color: var(--orange); }
+    .admin-sidebar .sub { font-size: 9px; color: rgba(255,255,255,.45); margin-top: 2px; }
+    .admin-nav { padding: 8px; }
+    .admin-nav a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      margin-bottom: 2px;
+      font-size: 10.5px;
+    }
+    .admin-nav a.active { background: rgba(255,255,255,.12); color: #fff; }
+    .admin-nav .ico { width: 14px; text-align: center; opacity: .8; }
+    .admin-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .admin-topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .admin-topbar strong { color: var(--text); }
+    .admin-content { padding: 16px; flex: 1; overflow: hidden; }
+
+    .grad-hero {
+      background: var(--gradient);
+      border-radius: 12px;
+      padding: 18px 20px;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .grad-hero h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .grad-hero p { font-size: 10px; opacity: .85; max-width: 380px; }
+    .grad-btns { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .grad-btns .btn-w {
+      background: #fff;
+      color: var(--navy);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 10px;
+    }
+    .grad-btns .btn-g {
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 10px;
+    }
+
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    .stat-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .stat-box .lbl { font-size: 9px; color: var(--muted); }
+    .stat-box .val { font-size: 20px; font-weight: 700; color: var(--navy); }
+    .stat-box .ico { float: right; font-size: 14px; opacity: .5; }
+
+    .admin-table {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .admin-table .thead {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr .8fr .7fr .6fr;
+      padding: 8px 12px;
+      background: #f8fafc;
+      font-weight: 600;
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-table .row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr .8fr .7fr .6fr;
+      padding: 9px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      align-items: center;
+      font-size: 10px;
+    }
+    .admin-table .row:last-child { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 600;
+    }
+    .badge-new { background: #dbeafe; color: #1d4ed8; }
+    .badge-contacted { background: #fef3c7; color: #b45309; }
+    .badge-quoted { background: #ede9fe; color: #6d28d9; }
+    .badge-published { background: #dcfce7; color: #15803d; }
+    .badge-draft { background: #f1f5f9; color: #64748b; }
+
+    .form-mock {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .form-mock h4 { font-size: 12px; font-weight: 700; margin-bottom: 10px; color: var(--navy); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+    .form-field label { display: block; font-size: 9px; color: var(--muted); margin-bottom: 3px; }
+    .form-field .inp {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 10px;
+      color: var(--text);
+    }
+    .form-field.full { grid-column: 1 / -1; }
+    .itinerary-day {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      margin-top: 8px;
+      background: #fafbfc;
+    }
+    .itinerary-day .day-hd { font-weight: 600; font-size: 10px; color: var(--purple); margin-bottom: 4px; }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .toolbar .search-inp {
+      flex: 1;
+      min-width: 120px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .toolbar .btn-p {
+      background: var(--gradient);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .toolbar .btn-o {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 10px;
+    }
+
+    /* ── Tech stack ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: .75rem;
+    }
+    .tech-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .85rem 1rem;
+      text-align: center;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--navy);
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    }
+    .tech-chip small { display: block; font-weight: 400; color: var(--muted); font-size: .72rem; margin-top: 2px; }
+
+    /* ── Role ── */
+    .role-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .role-card h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 1rem; }
+    .role-list { list-style: none; display: grid; gap: .75rem; }
+    .role-list li {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      font-size: .92rem;
+      color: var(--text);
+    }
+    .role-list li::before {
+      content: "✓";
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      background: linear-gradient(135deg, #7c3aed22, #f9731622);
+      color: var(--purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--muted);
+      font-size: .82rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .stat-row { grid-template-columns: repeat(2, 1fr); }
+      .admin-sidebar { width: 52px; }
+      .admin-sidebar .brand span, .admin-sidebar .sub, .admin-nav a span:not(.ico) { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-badge">Full-Stack Travel CMS · Case Study</p>
+      <h1>Yatra<span>Nexus</span> Gateway</h1>
+      <p>
+        A production-ready travel agency platform with a public marketing website and a
+        Supabase-powered admin CMS — built end-to-end for YatraNexus Ventures LLP.
+      </p>
+      <div class="hero-meta">
+        <div><strong>40+</strong> Routes & pages</div>
+        <div><strong>12</strong> Admin modules</div>
+        <div><strong>100%</strong> Mobile responsive</div>
+        <div><strong>SSR</strong> TanStack Start</div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-inner">
+      <div class="toc-brand">Yatra<span>Nexus</span> Portfolio</div>
+      <a href="#home">Home Page</a>
+      <a href="#admin">Admin Panel</a>
+      <a href="#packages">Packages</a>
+      <a href="#blog">Blog</a>
+      <a href="#inquiries">Inquiries</a>
+      <a href="#mobile">Mobile</a>
+      <a href="#tech">Technologies</a>
+      <a href="#role">My Role</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HOME PAGE -->
+    <section id="home">
+      <p class="section-label">Public Website</p>
+      <h2>Home Page</h2>
+      <p class="desc">
+        A premium travel homepage with hero search, service carousel, domestic destination cards,
+        corporate travel CTA, testimonials, and inquiry capture — all CMS-driven from Supabase.
+      </p>
+      <div class="shot-grid">
+        <figure class="shot-card">
+          <img src="portfolio/screenshots/home-desktop.png" alt="YatraNexus homepage — desktop view" loading="lazy" />
+          <figcaption>Desktop — full homepage with hero, services, destinations &amp; testimonials</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ADMIN PANEL -->
+    <section id="admin">
+      <p class="section-label">Back Office</p>
+      <h2>Admin Panel</h2>
+      <p class="desc">
+        Secure Supabase-authenticated admin area with a navy sidebar, dashboard analytics,
+        and quick actions to manage every aspect of the public website.
+      </p>
+      <div class="shot-grid two">
+        <figure class="shot-card">
+          <img src="portfolio/screenshots/admin-login.png" alt="YatraNexus admin login page" loading="lazy" />
+          <figcaption>Admin login — Supabase Auth with branded sign-in</figcaption>
+        </figure>
+        <figure class="shot-card">
+          <div class="admin-frame">
+            <div class="admin-layout">
+              <aside class="admin-sidebar">
+                <div class="brand">Yatra<span>Nexus</span><div class="sub">Admin panel</div></div>
+                <nav class="admin-nav">
+                  <a class="active"><span class="ico">▦</span> Dashboard</a>
+                  <a><span class="ico">💬</span> Inquiries</a>
+                  <a><span class="ico">📦</span> Packages</a>
+                  <a><span class="ico">📍</span> Destinations</a>
+                  <a><span class="ico">✈</span> Services</a>
+                  <a><span class="ico">📝</span> Blog</a>
+                  <a><span class="ico">🖼</span> Gallery</a>
+                  <a><span class="ico">⚙</span> Settings</a>
+                </nav>
+              </aside>
+              <div class="admin-main">
+                <div class="admin-topbar">Signed in as <strong>superadmin@yatranexus.com</strong></div>
+                <div class="admin-content">
+                  <div class="grad-hero">
+                    <h3>Welcome back, Superadmin</h3>
+                    <p>Manage customer inquiries, holiday packages, and everything on your public website — all in one place.</p>
+                    <div class="grad-btns">
+                      <span class="btn-w">12 new leads</span>
+                      <span class="btn-g">+ Add package</span>
+                      <span class="btn-g">↗ View website</span>
+                    </div>
+                  </div>
+                  <div class="stat-row">
+                    <div class="stat-box"><span class="ico">📥</span><div class="lbl">New inquiries</div><div class="val">12</div></div>
+                    <div class="stat-box"><span class="ico">📋</span><div class="lbl">Total leads</div><div class="val">87</div></div>
+                    <div class="stat-box"><span class="ico">📦</span><div class="lbl">Packages</div><div class="val">34</div></div>
+                    <div class="stat-box"><span class="ico">📝</span><div class="lbl">Blog posts</div><div class="val">8</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <figcaption>Dashboard — lead stats, content counts &amp; quick actions</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- PACKAGE MANAGEMENT -->
+    <section id="packages">
+      <p class="section-label">CMS Module</p>
+      <h2>Package Management</h2>
+      <p class="desc">
+        Full CRUD for holiday packages with itinerary editor, pricing, inclusions/exclusions,
+        image uploads via Supabase Storage, and featured/active toggles.
+      </p>
+      <div class="shot-grid two">
+        <figure class="shot-card">
+          <img src="portfolio/screenshots/holiday-packages.png" alt="Holiday packages listing page" loading="lazy" />
+          <figcaption>Public packages hub — search, filters &amp; destination cards</figcaption>
+        </figure>
+        <figure class="shot-card">
+          <div class="admin-frame">
+            <div class="admin-layout">
+              <aside class="admin-sidebar">
+                <div class="brand">Yatra<span>Nexus</span></div>
+                <nav class="admin-nav">
+                  <a><span class="ico">▦</span> Dashboard</a>
+                  <a><span class="ico">💬</span> Inquiries</a>
+                  <a class="active"><span class="ico">📦</span> Packages</a>
+                  <a><span class="ico">📍</span> Destinations</a>
+                </nav>
+              </aside>
+              <div class="admin-main">
+                <div class="admin-topbar">Signed in as <strong>superadmin@yatranexus.com</strong></div>
+                <div class="admin-content">
+                  <div class="toolbar">
+                    <span style="font-weight:700;font-size:13px;color:var(--navy)">Holiday Packages</span>
+                    <span class="btn-p" style="margin-left:auto">+ New package</span>
+                  </div>
+                  <div class="form-mock">
+                    <h4>Edit: Kashmir Honeymoon Package</h4>
+                    <div class="form-row">
+                      <div class="form-field"><label>Title</label><div class="inp">Kashmir Honeymoon Package</div></div>
+                      <div class="form-field"><label>Destination</label><div class="inp">Kashmir</div></div>
+                      <div class="form-field"><label>Duration</label><div class="inp">5 Nights / 6 Days</div></div>
+                      <div class="form-field"><label>From price</label><div class="inp">₹32,999</div></div>
+                      <div class="form-field full"><label>Itinerary</label>
+                        <div class="itinerary-day"><div class="day-hd">Day 1 — Arrival Srinagar</div><div style="font-size:9px;color:var(--muted)">Airport pickup · Shikara ride on Dal Lake · Overnight houseboat</div></div>
+                        <div class="itinerary-day"><div class="day-hd">Day 2 — Gulmarg Excursion</div><div style="font-size:9px;color:var(--muted)">Gondola ride · Snow activities · Return to Srinagar</div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <figcaption>Admin editor — itinerary builder, pricing &amp; CMS image fields</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- BLOG MANAGEMENT -->
+    <section id="blog">
+      <p class="section-label">CMS Module</p>
+      <h2>Blog Management</h2>
+      <p class="desc">
+        Create and publish travel articles with categories, featured images, read-time estimates,
+        and rich content — surfaced on the public blog with SEO-friendly slugs.
+      </p>
+      <div class="shot-grid two">
+        <figure class="shot-card">
+          <img src="portfolio/screenshots/blog-public.png" alt="YatraNexus travel blog" loading="lazy" />
+          <figcaption>Public blog — articles with categories &amp; read times</figcaption>
+        </figure>
+        <figure class="shot-card">
+          <div class="admin-frame">
+            <div class="admin-layout">
+              <aside class="admin-sidebar">
+                <div class="brand">Yatra<span>Nexus</span></div>
+                <nav class="admin-nav">
+                  <a><span class="ico">▦</span> Dashboard</a>
+                  <a class="active"><span class="ico">📝</span> Blog</a>
+                  <a><span class="ico">📦</span> Packages</a>
+                </nav>
+              </aside>
+              <div class="admin-main">
+                <div class="admin-topbar">Signed in as <strong>superadmin@yatranexus.com</strong></div>
+                <div class="admin-content">
+                  <div class="toolbar">
+                    <span style="font-weight:700;font-size:13px;color:var(--navy)">Blog Posts</span>
+                    <span class="btn-p" style="margin-left:auto">+ New post</span>
+                  </div>
+                  <div class="admin-table">
+                    <div class="thead"><span>Title</span><span>Category</span><span>Read time</span><span>Status</span><span>Actions</span></div>
+                    <div class="row"><span>Goa Beyond the Beaches…</span><span>Domestic Travel</span><span>5 min</span><span><span class="badge badge-published">Published</span></span><span>✏ 🗑</span></div>
+                    <div class="row"><span>Schengen Visa Checklist 2026</span><span>Visa Tips</span><span>7 min</span><span><span class="badge badge-published">Published</span></span><span>✏ 🗑</span></div>
+                    <div class="row"><span>Kerala Houseboat Experience</span><span>Holiday Ideas</span><span>4 min</span><span><span class="badge badge-draft">Draft</span></span><span>✏ 🗑</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <figcaption>Admin blog — CRUD table with publish/draft status</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- INQUIRY MANAGEMENT -->
+    <section id="inquiries">
+      <p class="section-label">CRM Module</p>
+      <h2>Inquiry Management</h2>
+      <p class="desc">
+        End-to-end lead management with search, status workflow (New → Contacted → Quoted → Closed),
+        customer deduplication, booking history, admin notes, and CSV/PDF export.
+      </p>
+      <figure class="shot-card" style="margin-bottom:0">
+        <div class="admin-frame">
+          <div class="admin-layout">
+            <aside class="admin-sidebar">
+              <div class="brand">Yatra<span>Nexus</span></div>
+              <nav class="admin-nav">
+                <a><span class="ico">▦</span> Dashboard</a>
+                <a class="active"><span class="ico">💬</span> Inquiries</a>
+                <a><span class="ico">📦</span> Packages</a>
+              </nav>
+            </aside>
+            <div class="admin-main">
+              <div class="admin-topbar">Signed in as <strong>superadmin@yatranexus.com</strong></div>
+              <div class="admin-content">
+                <div class="toolbar">
+                  <input class="search-inp" value="🔍  Search by name, email, phone…" readonly />
+                  <span class="btn-o">Filter: All</span>
+                  <span class="btn-o">⬇ CSV</span>
+                  <span class="btn-o">📄 PDF</span>
+                </div>
+                <div class="admin-table">
+                  <div class="thead"><span>Customer</span><span>Service</span><span>Destination</span><span>Status</span><span>Date</span></div>
+                  <div class="row"><span><strong>Abhinav Shukla</strong><br><span style="color:var(--muted)">+91 98xxx · 2 inquiries</span></span><span>Holiday Package</span><span>Bhutan</span><span><span class="badge badge-new">New</span></span><span>2h ago</span></div>
+                  <div class="row"><span><strong>Japen Gandhi</strong><br><span style="color:var(--muted)">japen@email.com</span></span><span>Honeymoon</span><span>Himachal</span><span><span class="badge badge-contacted">Contacted</span></span><span>1d ago</span></div>
+                  <div class="row"><span><strong>Vivek Patel</strong></span><span>Visa Services</span><span>Schengen</span><span><span class="badge badge-quoted">Quoted</span></span><span>3d ago</span></div>
+                  <div class="row"><span><strong>Chirag Dohre</strong></span><span>Corporate</span><span>MICE</span><span><span class="badge badge-contacted">Contacted</span></span><span>5d ago</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>Inquiry CRM — grouped customers, status badges &amp; export tools</figcaption>
+      </figure>
+    </section>
+
+    <!-- MOBILE -->
+    <section id="mobile">
+      <p class="section-label">Responsive Design</p>
+      <h2>Mobile Responsive Views</h2>
+      <p class="desc">
+        Fully responsive across all breakpoints — mobile navigation drawer, touch-friendly CTAs,
+        WhatsApp FAB, and optimised layouts for phones and tablets.
+      </p>
+      <div class="shot-grid two">
+        <figure class="shot-card mobile">
+          <img src="portfolio/screenshots/home-mobile.png" alt="YatraNexus mobile homepage" loading="lazy" />
+          <figcaption>Mobile homepage — hero search &amp; service highlights</figcaption>
+        </figure>
+        <figure class="shot-card mobile">
+          <img src="portfolio/screenshots/mobile-menu.png" alt="YatraNexus mobile navigation menu" loading="lazy" />
+          <figcaption>Mobile nav drawer — links, phone &amp; inquiry CTA</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGIES -->
+    <section id="tech">
+      <p class="section-label">Stack</p>
+      <h2>Technologies Used</h2>
+      <p class="desc">Modern full-stack architecture with SSR, type-safe routing, and a headless CMS backend.</p>
+      <div class="tech-grid">
+        <div class="tech-chip">React 19<small>UI library</small></div>
+        <div class="tech-chip">TypeScript<small>Type safety</small></div>
+        <div class="tech-chip">TanStack Start<small>SSR framework</small></div>
+        <div class="tech-chip">TanStack Router<small>File-based routes</small></div>
+        <div class="tech-chip">TanStack Query<small>Server state</small></div>
+        <div class="tech-chip">Tailwind CSS v4<small>Styling</small></div>
+        <div class="tech-chip">shadcn/ui<small>Component library</small></div>
+        <div class="tech-chip">Supabase<small>Auth + Postgres + Storage</small></div>
+        <div class="tech-chip">Zod<small>Validation</small></div>
+        <div class="tech-chip">React Hook Form<small>Form handling</small></div>
+        <div class="tech-chip">Vite 8<small>Build tool</small></div>
+        <div class="tech-chip">Nitro<small>Server runtime</small></div>
+        <div class="tech-chip">Recharts<small>Admin analytics</small></div>
+        <div class="tech-chip">date-fns<small>Date utilities</small></div>
+      </div>
+    </section>
+
+    <!-- ROLE -->
+    <section id="role">
+      <p class="section-label">Contribution</p>
+      <h2>My Role in the Project</h2>
+      <p class="desc">End-to-end ownership of the YatraNexus digital platform — from architecture to deployment-ready CMS.</p>
+      <div class="role-card">
+        <h3>Chirag Dohre — Full-Stack Developer</h3>
+        <ul class="role-list">
+          <li>Architected and built the entire TanStack Start application with 40+ public and admin routes, SSR, and file-based routing.</li>
+          <li>Designed and implemented the Supabase-backed CMS — database schema, RLS policies, Storage bucket, and 12 admin management modules.</li>
+          <li>Built the public marketing website: premium homepage, service landing pages, holiday package hub, blog, gallery, and inquiry capture flows.</li>
+          <li>Developed the admin panel with dashboard analytics, package itinerary editor, media library, homepage CMS, and inquiry CRM with export.</li>
+          <li>Created data seeding pipelines — parsed tour package Word documents into SQL migrations and automated content import scripts.</li>
+          <li>Implemented customer inquiry deduplication, status workflow, booking history tracking, and CSV/PDF export for the sales team.</li>
+          <li>Ensured full mobile responsiveness, accessibility, SEO (dynamic sitemap), and production build optimisation with Vite + Nitro.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>YatraNexus Gateway · Project Portfolio · Built by Chirag Dohre · YatraNexus Ventures LLP</p>
+  </footer>
+
+</body>
+</html>
