@@ -30,7 +30,7 @@ type ProviderProps = InquiryFormProps & {
 export function InquiryDialogProvider({
   children,
   buttonLabel = "Book Package",
-  dialogTitle = "Customise this package",
+  dialogTitle = "Customise This Package",
   dialogDescription = "Share your dates and preferences — our team will confirm availability and pricing.",
   ...formProps
 }: ProviderProps) {
@@ -69,7 +69,7 @@ export function BookPackageButton({
 
 export function InquiryDialogCta({
   eyebrow = "Ready to book?",
-  heading = "Customise this package",
+  heading = "Customise This Package",
   subtitle = "Share your dates and preferences — our team will confirm availability and pricing.",
 }: {
   eyebrow?: string;

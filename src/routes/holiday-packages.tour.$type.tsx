@@ -11,6 +11,7 @@ import {
   fetchPublicHomepageSettings,
 } from "@/lib/public-cms";
 import { TOUR_TYPES } from "@/lib/site-data";
+import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/tour/$type")({
   staleTime: 0,
@@ -86,8 +87,8 @@ function TourTypePage() {
             id="tour-type-packages-heading"
             title={
               <>
-                {tour.name}{" "}
-                <span className="text-brand-gradient">holiday plans</span>
+                {toTitleCase(tour.name)}{" "}
+                <span className="text-brand-gradient">Holiday Plans</span>
               </>
             }
             subtitle="Browse matching packages — every itinerary can be tailored to your group and budget."
@@ -120,7 +121,7 @@ function TourTypePage() {
       </section>
 
       <InquirySection
-        heading={`Plan your ${tour.name.toLowerCase()} trip`}
+        heading={`Plan Your ${toTitleCase(tour.name)} Trip`}
         subtitle="Tell us your dates, group size and budget — our team will share a custom itinerary."
         defaultService="packages"
         hideServiceSelect

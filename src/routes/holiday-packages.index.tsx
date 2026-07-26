@@ -220,7 +220,7 @@ function HolidayPackagesHub() {
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <h2 className="font-display text-lg font-semibold text-brand-gradient sm:text-xl">
-              Browse by tour type
+              Browse By Tour Type
             </h2>
             <Link
               to="/holiday-packages"
@@ -464,7 +464,7 @@ function HolidayPackagesHub() {
               className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,white_0%,transparent_60%)] opacity-15"
             />
             <h2 className="relative font-display text-2xl font-extrabold tracking-tight sm:text-4xl">
-              Can't find your dream destination?
+              Can't Find Your Dream Destination?
             </h2>
             <p className="relative mx-auto mt-3 max-w-xl text-sm text-white/85 sm:text-base">
               Tell us where you'd like to go — our travel experts will build a custom itinerary for

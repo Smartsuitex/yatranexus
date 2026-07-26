@@ -172,9 +172,11 @@ export function CorporateLandingPage({ service }: Props) {
         badges={[]}
         compact
       >
-        <h1 id="corporate-hero-heading" className="hotels-hero__title">
-          <span>{titleFirst}</span>{" "}
-          <span className="text-brand-gradient">{titleAccent}</span>
+        <h1 id="corporate-hero-heading" className="hotels-hero__title hotels-hero__title--stacked">
+          <span className="hotels-hero__title-line text-brand-gradient corp-hero-title-gradient">
+            {titleFirst}
+          </span>
+          <span className="hotels-hero__title-accent corp-hero-title-sub">{titleAccent}</span>
         </h1>
         <p className="hotels-hero__lead">{subtitle}</p>
         <ul className="corp-hero-bullets mt-5" role="list">

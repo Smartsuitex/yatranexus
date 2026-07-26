@@ -3,6 +3,7 @@ import { OverlayImageCard } from "@/components/site/OverlayImageCard";
 import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
 import type { PublicPackage } from "@/lib/public-cms";
+import { toTitleCase } from "@/lib/utils";
 
 type Destination = {
   name: string;
@@ -16,6 +17,8 @@ type Props = {
 };
 
 export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
+  const destName = toTitleCase(dest.name);
+
   return (
     <>
       <section className="about-section" aria-labelledby="holiday-highlights-heading">
@@ -24,8 +27,8 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
             id="holiday-highlights-heading"
             title={
               <>
-                Top experiences in{" "}
-                <span className="text-brand-gradient">{dest.name}</span>
+                {toTitleCase("Top experiences in")}{" "}
+                <span className="text-brand-gradient">{destName}</span>
               </>
             }
             subtitle={dest.blurb}
@@ -37,7 +40,7 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
                 className="flex items-start gap-2 rounded-xl border border-border bg-card p-4 text-sm shadow-soft"
               >
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--brand-orange)]" />
-                {h}
+                {toTitleCase(h)}
               </li>
             ))}
           </ul>
@@ -50,8 +53,8 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
             id="holiday-packages-heading"
             title={
               <>
-                All packages in{" "}
-                <span className="text-brand-gradient">{dest.name}</span>
+                {toTitleCase("All packages in")}{" "}
+                <span className="text-brand-gradient">{destName}</span>
               </>
             }
             subtitle="Browse curated itineraries — every package can be customised to your dates and budget."
@@ -76,7 +79,7 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
             </div>
           ) : (
             <p className="mt-8 rounded-2xl border border-dashed border-border bg-card px-6 py-10 text-center text-sm text-muted-foreground">
-              No packages listed for {dest.name} yet. Send an inquiry and our team will craft a
+              No packages listed for {destName} yet. Send an inquiry and our team will craft a
               custom itinerary for you.
             </p>
           )}

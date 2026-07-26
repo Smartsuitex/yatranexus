@@ -79,6 +79,52 @@ export const FLIGHTS_POPULAR_DESTINATIONS: FlightPopularDestination[] = [
   },
 ];
 
+function flightDestSlug(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/** Default catalog rows for Admin → Services → Flights (upload an image per city). */
+export function flightsCatalogDefaults(): Array<{
+  icon: string;
+  title: string;
+  detail: string;
+  image: string;
+}> {
+  return FLIGHTS_POPULAR_DESTINATIONS.map((dest) => ({
+    icon: "Plane",
+    title: dest.name,
+    detail: dest.priceLabel || "",
+    image: dest.image || "",
+  }));
+}
+
+export function resolveFlightPopularDestinations(
+  catalogItems:
+    | Array<{ title: string; detail: string; image?: string }>
+    | undefined,
+): FlightPopularDestination[] {
+  if (!catalogItems?.length) return [...FLIGHTS_POPULAR_DESTINATIONS];
+
+  return catalogItems.map((item, index) => {
+    const title = item.title.trim();
+    const fallback =
+      FLIGHTS_POPULAR_DESTINATIONS.find(
+        (dest) => dest.name.toLowerCase() === title.toLowerCase(),
+      ) ?? FLIGHTS_POPULAR_DESTINATIONS[index % FLIGHTS_POPULAR_DESTINATIONS.length];
+
+    return {
+      slug: flightDestSlug(title) || fallback?.slug || `destination-${index + 1}`,
+      name: title || fallback?.name || `Destination ${index + 1}`,
+      priceLabel: item.detail.trim() || fallback?.priceLabel || "",
+      image: item.image?.trim() || fallback?.image || "",
+    };
+  });
+}
+
 export const FLIGHTS_WHY_BOOK: FlightWhyItem[] = [
   {
     icon: Ticket,

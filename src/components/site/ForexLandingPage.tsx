@@ -8,13 +8,13 @@ import { ServiceHeroSection } from "@/components/site/service-premium/ServiceHer
 import { useServiceInquiry } from "@/components/site/service-premium/ServiceInquiryDialog";
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
 import { resolveServiceHero } from "@/lib/service-hero-images";
-import { SafeImage } from "@/components/site/SafeImage";
+import { SafeImage, hasImageSrc } from "@/components/site/SafeImage";
 import {
-  FOREX_CARD_TYPES,
   FOREX_CTA,
   FOREX_HERO,
   FOREX_HERO_BADGES,
   FOREX_TRUST_ROW,
+  resolveForexCardTypes,
 } from "@/lib/forex-page-data";
 import type { PublicService } from "@/lib/public-cms";
 
@@ -25,8 +25,11 @@ export function ForexLandingPage({ service }: Props) {
   const blocks = service.contentBlocks;
   const trustItems = [...FOREX_TRUST_ROW];
   const badges = [...FOREX_HERO_BADGES];
-  const cardTypes = [...FOREX_CARD_TYPES];
-  const catalogLead = "Multiple currency options to match your travel needs.";
+  const cardTypes = resolveForexCardTypes(blocks.catalogItems);
+  const catalogTitle =
+    blocks.catalogSectionTitle?.trim() || "Choose The Right Forex Card For Your Journey";
+  const catalogLead =
+    blocks.catalogSectionLead?.trim() || "Multiple currency options to match your travel needs.";
   const { openInquiry, dialog } = useServiceInquiry({
     defaultService: "forex",
     sourcePage: "/services/forex",
@@ -44,7 +47,7 @@ export function ForexLandingPage({ service }: Props) {
         titleFirst={FOREX_HERO.titleFirst}
         titleAccent={FOREX_HERO.titleAccent}
         titleStacked
-        subtitle={FOREX_HERO.subtitle}
+        subtitle={service.description || FOREX_HERO.subtitle}
         badges={badges}
         trustItems={trustItems}
         trustAriaLabel="Forex service guarantees"
@@ -57,12 +60,7 @@ export function ForexLandingPage({ service }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <ServiceSectionHeading
             id="forex-cards-heading"
-            title={
-              <>
-                Choose the Right{" "}
-                <span className="text-brand-gradient">Forex Card</span> for Your Journey
-              </>
-            }
+            title={catalogTitle}
             subtitle={catalogLead}
           />
 
@@ -71,10 +69,10 @@ export function ForexLandingPage({ service }: Props) {
               <article key={card.slug} className={`sp-plan-card sp-plan-card--${card.accent} forex-card`}>
                 <h3 className="sp-plan-card__title">{card.title}</h3>
                 <p className="sp-plan-card__tagline">{card.description}</p>
-                {card.image ? (
+                {hasImageSrc(card.image) ? (
                   <div className="sp-plan-card__media">
                     <SafeImage
-                      src={card.image}
+                      src={card.image!}
                       alt={card.title}
                       loading="lazy"
                       className="sp-plan-card__img"
@@ -93,7 +91,6 @@ export function ForexLandingPage({ service }: Props) {
           </div>
         </div>
       </section>
-
 
       <section className="hotels-section" aria-labelledby="forex-cta-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

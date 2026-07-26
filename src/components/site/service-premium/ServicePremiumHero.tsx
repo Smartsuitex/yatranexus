@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { ServiceIconItem } from "./types";
@@ -40,6 +40,11 @@ export function ServicePremiumHero({
   variant = "dark",
 }: Props) {
   const [src, setSrc] = useState(imagePrimary);
+
+  useEffect(() => {
+    setSrc(imagePrimary);
+  }, [imagePrimary]);
+
   const badgeClass =
     badgeColumns === 5
       ? "hotels-hero__badges hotels-hero__badges--5"

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn, toTitleCase } from "@/lib/utils";
 import { ServicePremiumHero } from "@/components/site/service-premium/ServicePremiumHero";
 import type { PageHeroContent } from "@/lib/page-content";
 
@@ -9,8 +9,11 @@ type Props = {
   fallback: PageHeroContent;
   imageFallback?: string;
   children?: ReactNode;
+  /** Text-only hero without background image (legacy list pages). */
   simple?: boolean;
   compact?: boolean;
+  /** Background hero style — use light for service-style pages. */
+  variant?: "dark" | "light";
 };
 
 export function CmsPageHero({
@@ -21,10 +24,11 @@ export function CmsPageHero({
   children,
   simple,
   compact,
+  variant = "dark",
 }: Props) {
-  const eyebrow = content.eyebrow ?? fallback.eyebrow ?? "";
-  const titleFirst = content.titleFirst ?? fallback.titleFirst ?? "";
-  const titleAccent = content.titleAccent ?? fallback.titleAccent ?? "";
+  const eyebrow = toTitleCase(content.eyebrow ?? fallback.eyebrow ?? "");
+  const titleFirst = toTitleCase(content.titleFirst ?? fallback.titleFirst ?? "");
+  const titleAccent = toTitleCase(content.titleAccent ?? fallback.titleAccent ?? "");
   const subtitle = content.subtitle ?? fallback.subtitle ?? "";
   const banner = content.bannerUrl?.trim() || fallback.bannerUrl || imageFallback || "";
 
@@ -50,33 +54,42 @@ export function CmsPageHero({
   }
 
   return (
-    <ServicePremiumHero
-      headingId={headingId}
-      imagePrimary={banner}
-      imageFallback={imageFallback || banner}
-      titleFirst=""
-      titleAccent=""
-      subtitle=""
-      photoPosition="center"
-      compact={compact}
+    <section
+      className={cn(
+        "service-hero-block",
+        variant === "light" && "service-hero-block--light",
+      )}
+      aria-labelledby={headingId}
     >
-      {eyebrow ? (
-        <p className="about-hero__eyebrow">
-          <span className="about-hero__eyebrow-line" aria-hidden="true" />
-          {eyebrow}
-        </p>
-      ) : null}
-      <h1 id={headingId} className="hotels-hero__title">
-        <span>{titleFirst}</span>
-        {titleAccent ? (
-          <>
-            {" "}
-            <span className="text-brand-gradient">{titleAccent}</span>
-          </>
+      <ServicePremiumHero
+        headingId={headingId}
+        imagePrimary={banner}
+        imageFallback={imageFallback || banner}
+        titleFirst=""
+        titleAccent=""
+        subtitle=""
+        photoPosition="center"
+        compact={compact}
+        variant={variant}
+      >
+        {eyebrow ? (
+          <p className="about-hero__eyebrow">
+            <span className="about-hero__eyebrow-line" aria-hidden="true" />
+            {eyebrow}
+          </p>
         ) : null}
-      </h1>
-      {subtitle ? <p className="hotels-hero__lead">{subtitle}</p> : null}
-      {children}
-    </ServicePremiumHero>
+        <h1 id={headingId} className="hotels-hero__title">
+          <span>{titleFirst}</span>
+          {titleAccent ? (
+            <>
+              {" "}
+              <span className="text-brand-gradient">{titleAccent}</span>
+            </>
+          ) : null}
+        </h1>
+        {subtitle ? <p className="hotels-hero__lead">{subtitle}</p> : null}
+        {children}
+      </ServicePremiumHero>
+    </section>
   );
 }

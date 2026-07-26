@@ -27,6 +27,7 @@ import {
   type PublicDestination,
   type PublicService,
 } from "@/lib/public-cms";
+import { resolveHomeHeroTagline } from "@/lib/homepage-admin";
 
 function buildHomeServices(
   services: PublicService[],
@@ -192,10 +193,10 @@ export const Route = createFileRoute("/")({
         !homepage.aboutTitle || /Plan trips that feel unforgettable/i.test(homepage.aboutTitle)
           ? "Your Journey, Our Priority"
           : homepage.aboutTitle,
-      aboutLead:
-        !homepage.aboutContent || /built around one promise/i.test(homepage.aboutContent)
-          ? "Flights, hotels, holidays, visa, insurance & forex — handled by real travel experts on WhatsApp."
-          : homepage.aboutContent,
+      aboutLead: resolveHomeHeroTagline(
+        homepage.aboutContent,
+        siteSettings.tagline,
+      ),
       seoTitle: siteSettings.seoTitle,
       seoDescription: siteSettings.seoDescription,
     };

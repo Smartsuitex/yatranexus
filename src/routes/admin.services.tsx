@@ -41,6 +41,8 @@ import {
   upsertService,
   type ServiceRow,
 } from "@/lib/admin-cms-api";
+import { cabsCatalogDefaults } from "@/lib/cabs-page-data";
+import { forexCatalogDefaults } from "@/lib/forex-page-data";
 
 export const Route = createFileRoute("/admin/services")({
   head: () => ({ meta: [{ title: "Services | YatraNexus Admin" }] }),
@@ -112,6 +114,40 @@ function AdminServicesPage() {
   }
 
   function openEdit(row: ServiceRow) {
+    const blocks =
+      row.content_blocks && typeof row.content_blocks === "object"
+        ? { ...(row.content_blocks as Record<string, unknown>) }
+        : {};
+    const layoutFromSlug: Record<string, string> = {
+      flights: "flights",
+      hotels: "hotels",
+      cabs: "cabs",
+      insurance: "insurance",
+      forex: "forex",
+      visa: "visa",
+      corporate: "corporate",
+      packages: "holiday",
+    };
+    if (layoutFromSlug[row.slug]) {
+      blocks.layout = layoutFromSlug[row.slug];
+    }
+
+    // Ensure Forex / Cabs catalog rows exist so Admin image upload fields are visible.
+    const catalog = Array.isArray(blocks.catalogItems) ? blocks.catalogItems : [];
+    if (catalog.length === 0) {
+      if (row.slug === "forex") {
+        blocks.catalogItems = forexCatalogDefaults();
+        if (!blocks.catalogSectionTitle) {
+          blocks.catalogSectionTitle = "Choose The Right Forex Card For Your Journey";
+        }
+        if (!blocks.catalogSectionLead) {
+          blocks.catalogSectionLead = "Multiple currency options to match your travel needs.";
+        }
+      } else if (row.slug === "cabs") {
+        blocks.catalogItems = cabsCatalogDefaults();
+      }
+    }
+
     setForm({
       id: row.id,
       slug: row.slug,
@@ -125,7 +161,7 @@ function AdminServicesPage() {
       inclusions: arrayToLines(row.inclusions),
       exclusions: arrayToLines(row.exclusions),
       faqs_json: JSON.stringify(row.faqs ?? [], null, 2),
-      content_blocks_json: JSON.stringify(row.content_blocks ?? {}, null, 2),
+      content_blocks_json: JSON.stringify(blocks, null, 2),
       is_active: row.is_active,
       sort_order: String(row.sort_order),
     });

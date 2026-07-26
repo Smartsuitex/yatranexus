@@ -70,7 +70,7 @@ function IntlIndex() {
             id="holiday-intl-dest-heading"
             title={
               <>
-                Popular <span className="text-brand-gradient">destinations</span>
+                Popular <span className="text-brand-gradient">Destinations</span>
               </>
             }
             subtitle="Explore curated packages and request a personalised quote for any country."
@@ -89,7 +89,7 @@ function IntlIndex() {
       </section>
 
       <InquirySection
-        heading="Plan an international holiday"
+        heading="Plan An International Holiday"
         subtitle="Share your dream destination and travel dates — our team will build options for you."
         defaultService="packages"
         hideServiceSelect

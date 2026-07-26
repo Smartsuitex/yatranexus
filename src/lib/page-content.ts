@@ -212,11 +212,12 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
     body: "By using the YatraNexus website and services, you agree to receive travel quotes and communications related to your inquiry.\n\nBookings are subject to airline, hotel and supplier terms. Prices and availability can change until confirmed.\n\nCancellation and refund policies depend on the specific booking and will be shared before you confirm payment.",
   },
   servicesIndex: {
-    eyebrow: "Our services",
-    titleFirst: "Everything you need",
-    titleAccent: "to travel",
+    eyebrow: "Our Services",
+    titleFirst: "Everything You Need",
+    titleAccent: "To Travel",
     subtitle:
       "From a single flight to a full honeymoon itinerary — pick a service below and our team will handle the rest on WhatsApp or phone.",
+    bannerUrl: "/images/hero/flights-hero.png",
   },
   blog: {
     eyebrow: "Blog",

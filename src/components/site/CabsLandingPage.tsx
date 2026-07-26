@@ -43,7 +43,7 @@ export function CabsLandingPage({ service }: Props) {
         titleFirst={CABS_HERO.titleFirst}
         titleAccent={CABS_HERO.titleAccent}
         titleStacked
-        subtitle={CABS_HERO.subtitle}
+        subtitle={service.description || CABS_HERO.subtitle}
         badges={badges}
         trustItems={trustItems}
         trustAriaLabel="Cab booking guarantees"
@@ -57,9 +57,11 @@ export function CabsLandingPage({ service }: Props) {
           <ServiceSectionHeading
             id="cabs-categories-heading"
             title={
-              <>
-                Our <span className="text-brand-gradient">Cab Categories</span>
-              </>
+              blocks.catalogSectionTitle?.trim() || (
+                <>
+                  Our <span className="text-brand-gradient">Cab Categories</span>
+                </>
+              )
             }
             subtitle={
               blocks.catalogSectionLead ??

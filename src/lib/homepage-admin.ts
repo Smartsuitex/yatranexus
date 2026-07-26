@@ -31,6 +31,42 @@ export type TourTypeForm = {
   image: string;
 };
 
+/** Homepage hero tagline under the main title (Admin → Homepage → Hero tagline). */
+export const DEFAULT_HOME_HERO_TAGLINE =
+  "Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.";
+
+const LEGACY_HOME_HERO_TAGLINE =
+  /^flights,\s*hotels,\s*holidays(?:,\s*cab)?,\s*visa,\s*insurance,?\s*&?\s*forex/i;
+
+export function resolveHomeHeroTagline(
+  aboutContent: string | null | undefined,
+  brandTagline: string | null | undefined,
+): string {
+  const fromHomepage = aboutContent?.trim() ?? "";
+  if (fromHomepage && !/built around one promise/i.test(fromHomepage)) {
+    // Normalize known default / legacy copy to the current Admin tagline.
+    if (LEGACY_HOME_HERO_TAGLINE.test(fromHomepage)) {
+      return DEFAULT_HOME_HERO_TAGLINE;
+    }
+    return fromHomepage;
+  }
+
+  const fromBrand = brandTagline?.trim() ?? "";
+  // Brand tagline is often the short slogan (also used as hero title) — only use it when it's subtitle-length copy.
+  if (
+    fromBrand &&
+    !/^your journey,?\s*our priority\.?$/i.test(fromBrand) &&
+    fromBrand.length > 40
+  ) {
+    if (LEGACY_HOME_HERO_TAGLINE.test(fromBrand)) {
+      return DEFAULT_HOME_HERO_TAGLINE;
+    }
+    return fromBrand;
+  }
+
+  return DEFAULT_HOME_HERO_TAGLINE;
+}
+
 export type HomepageFormState = {
   heroSlides: HeroSlideForm[];
   /** Auto-rotate interval in seconds (stored as ms in DB). Default 10. */
@@ -158,7 +194,7 @@ export function homepageRowToForm(row: HomepageRow | null | undefined): Homepage
     featuredPackageSlugs: row.featured_package_slugs ?? [],
     featuredDestinationSlugs: row.featured_destination_slugs ?? [],
     aboutTitle: row.about_title ?? "",
-    aboutContent: row.about_content ?? "",
+    aboutContent: resolveHomeHeroTagline(row.about_content, null),
     whyChooseUs: parseIconFeatures(row.why_choose_us, "Sparkles"),
     stats: parseStats(row.stats),
     howItWorks: parseHowItWorks(row.how_it_works),

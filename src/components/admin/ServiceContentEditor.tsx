@@ -3,6 +3,9 @@ import { AdminIconSelect } from "@/components/admin/AdminIconSelect";
 import { AdminImageField } from "@/components/admin/AdminImageField";
 import { AdminField, adminInputClass } from "@/components/admin/AdminPageHeader";
 import { cabsCatalogDefaults } from "@/lib/cabs-page-data";
+import { flightsCatalogDefaults } from "@/lib/flights-page-data";
+import { forexCatalogDefaults } from "@/lib/forex-page-data";
+import { hotelsCatalogDefaults } from "@/lib/hotels-page-data";
 import type {
   PublicServiceContentBlocks,
   PublicServiceFeature,
@@ -10,7 +13,7 @@ import type {
   PublicVisaCountry,
 } from "@/lib/public-cms";
 
-const ACCENT_OPTIONS = ["purple", "orange", "blue", "green"] as const;
+const ACCENT_OPTIONS = ["purple", "orange", "blue", "green", "pink"] as const;
 
 export type ServiceContentForm = {
   heroTitle: string;
@@ -441,13 +444,29 @@ export function ServiceContentEditor({ value, onChange }: Props) {
     commit({ ...form, steps: next });
   }
 
-  const showCatalog = ["hotels", "cabs", "insurance", "forex"].includes(
+  const showCatalog = ["flights", "hotels", "cabs", "insurance", "forex"].includes(
     form.layout ?? "",
   );
   const isCabsCatalog = form.layout === "cabs";
+  const isFlightsCatalog = form.layout === "flights";
+  const isHotelsCatalog = form.layout === "hotels";
+  const isForexCatalog = form.layout === "forex";
+  const isDestCatalog = isFlightsCatalog || isHotelsCatalog;
 
   function seedCabsCatalog() {
     updateCatalogItems(cabsCatalogDefaults());
+  }
+
+  function seedFlightsCatalog() {
+    updateCatalogItems(flightsCatalogDefaults());
+  }
+
+  function seedHotelsCatalog() {
+    updateCatalogItems(hotelsCatalogDefaults());
+  }
+
+  function seedForexCatalog() {
+    updateCatalogItems(forexCatalogDefaults());
   }
 
   function updateVisaCountries(next: ServiceContentForm["visaCountries"]) {
@@ -1065,12 +1084,22 @@ export function ServiceContentEditor({ value, onChange }: Props) {
       {showCatalog && (
         <div className="space-y-4 rounded-xl border border-border bg-background p-4">
           <h4 className="font-display text-sm font-semibold text-[color:var(--brand-navy)]">
-            {isCabsCatalog ? "Cab categories" : "Product catalog"}
+            {isCabsCatalog
+              ? "Outstation cab categories"
+              : isForexCatalog
+                ? "Forex card types"
+                : isDestCatalog
+                  ? "Popular destinations"
+                  : "Product catalog"}
           </h4>
           <p className="text-sm text-muted-foreground">
             {isCabsCatalog
-              ? "Sedan, SUV, Innova / Crysta and Tempo Traveller — upload a vehicle photo for each category. Use description format: first line seats · bags, then the one-line detail."
-              : "Categories / plans / destinations shown on this service page (with optional photo)."}
+              ? "Sedan, SUV, Innova / Crysta and Tempo Traveller — upload a vehicle photo for each category. Description line 1: seats · bags, then the detail line."
+              : isForexCatalog
+                ? "Forex card cards on /services/forex — upload or replace each card image. Features: one bullet per line."
+                : isDestCatalog
+                  ? "City cards on the Popular Destinations section — upload a photo for each city (Delhi, Mumbai, Bangalore, etc.). Optional description can hold a price label."
+                  : "Categories / plans / destinations shown on this service page (with optional photo)."}
           </p>
           <div className="grid gap-3 md:grid-cols-2">
             <AdminField label="Catalog section title">
@@ -1078,7 +1107,15 @@ export function ServiceContentEditor({ value, onChange }: Props) {
                 value={form.catalogSectionTitle}
                 onChange={(e) => patch({ catalogSectionTitle: e.target.value })}
                 className={adminInputClass}
-                placeholder="Our Cab Categories"
+                placeholder={
+                  isDestCatalog
+                    ? "Popular Destinations"
+                    : isCabsCatalog
+                      ? "Our Cab Categories"
+                      : isForexCatalog
+                        ? "Choose the Right Forex Card for Your Journey"
+                        : ""
+                }
               />
             </AdminField>
             <AdminField label="Catalog section lead">
@@ -1086,9 +1123,31 @@ export function ServiceContentEditor({ value, onChange }: Props) {
                 value={form.catalogSectionLead}
                 onChange={(e) => patch({ catalogSectionLead: e.target.value })}
                 className={adminInputClass}
+                placeholder={
+                  isFlightsCatalog
+                    ? "Popular domestic and international flight destinations."
+                    : isHotelsCatalog
+                      ? "Popular domestic and international hotel destinations."
+                      : isCabsCatalog
+                        ? "Choose the right vehicle for your route, group size and luggage."
+                        : isForexCatalog
+                          ? "Multiple currency options to match your travel needs."
+                          : undefined
+                }
               />
             </AdminField>
           </div>
+          {isForexCatalog ? (
+            <button
+              type="button"
+              onClick={seedForexCatalog}
+              className="rounded-lg border border-dashed border-[color:var(--brand-orange)] bg-[color:var(--brand-orange)]/5 px-4 py-3 text-sm font-semibold text-[color:var(--brand-navy)] hover:bg-[color:var(--brand-orange)]/10"
+            >
+              {form.catalogItems.length === 0
+                ? "Load default forex cards (then upload / replace images)"
+                : "Reset forex cards to defaults (keeps you able to re-upload images)"}
+            </button>
+          ) : null}
           {isCabsCatalog && form.catalogItems.length === 0 ? (
             <button
               type="button"
@@ -1098,17 +1157,57 @@ export function ServiceContentEditor({ value, onChange }: Props) {
               Load default cab categories (then upload images)
             </button>
           ) : null}
+          {isFlightsCatalog && form.catalogItems.length === 0 ? (
+            <button
+              type="button"
+              onClick={seedFlightsCatalog}
+              className="rounded-lg border border-dashed border-[color:var(--brand-orange)] bg-[color:var(--brand-orange)]/5 px-4 py-3 text-sm font-semibold text-[color:var(--brand-navy)] hover:bg-[color:var(--brand-orange)]/10"
+            >
+              Load default cities (Delhi, Mumbai…) then upload images
+            </button>
+          ) : null}
+          {isHotelsCatalog && form.catalogItems.length === 0 ? (
+            <button
+              type="button"
+              onClick={seedHotelsCatalog}
+              className="rounded-lg border border-dashed border-[color:var(--brand-orange)] bg-[color:var(--brand-orange)]/5 px-4 py-3 text-sm font-semibold text-[color:var(--brand-navy)] hover:bg-[color:var(--brand-orange)]/10"
+            >
+              Load default cities (Delhi, Mumbai…) then upload images
+            </button>
+          ) : null}
           <FeatureListEditor
-            label={isCabsCatalog ? "Cab category cards" : "Catalog items"}
+            label={
+              isCabsCatalog
+                ? "Cab category cards"
+                : isForexCatalog
+                  ? "Forex card images (Choose The Right Forex Card…)"
+                  : isDestCatalog
+                    ? "Destination cards"
+                    : "Catalog items"
+            }
             hint={
               isCabsCatalog
                 ? "Upload/replace the vehicle image for each card. Description line 1: 4 Seater · 2 Bags"
-                : undefined
+                : isForexCatalog
+                  ? "Each card below = one Forex Card on the website. Use Upload image to change the card photo, then Save the service."
+                  : isDestCatalog
+                    ? "Title = city name. Upload image for each card. Description is optional (e.g. From ₹4,999)."
+                    : undefined
             }
             items={form.catalogItems}
             onChange={updateCatalogItems}
-            addLabel={isCabsCatalog ? "Add cab category" : "Add catalog item"}
+            addLabel={
+              isCabsCatalog
+                ? "Add cab category"
+                : isForexCatalog
+                  ? "Add forex card"
+                  : isDestCatalog
+                    ? "Add destination"
+                    : "Add catalog item"
+            }
             withImage
+            withPoints={isForexCatalog}
+            imageLabel={isForexCatalog ? "Card image" : "Image"}
           />
         </div>
       )}
@@ -1356,7 +1455,9 @@ function FeatureListEditor({
   onChange,
   addLabel,
   withImage = false,
+  withPoints = false,
   titleOnly = false,
+  imageLabel = "Image",
 }: {
   label: string;
   hint?: string;
@@ -1364,7 +1465,9 @@ function FeatureListEditor({
   onChange: (next: PublicServiceFeature[]) => void;
   addLabel: string;
   withImage?: boolean;
+  withPoints?: boolean;
   titleOnly?: boolean;
+  imageLabel?: string;
 }) {
   return (
     <AdminField label={label} hint={hint}>
@@ -1389,7 +1492,8 @@ function FeatureListEditor({
             {withImage && (
               <div className="mb-3">
                 <AdminImageField
-                  label="Image"
+                  label={imageLabel}
+                  hint="Upload a new photo or pick from the media library. This updates the card on the website after Save."
                   folder="services"
                   value={item.image ?? ""}
                   onChange={(image) =>
@@ -1434,12 +1538,43 @@ function FeatureListEditor({
                 />
               </div>
             )}
+            {withPoints ? (
+              <div className="mt-3">
+                <label className="text-xs font-medium text-muted-foreground">
+                  Features (one per line)
+                </label>
+                <textarea
+                  rows={4}
+                  value={(item.points ?? []).join("\n")}
+                  onChange={(e) =>
+                    onChange(
+                      items.map((f, i) =>
+                        i === index
+                          ? {
+                              ...f,
+                              points: e.target.value
+                                .split("\n")
+                                .map((line) => line.trim())
+                                .filter(Boolean),
+                            }
+                          : f,
+                      ),
+                    )
+                  }
+                  className={`${adminInputClass} mt-1`}
+                  placeholder={"Load one foreign currency\nSecure Chip & PIN protection"}
+                />
+              </div>
+            ) : null}
           </div>
         ))}
         <button
           type="button"
           onClick={() =>
-            onChange([...items, { icon: "Sparkles", title: "", detail: "", image: "" }])
+            onChange([
+              ...items,
+              { icon: "Sparkles", title: "", detail: "", image: "", points: [] },
+            ])
           }
           className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted/50"
         >

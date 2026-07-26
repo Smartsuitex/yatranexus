@@ -4,7 +4,6 @@ import {
   Clock,
   Headphones,
   MapPin,
-  Shield,
   ShieldCheck,
 } from "lucide-react";
 import type { ServiceHeroCopy, ServiceIconItem } from "@/components/site/service-premium/types";
@@ -30,11 +29,6 @@ export const CABS_HERO_BADGES: ServiceIconItem[] = [
     icon: MapPin,
     title: "All India Coverage",
     detail: "500+ destinations across India",
-  },
-  {
-    icon: Shield,
-    title: "Safe & Secure",
-    detail: "Your safety is our top priority",
   },
 ];
 

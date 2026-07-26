@@ -4,10 +4,12 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CmsPageHero } from "@/components/site/CmsPageHero";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { InquiryForm } from "@/components/site/InquiryForm";
+import { ServicePageShell } from "@/components/site/service-premium/ServicePageShell";
 import { resolveCmsIcon } from "@/lib/cms-icons";
 import { useSiteConfig } from "@/contexts/site-config";
 import { publicNavLinkRoute } from "@/lib/nav-links";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
+import { SITE_IMAGES } from "@/lib/site-images";
 import { fetchPublicNavLinks, fetchPublicServices } from "@/lib/public-cms";
 
 export const Route = createFileRoute("/services/")({
@@ -42,13 +44,14 @@ function ServicesHubPage() {
   const hero = site.pageContent.servicesIndex ?? DEFAULT_PAGE_CONTENT.servicesIndex ?? {};
 
   return (
-    <>
+    <ServicePageShell modifier="services">
       <Breadcrumbs items={[{ label: "Services" }]} />
       <CmsPageHero
         headingId="services-hub-heading"
         content={hero}
         fallback={DEFAULT_PAGE_CONTENT.servicesIndex ?? {}}
-        simple
+        imageFallback={SITE_IMAGES.hero.flights}
+        variant="light"
         compact
       />
 
@@ -101,6 +104,6 @@ function ServicesHubPage() {
           </div>
         </div>
       </section>
-    </>
+    </ServicePageShell>
   );
 }

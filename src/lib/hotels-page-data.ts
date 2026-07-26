@@ -92,6 +92,52 @@ export const HOTELS_POPULAR_DESTINATIONS: HotelPopularDestination[] = [
   },
 ];
 
+function hotelDestSlug(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/** Default catalog rows for Admin → Services → Hotels (upload an image per city). */
+export function hotelsCatalogDefaults(): Array<{
+  icon: string;
+  title: string;
+  detail: string;
+  image: string;
+}> {
+  return HOTELS_POPULAR_DESTINATIONS.map((dest) => ({
+    icon: "Hotel",
+    title: dest.name,
+    detail: dest.priceLabel || "",
+    image: dest.image || "",
+  }));
+}
+
+export function resolveHotelPopularDestinations(
+  catalogItems:
+    | Array<{ title: string; detail: string; image?: string }>
+    | undefined,
+): HotelPopularDestination[] {
+  if (!catalogItems?.length) return [...HOTELS_POPULAR_DESTINATIONS];
+
+  return catalogItems.map((item, index) => {
+    const title = item.title.trim();
+    const fallback =
+      HOTELS_POPULAR_DESTINATIONS.find(
+        (dest) => dest.name.toLowerCase() === title.toLowerCase(),
+      ) ?? HOTELS_POPULAR_DESTINATIONS[index % HOTELS_POPULAR_DESTINATIONS.length];
+
+    return {
+      slug: hotelDestSlug(title) || fallback?.slug || `destination-${index + 1}`,
+      name: title || fallback?.name || `Destination ${index + 1}`,
+      priceLabel: item.detail.trim() || fallback?.priceLabel || "",
+      image: item.image?.trim() || fallback?.image || "",
+    };
+  });
+}
+
 export const HOTELS_WHY_BOOK: HotelsWhyItem[] = [
   {
     icon: Hotel,

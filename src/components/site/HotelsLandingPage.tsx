@@ -15,10 +15,10 @@ import {
   HOTELS_CTA,
   HOTELS_HERO,
   HOTELS_HERO_BADGES,
-  HOTELS_POPULAR_DESTINATIONS,
   HOTELS_TRUST_FOOTER,
   HOTELS_TRUST_STATS,
   HOTELS_WHY_BOOK,
+  resolveHotelPopularDestinations,
   type HotelsWhyIconTone,
 } from "@/lib/hotels-page-data";
 import { resolveServiceHero } from "@/lib/service-hero-images";
@@ -61,7 +61,7 @@ export function HotelsLandingPage({ service }: Props) {
     dialogDescription: "Share your dates, destination and budget — our hotel expert will call you back.",
   });
 
-  const destinations = HOTELS_POPULAR_DESTINATIONS;
+  const destinations = resolveHotelPopularDestinations(blocks.catalogItems);
   const catalogTitle = blocks.catalogSectionTitle?.trim() || "Popular Destinations";
   const badges = resolveCmsFeatureItems(blocks.heroBadges, HOTELS_HERO_BADGES, 1);
   const trustStats = resolveCmsFeatureItems(blocks.trustItems, HOTELS_TRUST_STATS, 1)

@@ -61,7 +61,7 @@ function DomesticIndex() {
             id="holiday-states-heading"
             title={
               <>
-                Choose your <span className="text-brand-gradient">destination</span>
+                Choose Your <span className="text-brand-gradient">Destination</span>
               </>
             }
             subtitle="Every state card opens highlights and sample packages you can customise."
@@ -80,7 +80,7 @@ function DomesticIndex() {
       </section>
 
       <InquirySection
-        heading="Plan a domestic holiday"
+        heading="Plan A Domestic Holiday"
         subtitle="Not sure which state to pick? Tell us your dates and budget — we'll suggest the best options."
         defaultService="packages"
         hideServiceSelect

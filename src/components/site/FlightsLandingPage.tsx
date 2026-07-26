@@ -16,10 +16,10 @@ import {
   FLIGHTS_CTA,
   FLIGHTS_HERO,
   FLIGHTS_HERO_BADGES,
-  FLIGHTS_POPULAR_DESTINATIONS,
   FLIGHTS_TRUST_FOOTER,
   FLIGHTS_TRUST_STATS,
   FLIGHTS_WHY_BOOK,
+  resolveFlightPopularDestinations,
   type FlightWhyIconTone,
 } from "@/lib/flights-page-data";
 import type { PublicService } from "@/lib/public-cms";
@@ -99,7 +99,7 @@ export function FlightsLandingPage({ service }: Props) {
       "Share your route and dates — our expert will find the best fare for you.",
   });
 
-  const destinations = FLIGHTS_POPULAR_DESTINATIONS;
+  const destinations = resolveFlightPopularDestinations(blocks.catalogItems);
   const catalogTitle = blocks.catalogSectionTitle?.trim() || "Popular Destinations";
   const badges = resolveCmsFeatureItems(blocks.heroBadges, FLIGHTS_HERO_BADGES, 1);
   const trustStats = resolveCmsFeatureItems(blocks.trustItems, FLIGHTS_TRUST_STATS, 1).map(

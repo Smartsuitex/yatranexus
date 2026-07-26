@@ -30,8 +30,12 @@ type Props = { service: PublicService };
 export function VisaLandingPage({ service }: Props) {
   const hero = resolveServiceHero("visa", service.bannerUrl);
   const blocks = service.contentBlocks;
-  const badges = resolveCmsFeatureItems(blocks.heroBadges, VISA_HERO_BADGES, 1).slice(0, 5);
-  const trustStats = resolveCmsFeatureItems(blocks.trustItems, VISA_TRUST_STATS, 1).slice(0, 5);
+  const badges = resolveCmsFeatureItems(blocks.heroBadges, VISA_HERO_BADGES, 1)
+    .filter((item) => !/end-to-end|safe\s*&\s*secure/i.test(`${item.title} ${item.detail}`))
+    .slice(0, 4);
+  const trustStats = resolveCmsFeatureItems(blocks.trustItems, VISA_TRUST_STATS, 1)
+    .filter((item) => !/end-to-end|safe\s*&\s*secure/i.test(`${item.title} ${item.detail}`))
+    .slice(0, 4);
   const whyItems = resolveCmsFeatureItems(blocks.features, VISA_WHY_ITEMS, 1);
   const trustFooter = resolveCmsFeatureItems(blocks.trustFooter, VISA_TRUST_FOOTER, 1);
   const tableRows = resolveVisaTableRows(blocks.visaCountries);
@@ -54,10 +58,10 @@ export function VisaLandingPage({ service }: Props) {
         titleStacked
         subtitle={VISA_HERO.subtitle}
         badges={badges}
-        badgeColumns={5}
+        badgeColumns={4}
         trustItems={trustStats}
         trustAriaLabel="Visa service guarantees"
-        trustColumns={5}
+        trustColumns={4}
         heroVariant="light"
         compact
       />

@@ -7,7 +7,7 @@ import {
 } from "@/components/admin/AdminPageHeader";
 import { CMS_ICON_OPTIONS, resolveCmsIcon } from "@/lib/cms-icons";
 import type { HomepageFormState } from "@/lib/homepage-admin";
-import { MAX_HERO_SLIDES } from "@/lib/homepage-admin";
+import { DEFAULT_HOME_HERO_TAGLINE, MAX_HERO_SLIDES } from "@/lib/homepage-admin";
 
 type SlugOption = { slug: string; label: string };
 
@@ -331,7 +331,7 @@ export function HomepageEditor({
         <div className="grid gap-4 md:grid-cols-2">
           <AdminField
             label="Hero title"
-            hint='Main headline, e.g. "Plan trips that feel unforgettable."'
+            hint='Main headline, e.g. "Your Journey, Our Priority"'
           >
             <input
               value={value.aboutTitle}
@@ -341,14 +341,15 @@ export function HomepageEditor({
           </AdminField>
           <div className="md:col-span-2">
             <AdminField
-              label="Hero subtitle"
-              hint="Short paragraph under the headline on the homepage hero."
+              label="Hero tagline"
+              hint='Shown under the hero title on the homepage. Default includes flights, hotels, holidays, cab, visa, insurance & forex.'
             >
               <textarea
                 rows={4}
                 value={value.aboutContent}
                 onChange={(e) => patch({ aboutContent: e.target.value })}
                 className={adminInputClass}
+                placeholder={DEFAULT_HOME_HERO_TAGLINE}
               />
             </AdminField>
           </div>

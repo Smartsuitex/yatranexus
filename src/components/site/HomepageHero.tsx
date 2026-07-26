@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useSiteConfig } from "@/contexts/site-config";
 import { resolveCmsIcon } from "@/lib/cms-icons";
-import { MAX_HERO_SLIDES } from "@/lib/homepage-admin";
+import { MAX_HERO_SLIDES, DEFAULT_HOME_HERO_TAGLINE } from "@/lib/homepage-admin";
 import { resolveHeroBackground } from "@/lib/site-images";
 import { homeServiceLinkRoute, type HomeServiceLink } from "@/lib/nav-links";
 import { SERVICES } from "@/lib/site-data";
@@ -99,9 +99,7 @@ export function HomepageHero({
   }, [serviceLinks]);
 
   const heroTitle = splitGradientTitle(aboutTitle);
-  const subtitle =
-    aboutLead ||
-    `${site.tagline}. Flights, hotels, holidays, visa, insurance & forex — handled by real travel experts on WhatsApp.`;
+  const subtitle = aboutLead?.trim() || DEFAULT_HOME_HERO_TAGLINE;
   const current = slides[slide] ?? slides[0];
   const nextSlide =
     slides.length > 0 ? (slides[(slide + 1) % slides.length] ?? slides[0]) : undefined;

@@ -128,6 +128,80 @@ export const FOREX_CARD_TYPES: ForexCardType[] = [
   },
 ];
 
+function forexCardSlug(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/** Default catalog rows for Admin → Services → Forex (upload/replace card images). */
+export function forexCatalogDefaults(): Array<{
+  icon: string;
+  title: string;
+  detail: string;
+  image: string;
+  points: string[];
+  accent: ForexCardType["accent"];
+}> {
+  const iconName: Record<string, string> = {
+    "single-currency": "CreditCard",
+    "multi-currency": "Globe2",
+    student: "GraduationCap",
+    corporate: "Briefcase",
+  };
+  return FOREX_CARD_TYPES.map((card) => ({
+    icon: iconName[card.slug] ?? "CreditCard",
+    title: card.title,
+    detail: card.description,
+    image: card.image || "",
+    points: [...card.features],
+    accent: card.accent,
+  }));
+}
+
+export function resolveForexCardTypes(
+  catalogItems:
+    | Array<{
+        title: string;
+        detail: string;
+        image?: string;
+        points?: string[];
+        accent?: string;
+      }>
+    | undefined,
+): ForexCardType[] {
+  if (!catalogItems?.length) return [...FOREX_CARD_TYPES];
+
+  const accents = ["purple", "pink", "orange", "blue"] as const;
+
+  return catalogItems.map((item, index) => {
+    const title = item.title.trim();
+    const fallback =
+      FOREX_CARD_TYPES.find((card) => card.title.toLowerCase() === title.toLowerCase()) ??
+      FOREX_CARD_TYPES[index % FOREX_CARD_TYPES.length];
+
+    const points = (item.points ?? []).map((p) => p.trim()).filter(Boolean);
+    const accentRaw = item.accent?.trim().toLowerCase();
+    const accent = (
+      accents.includes(accentRaw as (typeof accents)[number])
+        ? accentRaw
+        : fallback?.accent ?? accents[index % accents.length]
+    ) as ForexCardType["accent"];
+
+    return {
+      slug: forexCardSlug(title) || fallback?.slug || `forex-card-${index + 1}`,
+      title: title || fallback?.title || `Forex Card ${index + 1}`,
+      description: item.detail.trim() || fallback?.description || "",
+      icon: fallback?.icon ?? CreditCard,
+      image: item.image?.trim() || fallback?.image || "",
+      features: points.length > 0 ? points : fallback?.features ?? [],
+      accent,
+    };
+  });
+}
+
 export const FOREX_CTA = {
   title: "Travel the world with confidence!",
   subtitle:

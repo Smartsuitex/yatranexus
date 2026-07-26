@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { ServicePremiumHero } from "@/components/site/service-premium/ServicePremiumHero";
 import type { ServiceIconItem } from "@/components/site/service-premium/types";
 import { HOLIDAY_HERO_BADGES } from "@/lib/service-premium-trust";
+import { toTitleCase } from "@/lib/utils";
 
 type Props = {
   headingId: string;
@@ -52,11 +53,11 @@ export function HolidayPageHero({
           {eyebrow}
         </p>
         <h1 id={headingId} className="hotels-hero__title text-brand-gradient">
-          {titleFirst ? <span>{titleFirst}</span> : null}
+          {titleFirst ? <span>{toTitleCase(titleFirst)}</span> : null}
           {titleAccent ? (
             <>
               {titleFirst ? " " : null}
-              <span>{titleAccent}</span>
+              <span>{toTitleCase(titleAccent)}</span>
             </>
           ) : null}
         </h1>

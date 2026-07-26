@@ -15,6 +15,7 @@ import {
   fetchPublicPackageBySlug,
   packageMatchesDestination,
 } from "@/lib/public-cms";
+import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/package/$slug")({
   staleTime: 0,
@@ -107,7 +108,7 @@ function PackagePage() {
   return (
     <InquiryDialogProvider
       buttonLabel="Book Package"
-      dialogTitle="Customise this package"
+      dialogTitle="Customise This Package"
       dialogDescription="Share your dates and preferences — our team will confirm availability and pricing."
       {...inquiryProps}
     >
@@ -143,7 +144,7 @@ function PackagePage() {
                   id="package-overview-heading"
                   title={
                     <>
-                      Package <span className="text-brand-gradient">overview</span>
+                      Package <span className="text-brand-gradient">Overview</span>
                     </>
                   }
                 />
@@ -166,7 +167,7 @@ function PackagePage() {
                   id="package-highlights-heading"
                   title={
                     <>
-                      Package <span className="text-brand-gradient">highlights</span>
+                      Package <span className="text-brand-gradient">Highlights</span>
                     </>
                   }
                 />
@@ -174,7 +175,7 @@ function PackagePage() {
                   {highlights.map((item) => (
                     <li key={item} className="package-highlight-card">
                       <CheckCircle2 className="package-highlight-card__icon" aria-hidden="true" />
-                      <span>{item}</span>
+                      <span>{toTitleCase(item)}</span>
                     </li>
                   ))}
                 </ul>
@@ -186,7 +187,7 @@ function PackagePage() {
                 id="package-itinerary-heading"
                 title={
                   <>
-                    Day-wise <span className="text-brand-gradient">itinerary</span>
+                    Day-Wise <span className="text-brand-gradient">Itinerary</span>
                   </>
                 }
                 subtitle={`${pkg.days} days / ${pkg.nights} nights in ${pkg.destination}.`}

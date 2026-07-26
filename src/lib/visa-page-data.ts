@@ -31,7 +31,6 @@ export const VISA_HERO_BADGES: ServiceIconItem[] = [
   { icon: Award, title: "High", detail: "Success" },
   { icon: Target, title: "Quick", detail: "Process" },
   { icon: ShieldCheck, title: "Secure", detail: "Reliable" },
-  { icon: Headphones, title: "End-to-End", detail: "Support" },
 ];
 
 /** Floating feature card under premium visa hero. */
@@ -40,7 +39,6 @@ export const VISA_TRUST_RIBBON: ServiceIconItem[] = [
   { icon: Award, title: "High Success", detail: "Better approval ratio" },
   { icon: Target, title: "Quick Process", detail: "Timely & efficient" },
   { icon: ShieldCheck, title: "Secure & Reliable", detail: "100% safe handling" },
-  { icon: Headphones, title: "End-to-End Support", detail: "From application to approval" },
 ];
 
 export const VISA_TRUST_STATS = VISA_TRUST_RIBBON;

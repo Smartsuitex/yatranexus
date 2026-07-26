@@ -53,7 +53,7 @@ const SECTIONS: { id: SectionId; label: string }[] = [
   { id: "contact", label: "Contact" },
   { id: "privacy", label: "Privacy Policy" },
   { id: "terms", label: "Terms" },
-  { id: "servicesIndex", label: "Services list" },
+  { id: "servicesIndex", label: "Services list (/services)" },
   { id: "blog", label: "Blog list" },
   { id: "gallery", label: "Gallery list" },
   { id: "faq", label: "FAQ list" },
@@ -189,17 +189,18 @@ function AdminPagesPage() {
     <div className="relative space-y-6 pb-24">
       <AdminPageHeader
         title="Page content"
-        description="Edit heroes (title + hero section image), About/Contact copy, holiday indexes, and homepage chrome. Holiday Packages hub hero is under Services → Holiday Packages."
+        description="Edit heroes (title + hero section image), About/Contact copy, holiday indexes, and homepage chrome. Services list hero (/services) is under Services list. Holiday Packages hub hero is under Services → Holiday Packages."
       />
       {dbError && <AdminErrorBanner message={dbError} />}
 
       <div className="rounded-2xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
         <strong className="text-foreground">Hero section images:</strong> set each page’s{" "}
-        <em>Hero section image</em> below (About, Contact, Domestic, International, list pages).
-        Service heroes (Flights, Hotels, Cabs, Visa, Insurance, Forex, Corporate, Holiday Packages)
-        are under <strong className="text-foreground">Admin → Services</strong>. Package card/detail
-        images are under <strong className="text-foreground">Admin → Holiday Packages</strong>.
-        Homepage slides are under <strong className="text-foreground">Admin → Homepage</strong>.
+        <em>Hero section image</em> below (About, Contact, <strong className="text-foreground">Services list</strong>,
+        Blog, Gallery, FAQ, Testimonials, Domestic, International). Service detail heroes (Flights,
+        Hotels, Cabs, Visa, Insurance, Forex, Corporate, Holiday Packages) are under{" "}
+        <strong className="text-foreground">Admin → Services</strong>. Package card/detail images are
+        under <strong className="text-foreground">Admin → Holiday Packages</strong>. Homepage slides
+        are under <strong className="text-foreground">Admin → Homepage</strong>.
       </div>
 
       <div className="flex flex-wrap gap-2">

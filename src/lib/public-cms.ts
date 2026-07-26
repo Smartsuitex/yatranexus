@@ -28,6 +28,7 @@ import {
   brandFromSettings,
   type PublicPageContent,
 } from "@/lib/page-content";
+import { toTitleCase } from "@/lib/utils";
 import { resolvePackageImage } from "@/lib/package-images";
 import { sanitizePublicImageUrl } from "@/lib/holiday-packages-page-data";
 import { getServerSupabase } from "@/lib/supabase-server";
@@ -142,7 +143,7 @@ export type PublicServiceFeature = {
   detail: string;
   /** Optional card/row image (Corporate detailed services). */
   image?: string;
-  accent?: "purple" | "orange" | "blue" | "green";
+  accent?: "purple" | "orange" | "blue" | "green" | "pink";
   /** Optional bullet points (Corporate detailed services). */
   points?: string[];
 };
@@ -283,7 +284,7 @@ function itineraryFromJson(value: unknown): PublicPackage["itinerary"] {
       const row = item as { day?: number; title?: string; detail?: string };
       return {
         day: Number(row.day) || 0,
-        title: String(row.title ?? ""),
+        title: toTitleCase(String(row.title ?? "")),
         detail: String(row.detail ?? ""),
       };
     })
@@ -294,7 +295,7 @@ function mapDbPackage(row: PackageRow): PublicPackage {
   return {
     id: row.id,
     slug: row.slug,
-    title: row.title,
+    title: toTitleCase(row.title),
     destination: row.destination,
     scope: row.scope,
     nights: row.nights,
@@ -319,6 +320,11 @@ function mapDbPackage(row: PackageRow): PublicPackage {
 function mapStaticPackage(pkg: Package): PublicPackage {
   return {
     ...pkg,
+    title: toTitleCase(pkg.title),
+    itinerary: (pkg.itinerary ?? []).map((day) => ({
+      ...day,
+      title: toTitleCase(day.title),
+    })),
     // Do not surface hardcoded Unsplash package images.
     image: "",
     overview: pkg.overview,
@@ -923,7 +929,7 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
     featuredDestinationSlugs: DOMESTIC_STATES.slice(0, 10).map((d) => d.slug),
     aboutTitle: "Your Journey, Our Priority",
     aboutContent:
-      "Flights, hotels, holidays, visa, insurance & forex — handled by real travel experts on WhatsApp.",
+      "Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.",
     whyChooseUs: defaultWhy,
     howItWorks: defaultHow,
     corporateFeatures: defaultCorporate,
@@ -1061,6 +1067,7 @@ function isHardcodedStockImage(url: string | null | undefined): boolean {
 function mapStaticDestination(d: Destination, scope: "domestic" | "international"): PublicDestination {
   return {
     ...d,
+    name: toTitleCase(d.name),
     // Static seeds use Unsplash — do not serve those on the public site.
     image: isHardcodedStockImage(d.image) ? "" : d.image,
   };
@@ -1070,7 +1077,7 @@ function mapDbDestination(row: DestinationRow): PublicDestination {
   const image = sanitizePublicImageUrl(row.image_url);
   return {
     slug: row.slug,
-    name: row.name,
+    name: toTitleCase(row.name),
     region: row.region,
     image: isHardcodedStockImage(image) ? "" : image,
     blurb: row.blurb ?? "",

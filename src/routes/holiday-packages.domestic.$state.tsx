@@ -8,6 +8,7 @@ import {
   fetchPackagesForDestination,
   fetchPublicDestinationBySlug,
 } from "@/lib/public-cms";
+import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/domestic/$state")({
   staleTime: 0,
@@ -74,7 +75,7 @@ function StatePage() {
       />
       <HolidayDestinationSections dest={dest} relatedPackages={relatedPackages} />
       <InquirySection
-        heading={`Plan your ${dest.name} trip`}
+        heading={`Plan Your ${toTitleCase(dest.name)} Trip`}
         subtitle="Tell us your dates, group size and budget — our team will share a custom itinerary."
         defaultService="packages"
         hideServiceSelect

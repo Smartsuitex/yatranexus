@@ -284,7 +284,10 @@ function AdminSettingsPage() {
               placeholder="YatraNexus Ventures LLP"
             />
           </AdminField>
-          <AdminField label="Brand tagline" hint="Shown in header/hero eyebrow">
+          <AdminField
+            label="Brand tagline"
+            hint="Short slogan (e.g. Your Journey, Our Priority). Homepage hero line is edited under Admin → Homepage → Hero tagline."
+          >
             <input
               value={form.tagline}
               onChange={(e) => setForm((f) => ({ ...f, tagline: e.target.value }))}
