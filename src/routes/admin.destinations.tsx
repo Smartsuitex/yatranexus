@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Pencil, Search, Trash2, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Pencil, Search, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import { AdminImageField } from "@/components/admin/AdminImageField";
 import {
@@ -30,6 +30,7 @@ import {
   deleteDestination,
   linesToArray,
   listDestinations,
+  renumberDestinations,
   slugify,
   upsertDestination,
   type DestinationRow,
@@ -80,6 +81,12 @@ function rowToForm(row: DestinationRow): FormState {
   };
 }
 
+function nextSortOrder(items: DestinationRow[], scope: FormState["scope"]) {
+  const scoped = items.filter((row) => row.scope === scope);
+  if (scoped.length === 0) return 1;
+  return Math.max(...scoped.map((row) => Number(row.sort_order) || 0)) + 1;
+}
+
 function AdminDestinationsPage() {
   const [items, setItems] = useState<DestinationRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -87,6 +94,7 @@ function AdminDestinationsPage() {
   const [form, setForm] = useState<FormState>(emptyForm());
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [reorderingId, setReorderingId] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [scopeFilter, setScopeFilter] = useState<"all" | "domestic" | "international">("all");
@@ -137,7 +145,10 @@ function AdminDestinationsPage() {
   }, [load]);
 
   function openNew() {
-    setForm(emptyForm());
+    setForm({
+      ...emptyForm(),
+      sort_order: String(nextSortOrder(items, "domestic")),
+    });
     setShowForm(true);
   }
 
@@ -150,6 +161,10 @@ function AdminDestinationsPage() {
     e.preventDefault();
     setSaving(true);
     try {
+      const desiredSort = Math.max(
+        1,
+        Number(form.sort_order) || nextSortOrder(items, form.scope),
+      );
       await upsertDestination({
         id: form.id,
         slug: form.slug || slugify(form.name),
@@ -160,11 +175,11 @@ function AdminDestinationsPage() {
         blurb: form.blurb || null,
         highlights: linesToArray(form.highlights),
         is_active: form.is_active,
-        sort_order: Number(form.sort_order) || 0,
+        sort_order: desiredSort,
       });
       toast.success("Destination saved");
       setShowForm(false);
-      load();
+      await load();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Save failed");
     } finally {
@@ -172,12 +187,52 @@ function AdminDestinationsPage() {
     }
   }
 
+  async function moveRow(row: DestinationRow, direction: "up" | "down") {
+    const scoped = items.filter((item) => item.scope === row.scope);
+    const index = scoped.findIndex((item) => item.id === row.id);
+    if (index < 0) return;
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= scoped.length) return;
+
+    const nextScoped = [...scoped];
+    const [moved] = nextScoped.splice(index, 1);
+    nextScoped.splice(swapIndex, 0, moved);
+
+    setReorderingId(row.id);
+    setItems((prev) => {
+      const others = prev.filter((item) => item.scope !== row.scope);
+      const renumbered = nextScoped.map((item, i) => ({ ...item, sort_order: i + 1 }));
+      return [...others, ...renumbered].sort((a, b) => {
+        if (a.scope !== b.scope) return a.scope.localeCompare(b.scope);
+        return (a.sort_order || 0) - (b.sort_order || 0) || a.name.localeCompare(b.name);
+      });
+    });
+
+    try {
+      await renumberDestinations(nextScoped.map((item) => item.id));
+      await load();
+      toast.success("Order updated — website list will follow this order");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not update order");
+      await load();
+    } finally {
+      setReorderingId(null);
+    }
+  }
+
   async function handleDelete(id: string) {
     if (!confirm("Delete this destination?")) return;
     try {
+      const row = items.find((item) => item.id === id);
       await deleteDestination(id);
+      if (row) {
+        const remaining = items.filter((item) => item.scope === row.scope && item.id !== id);
+        if (remaining.length > 0) {
+          await renumberDestinations(remaining.map((item) => item.id));
+        }
+      }
       toast.success("Deleted");
-      load();
+      await load();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Delete failed");
     }
@@ -187,7 +242,7 @@ function AdminDestinationsPage() {
     <div className="space-y-6">
       <AdminPageHeader
         title="Destinations"
-        description="Create destinations first — they appear in the Holiday Packages dropdown when adding packages."
+        description="Reorder with ↑↓ — lower number shows first on Holiday Packages. Create destinations before linking them to packages."
         actionLabel="Add destination"
         onAction={openNew}
       />
@@ -253,7 +308,7 @@ function AdminDestinationsPage() {
       {!loading && items.length > 0 ? (
         <p className="text-sm text-muted-foreground">
           Showing {filteredItems.length} of {items.length} destination
-          {items.length === 1 ? "" : "s"}
+          {items.length === 1 ? "" : "s"}. Use ↑↓ to reorder within Domestic or International.
         </p>
       ) : null}
 
@@ -295,9 +350,14 @@ function AdminDestinationsPage() {
             <AdminField label="Scope *">
               <select
                 value={form.scope}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, scope: e.target.value as "domestic" | "international" }))
-                }
+                onChange={(e) => {
+                  const scope = e.target.value as "domestic" | "international";
+                  setForm((f) => ({
+                    ...f,
+                    scope,
+                    sort_order: f.id ? f.sort_order : String(nextSortOrder(items, scope)),
+                  }));
+                }}
                 className={adminInputClass}
               >
                 <option value="domestic">Domestic</option>
@@ -340,9 +400,10 @@ function AdminDestinationsPage() {
                 className={adminInputClass}
               />
             </AdminField>
-            <AdminField label="Sort order">
+            <AdminField label="Sort order" hint="Lower number = shown first on the website">
               <input
                 type="number"
+                min={1}
                 value={form.sort_order}
                 onChange={(e) => setForm((f) => ({ ...f, sort_order: e.target.value }))}
                 className={adminInputClass}
@@ -376,6 +437,7 @@ function AdminDestinationsPage() {
           <AdminTable>
             <thead className="sticky top-0 z-10 bg-card">
               <tr className="border-b text-left text-xs text-muted-foreground">
+                <th className="px-4 py-3">Order</th>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Scope</th>
                 <th className="px-4 py-3">Region</th>
@@ -384,38 +446,72 @@ function AdminDestinationsPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredItems.map((row) => (
-                <tr key={row.id} className="border-b border-border/60 last:border-0">
-                  <td className="px-4 py-3 font-medium">{row.name}</td>
-                  <td className="px-4 py-3 capitalize text-muted-foreground">{row.scope}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{row.region}</td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-xs ${row.is_active ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600"}`}
-                    >
-                      {row.is_active ? "Active" : "Hidden"}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex justify-end gap-2">
-                      <button
-                        type="button"
-                        onClick={() => openEdit(row)}
-                        className="rounded-md p-1.5 hover:bg-muted"
+              {filteredItems.map((row) => {
+                const scoped = items.filter((item) => item.scope === row.scope);
+                const scopedIndex = scoped.findIndex((item) => item.id === row.id);
+                const busy = reorderingId === row.id;
+                return (
+                  <tr key={row.id} className="border-b border-border/60 last:border-0">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex min-w-8 items-center justify-center rounded-md bg-muted px-2 py-1 text-sm font-semibold tabular-nums text-foreground">
+                          {row.sort_order}
+                        </span>
+                        <div className="flex flex-col">
+                          <button
+                            type="button"
+                            disabled={busy || scopedIndex <= 0}
+                            onClick={() => moveRow(row, "up")}
+                            className="rounded p-0.5 hover:bg-muted disabled:cursor-not-allowed disabled:opacity-30"
+                            aria-label="Move up (show earlier)"
+                            title="Move up"
+                          >
+                            <ChevronUp className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={busy || scopedIndex >= scoped.length - 1}
+                            onClick={() => moveRow(row, "down")}
+                            className="rounded p-0.5 hover:bg-muted disabled:cursor-not-allowed disabled:opacity-30"
+                            aria-label="Move down (show later)"
+                            title="Move down"
+                          >
+                            <ChevronDown className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 font-medium">{row.name}</td>
+                    <td className="px-4 py-3 capitalize text-muted-foreground">{row.scope}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{row.region}</td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs ${row.is_active ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600"}`}
                       >
-                        <Pencil className="h-4 w-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(row.id)}
-                        className="rounded-md p-1.5 text-red-600 hover:bg-red-50"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        {row.is_active ? "Active" : "Hidden"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => openEdit(row)}
+                          className="rounded-md p-1.5 hover:bg-muted"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(row.id)}
+                          className="rounded-md p-1.5 text-red-600 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </AdminTable>
         </div>

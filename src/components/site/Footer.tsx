@@ -39,17 +39,22 @@ export function Footer() {
 
   const serviceLinks = useMemo(() => {
     const explore = site.pageContent.navigation?.exploreLinks;
-    if (explore && explore.length > 0) {
-      return explore.map(
-        (item): FooterNavItem => ({
-          label: item.label,
-          to: item.to,
-          href: item.href,
-          params: item.params,
-        }),
-      );
-    }
-    return buildFooterServiceLinks(site.navLinks);
+    const links =
+      explore && explore.length > 0
+        ? explore.map(
+            (item): FooterNavItem => ({
+              label: item.label,
+              to: item.to,
+              href: item.href,
+              params: item.params,
+            }),
+          )
+        : buildFooterServiceLinks(site.navLinks);
+
+    return links.filter(
+      (l) =>
+        l.to !== "/services" && l.label.trim().toLowerCase() !== "all services",
+    );
   }, [site.pageContent.navigation?.exploreLinks, site.navLinks]);
   const { left: serviceLeft, right: serviceRight } = useMemo(
     () => splitServiceColumns(serviceLinks),

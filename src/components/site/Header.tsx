@@ -1,11 +1,18 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
 import { useSiteConfig } from "@/contexts/site-config";
-import { buildWhatsappHref } from "@/lib/site-links";
 import { publicNavLinkRoute } from "@/lib/nav-links";
 import { DEFAULT_PAGE_CONTENT, type SiteNavLink } from "@/lib/page-content";
+
+const HEADER_LINKS: SiteNavLink[] = [
+  { label: "Home", to: "/" },
+  { label: "Corporate Travel", to: "/corporate" },
+  { label: "Holiday Packages", to: "/holiday-packages" },
+  { label: "About Us", to: "/about" },
+  { label: "Contact Us", to: "/contact" },
+];
 
 export function Header() {
   const site = useSiteConfig();
@@ -13,26 +20,26 @@ export function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const serviceLinks = site.navLinks.filter((l) => l.to !== "/corporate");
-  const whatsappHref = buildWhatsappHref(
-    site.whatsappBase,
-    site.whatsappPreset || "Hi YatraNexus, I'd like to plan a trip.",
-  );
 
   const headerLinks = useMemo(() => {
-    const links =
+    const fromCms =
       site.pageContent.navigation?.headerLinks ??
       DEFAULT_PAGE_CONTENT.navigation?.headerLinks ??
       [];
-    return links.filter((l) => (l.to || l.href) && !/services/i.test(l.label));
-  }, [site.pageContent.navigation?.headerLinks]);
 
-  /** Insert Services dropdown after Corporate (or after Home if Corporate missing). */
-  const servicesInsertIndex = useMemo(() => {
-    const corpIdx = headerLinks.findIndex((l) => /corporate/i.test(l.label));
-    if (corpIdx >= 0) return corpIdx + 1;
-    const homeIdx = headerLinks.findIndex((l) => l.to === "/" || /home/i.test(l.label));
-    return homeIdx >= 0 ? homeIdx + 1 : 1;
-  }, [headerLinks]);
+    return HEADER_LINKS.map((fallback) => {
+      const match = fromCms.find(
+        (l) =>
+          l.to === fallback.to ||
+          (fallback.to === "/" && /home/i.test(l.label)) ||
+          (fallback.to === "/corporate" && /corporate/i.test(l.label)) ||
+          (fallback.to === "/holiday-packages" && /holiday/i.test(l.label)) ||
+          (fallback.to === "/about" && /about/i.test(l.label)) ||
+          (fallback.to === "/contact" && /contact/i.test(l.label)),
+      );
+      return match?.label ? { ...fallback, label: match.label } : fallback;
+    });
+  }, [site.pageContent.navigation?.headerLinks]);
 
   function closeMenu() {
     setOpen(false);
@@ -121,34 +128,43 @@ export function Header() {
     );
   }
 
+  const beforeServices = useMemo(
+    () =>
+      headerLinks.filter(
+        (l) =>
+          l.to === "/" ||
+          l.to === "/corporate" ||
+          l.to === "/holiday-packages" ||
+          /home|corporate|holiday/i.test(l.label),
+      ),
+    [headerLinks],
+  );
+
+  const afterServices = useMemo(
+    () =>
+      headerLinks.filter(
+        (l) =>
+          l.to === "/about" ||
+          l.to === "/contact" ||
+          /about|contact/i.test(l.label),
+      ),
+    [headerLinks],
+  );
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="relative z-[60] mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         <Logo />
-        <nav className="hidden lg:flex items-center gap-6">
-          {headerLinks.map((item, index) => (
-            <span key={`${item.label}-${item.to ?? item.href}`} className="contents">
-              {index === servicesInsertIndex ? <ServicesDropdown /> : null}
-              <NavItem item={item} />
-            </span>
+        <nav className="hidden items-center gap-6 lg:flex">
+          {beforeServices.map((item) => (
+            <NavItem key={`${item.label}-${item.to ?? item.href}`} item={item} />
           ))}
-          {servicesInsertIndex >= headerLinks.length ? <ServicesDropdown /> : null}
+          <ServicesDropdown />
+          {afterServices.map((item) => (
+            <NavItem key={`${item.label}-${item.to ?? item.href}`} item={item} />
+          ))}
         </nav>
-        <div className="hidden lg:flex items-center gap-3">
-          <a
-            href={`tel:${site.phoneRaw}`}
-            className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-primary"
-          >
-            <Phone className="h-4 w-4" /> {site.phone}
-          </a>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-foreground/70 hover:text-primary"
-          >
-            WhatsApp
-          </a>
+        <div className="hidden items-center gap-3 lg:flex">
           <Link
             to="/contact"
             hash="inquiry"
@@ -161,7 +177,7 @@ export function Header() {
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="lg:hidden inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2.5 text-foreground"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2.5 text-foreground lg:hidden"
           onClick={() => (open ? closeMenu() : setOpen(true))}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -176,100 +192,59 @@ export function Header() {
             className="fixed inset-0 z-[55] bg-black/40 lg:hidden"
             onClick={closeMenu}
           />
-          <div className="relative z-[60] lg:hidden border-t border-border/60 bg-background max-h-[calc(100dvh-3.5rem)] overflow-y-auto overflow-touch">
+          <div className="relative z-[60] max-h-[calc(100dvh-3.5rem)] overflow-y-auto overflow-touch border-t border-border/60 bg-background lg:hidden">
             <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-              {headerLinks.map((item, index) => (
-                <span key={`m-${item.label}-${item.to ?? item.href}`} className="contents">
-                  {index === servicesInsertIndex ? (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => setServicesOpen((v) => !v)}
-                        aria-expanded={servicesOpen}
-                        className="flex min-h-11 items-center justify-between py-3 text-sm font-medium text-foreground/80"
-                      >
-                        Services
-                        <ChevronDown
-                          className={`h-4 w-4 transition ${servicesOpen ? "rotate-180" : ""}`}
-                        />
-                      </button>
-                      {servicesOpen ? (
-                        <div className="mb-2 ml-3 flex flex-col border-l border-border/60 pl-3">
-                          <Link
-                            to="/services"
-                            onClick={closeMenu}
-                            className="py-2 text-sm font-medium text-primary"
-                          >
-                            All services
-                          </Link>
-                          {serviceLinks.map((svc) => {
-                            const route = publicNavLinkRoute(svc);
-                            return (
-                              <Link
-                                key={svc.to}
-                                {...route}
-                                onClick={closeMenu}
-                                className="min-h-10 py-2.5 text-sm text-foreground/70 hover:text-primary"
-                              >
-                                {svc.title}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      ) : null}
-                    </>
-                  ) : null}
-                  <div className="flex min-h-11 items-center py-3">
-                    <NavItem item={item} onClick={closeMenu} />
-                  </div>
-                </span>
+              {beforeServices.map((item) => (
+                <div
+                  key={`m-${item.label}-${item.to ?? item.href}`}
+                  className="flex min-h-11 items-center py-3"
+                >
+                  <NavItem item={item} onClick={closeMenu} />
+                </div>
               ))}
-              {servicesInsertIndex >= headerLinks.length ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => setServicesOpen((v) => !v)}
-                    aria-expanded={servicesOpen}
-                    className="flex min-h-11 items-center justify-between py-3 text-sm font-medium text-foreground/80"
-                  >
-                    Services
-                    <ChevronDown
-                      className={`h-4 w-4 transition ${servicesOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {servicesOpen ? (
-                    <div className="mb-2 ml-3 flex flex-col border-l border-border/60 pl-3">
-                      <Link
-                        to="/services"
-                        onClick={closeMenu}
-                        className="py-2 text-sm font-medium text-primary"
-                      >
-                        All services
-                      </Link>
-                      {serviceLinks.map((svc) => {
-                        const route = publicNavLinkRoute(svc);
-                        return (
-                          <Link
-                            key={svc.to}
-                            {...route}
-                            onClick={closeMenu}
-                            className="min-h-10 py-2.5 text-sm text-foreground/70 hover:text-primary"
-                          >
-                            {svc.title}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  ) : null}
-                </>
-              ) : null}
-              <a
-                href={`tel:${site.phoneRaw}`}
-                onClick={closeMenu}
-                className="flex min-h-11 items-center gap-2 py-3 text-sm font-medium text-foreground/80"
+              <button
+                type="button"
+                onClick={() => setServicesOpen((v) => !v)}
+                aria-expanded={servicesOpen}
+                className="flex min-h-11 items-center justify-between py-3 text-sm font-medium text-foreground/80"
               >
-                <Phone className="h-4 w-4 shrink-0" /> {site.phone}
-              </a>
+                Services
+                <ChevronDown
+                  className={`h-4 w-4 transition ${servicesOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              {servicesOpen ? (
+                <div className="mb-2 ml-3 flex flex-col border-l border-border/60 pl-3">
+                  <Link
+                    to="/services"
+                    onClick={closeMenu}
+                    className="py-2 text-sm font-medium text-primary"
+                  >
+                    All services
+                  </Link>
+                  {serviceLinks.map((svc) => {
+                    const route = publicNavLinkRoute(svc);
+                    return (
+                      <Link
+                        key={svc.to}
+                        {...route}
+                        onClick={closeMenu}
+                        className="min-h-10 py-2.5 text-sm text-foreground/70 hover:text-primary"
+                      >
+                        {svc.title}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : null}
+              {afterServices.map((item) => (
+                <div
+                  key={`m-${item.label}-${item.to ?? item.href}`}
+                  className="flex min-h-11 items-center py-3"
+                >
+                  <NavItem item={item} onClick={closeMenu} />
+                </div>
+              ))}
               <Link
                 to="/contact"
                 hash="inquiry"
@@ -278,15 +253,6 @@ export function Header() {
               >
                 Plan My Trip
               </Link>
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={closeMenu}
-                className="mt-2 py-2 text-center text-sm font-medium text-primary"
-              >
-                Or chat on WhatsApp
-              </a>
             </div>
           </div>
         </>

@@ -84,7 +84,7 @@ export const SOCIAL_KEYS = [
   { key: "youtube", label: "YouTube" },
 ] as const;
 
-/** Build Services footer links from CMS nav (+ All services), ordered for the 2-column layout. */
+/** Build Services footer links from CMS nav, ordered for the 2-column layout. */
 export function buildFooterServiceLinks(
   navLinks: PublicNavLink[],
 ): FooterNavItem[] {
@@ -98,25 +98,22 @@ export function buildFooterServiceLinks(
     return ai - bi;
   });
 
-  const fromCms = sorted.map((item) => {
-    const route = publicNavLinkRoute(item);
-    if (route.to === "/services/$slug") {
-      return {
-        label: item.title,
-        to: "/services/$slug",
-        params: route.params,
-      };
-    }
-    return { label: item.title, to: route.to };
-  });
-
-  const hasAllServices = fromCms.some(
-    (l) => l.to === "/services" || l.label.toLowerCase() === "all services",
-  );
-
-  return hasAllServices
-    ? fromCms
-    : [{ label: "All services", to: "/services" }, ...fromCms];
+  return sorted
+    .map((item) => {
+      const route = publicNavLinkRoute(item);
+      if (route.to === "/services/$slug") {
+        return {
+          label: item.title,
+          to: "/services/$slug" as const,
+          params: route.params,
+        };
+      }
+      return { label: item.title, to: route.to };
+    })
+    .filter(
+      (l) =>
+        l.to !== "/services" && l.label.trim().toLowerCase() !== "all services",
+    );
 }
 
 export function splitServiceColumns(links: FooterNavItem[]): {

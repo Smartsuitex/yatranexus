@@ -310,11 +310,11 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
     headerLinks: [
       { label: "Home", to: "/" },
       { label: "Corporate Travel", to: "/corporate" },
+      { label: "Holiday Packages", to: "/holiday-packages" },
       { label: "About Us", to: "/about" },
       { label: "Contact Us", to: "/contact" },
     ],
     exploreLinks: [
-      { label: "All services", to: "/services" },
       { label: "Corporate Travel", to: "/corporate" },
       { label: "Outstation Cabs", to: "/services/cabs" },
       { label: "Flight Booking", to: "/services/flights" },

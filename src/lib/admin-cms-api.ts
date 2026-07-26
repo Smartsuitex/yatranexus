@@ -509,6 +509,26 @@ export async function upsertDestination(payload: Tables["destinations"]["Insert"
   return throwOnError(await supabase.from("destinations").insert(payload).select().single());
 }
 
+/** Persist unique sequential sort numbers (1, 2, 3…) for the given order. */
+export async function renumberDestinations(orderedIds: string[]) {
+  for (let index = 0; index < orderedIds.length; index++) {
+    await throwOnError(
+      await supabase
+        .from("destinations")
+        .update({ sort_order: 10_000 + index })
+        .eq("id", orderedIds[index]),
+    );
+  }
+  for (let index = 0; index < orderedIds.length; index++) {
+    await throwOnError(
+      await supabase
+        .from("destinations")
+        .update({ sort_order: index + 1 })
+        .eq("id", orderedIds[index]),
+    );
+  }
+}
+
 export async function deleteDestination(id: string) {
   return throwOnError(await supabase.from("destinations").delete().eq("id", id));
 }
