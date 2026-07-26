@@ -8,7 +8,7 @@ import handler from "./dist/server/server.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientRoot = path.resolve(path.join(__dirname, "dist/client"));
 const port = Number(process.env.PORT || 3000);
-const host = process.env.HOST || "127.0.0.1";
+const host = process.env.HOST || "0.0.0.0";
 
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
