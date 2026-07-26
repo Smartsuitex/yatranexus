@@ -60,9 +60,9 @@ export function defaultEmailSettings(): Omit<EmailSettings, "id" | "updated_at">
     is_enabled: false,
     provider: "resend",
     from_name: "YatraNexus",
-    from_email: null,
-    reply_to_email: null,
-    admin_notification_email: null,
+    from_email: "info@yatranexus.com",
+    reply_to_email: "info@yatranexus.com",
+    admin_notification_email: "info@yatranexus.com",
     resend_api_key: null,
     smtp_host: null,
     smtp_port: 587,
@@ -207,10 +207,10 @@ export const SMTP_PRESETS: {
   {
     id: "zoho",
     label: "Zoho Mail",
-    host: "smtp.zoho.com",
+    host: "smtp.zoho.in",
     port: 465,
     secure: true,
-    hint: "Use your Zoho mailbox credentials.",
+    hint: "India accounts use smtp.zoho.in. Global Zoho Mail may need smtp.zoho.com instead.",
   },
   {
     id: "custom",
@@ -229,6 +229,7 @@ export function detectSmtpPreset(
 ): SmtpPresetId {
   const h = host?.trim().toLowerCase() ?? "";
   if (!h) return "custom";
+  if (h === "smtp.zoho.com" || h === "smtp.zoho.in") return "zoho";
   const match = SMTP_PRESETS.find(
     (p) =>
       p.id !== "custom" &&

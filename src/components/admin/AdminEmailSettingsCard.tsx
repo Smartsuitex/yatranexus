@@ -202,24 +202,24 @@ export function AdminEmailSettingsCard({
     return {
       is_enabled: form.is_enabled,
       provider: form.provider,
-      from_name: form.from_name || null,
-      from_email: form.from_email || null,
-      reply_to_email: form.reply_to_email || null,
-      admin_notification_email: form.admin_notification_email || null,
+      from_name: form.from_name.trim() || "",
+      from_email: form.from_email.trim() || "",
+      reply_to_email: form.reply_to_email.trim() || "",
+      admin_notification_email: form.admin_notification_email.trim() || "",
       resend_api_key: form.resend_api_key || undefined,
-      smtp_host: form.smtp_host || null,
+      smtp_host: form.smtp_host.trim() || "",
       smtp_port: Number(form.smtp_port) || 587,
-      smtp_username: form.smtp_username || null,
+      smtp_username: form.smtp_username.trim() || "",
       smtp_password: form.smtp_password || undefined,
       smtp_secure: form.smtp_secure,
       welcome_enabled: form.welcome_enabled,
-      welcome_subject: form.welcome_subject || null,
-      welcome_body_html: emailPlainToHtml(form.welcome_body) || null,
+      welcome_subject: form.welcome_subject.trim() || "",
+      welcome_body_html: emailPlainToHtml(form.welcome_body) || "",
       inquiry_customer_enabled: form.inquiry_customer_enabled,
-      inquiry_customer_subject: form.inquiry_customer_subject || null,
-      inquiry_customer_body_html: emailPlainToHtml(form.inquiry_customer_body) || null,
+      inquiry_customer_subject: form.inquiry_customer_subject.trim() || "",
+      inquiry_customer_body_html: emailPlainToHtml(form.inquiry_customer_body) || "",
       inquiry_admin_enabled: form.inquiry_admin_enabled,
-      inquiry_admin_subject: form.inquiry_admin_subject || null,
+      inquiry_admin_subject: form.inquiry_admin_subject.trim() || "",
     };
   }
 
@@ -370,13 +370,16 @@ export function AdminEmailSettingsCard({
           />
         </AdminField>
 
-        <AdminField label="From email" hint="Must be allowed by your email provider">
+        <AdminField
+          label="From email"
+          hint="Public sender address customers see (e.g. info@). Not the SMTP login."
+        >
           <input
             type="email"
             value={form.from_email}
             onChange={(e) => setForm((f) => ({ ...f, from_email: e.target.value }))}
             className={adminInputClass}
-            placeholder="noreply@yatranexus.com"
+            placeholder="info@yatranexus.com"
           />
         </AdminField>
 
@@ -467,12 +470,16 @@ export function AdminEmailSettingsCard({
                 placeholder="587"
               />
             </AdminField>
-            <AdminField label="SMTP username" hint="Usually your full email address">
+            <AdminField
+              label="SMTP username"
+              hint="Mailbox used to log in (can differ from From email)"
+            >
               <input
                 value={form.smtp_username}
                 onChange={(e) => setForm((f) => ({ ...f, smtp_username: e.target.value }))}
                 className={adminInputClass}
-                placeholder="you@company.com"
+                placeholder="vinayak@yatranexus.com"
+                autoComplete="username"
               />
             </AdminField>
             <AdminField

@@ -9,35 +9,48 @@ import { getServerSupabaseService } from "@/lib/supabase-server";
 
 const EmailProviderSchema = z.enum(["resend", "smtp"]);
 
-const optionalEmail = z
-  .string()
-  .trim()
-  .max(255)
-  .refine((value) => value === "" || z.string().email().safeParse(value).success, {
-    message: "Invalid email",
-  });
+/** Admin form may send null for empty optional fields; Zod .default() only covers undefined. */
+const nullishString = (max: number) =>
+  z.preprocess(
+    (value) => (value == null ? "" : value),
+    z.string().trim().max(max),
+  );
+
+const optionalEmail = z.preprocess(
+  (value) => (value == null ? "" : value),
+  z
+    .string()
+    .trim()
+    .max(255)
+    .refine((value) => value === "" || z.string().email().safeParse(value).success, {
+      message: "Invalid email",
+    }),
+);
 
 const EmailSettingsInputSchema = z.object({
   is_enabled: z.boolean(),
   provider: EmailProviderSchema,
-  from_name: z.string().trim().max(120).default(""),
-  from_email: optionalEmail.default(""),
-  reply_to_email: optionalEmail.default(""),
-  admin_notification_email: optionalEmail.default(""),
-  resend_api_key: z.string().max(500).default(""),
-  smtp_host: z.string().trim().max(255).default(""),
-  smtp_port: z.coerce.number().int().min(1).max(65535).optional(),
-  smtp_username: z.string().trim().max(255).default(""),
-  smtp_password: z.string().max(500).default(""),
+  from_name: nullishString(120),
+  from_email: optionalEmail,
+  reply_to_email: optionalEmail,
+  admin_notification_email: optionalEmail,
+  resend_api_key: nullishString(500),
+  smtp_host: nullishString(255),
+  smtp_port: z.preprocess(
+    (value) => (value == null || value === "" ? undefined : value),
+    z.coerce.number().int().min(1).max(65535).optional(),
+  ),
+  smtp_username: nullishString(255),
+  smtp_password: nullishString(500),
   smtp_secure: z.boolean().optional(),
   welcome_enabled: z.boolean(),
-  welcome_subject: z.string().trim().max(255).default(""),
-  welcome_body_html: z.string().trim().max(20000).default(""),
+  welcome_subject: nullishString(255),
+  welcome_body_html: nullishString(20000),
   inquiry_customer_enabled: z.boolean(),
-  inquiry_customer_subject: z.string().trim().max(255).default(""),
-  inquiry_customer_body_html: z.string().trim().max(20000).default(""),
+  inquiry_customer_subject: nullishString(255),
+  inquiry_customer_body_html: nullishString(20000),
   inquiry_admin_enabled: z.boolean(),
-  inquiry_admin_subject: z.string().trim().max(255).default(""),
+  inquiry_admin_subject: nullishString(255),
 });
 
 const TestEmailSchema = z.object({
