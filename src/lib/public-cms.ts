@@ -174,6 +174,8 @@ export type PublicServiceContentBlocks = {
     | "flights"
     | "holiday"
     | "corporate";
+  /** Corporate / holiday hub hero background (mirrors services.banner_url). */
+  heroBannerUrl?: string;
   features?: PublicServiceFeature[];
   /** Corporate page alternating rows with images. */
   detailedServices?: PublicServiceFeature[];
@@ -1209,6 +1211,7 @@ function parseContentBlocks(value: unknown): PublicServiceContentBlocks {
     titleFirst: raw.titleFirst,
     titleAccent: raw.titleAccent,
     layout: raw.layout,
+    heroBannerUrl: raw.heroBannerUrl ? String(raw.heroBannerUrl) : undefined,
     features: Array.isArray(raw.features) ? raw.features.map(mapFeature) : [],
     detailedServices: Array.isArray(raw.detailedServices)
       ? raw.detailedServices.map(mapFeature)

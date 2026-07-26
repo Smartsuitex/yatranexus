@@ -180,7 +180,7 @@ export async function ensureCoreServices() {
   for (const row of CORE_SERVICE_DEFAULTS) {
     const { data, error: readError } = await supabase
       .from("services")
-      .select("id, content_blocks")
+      .select("id, content_blocks, banner_url")
       .eq("slug", row.slug)
       .maybeSingle();
 
@@ -194,6 +194,21 @@ export async function ensureCoreServices() {
         throw new Error(`Could not create service "${row.slug}": ${insertError.message}`);
       }
       continue;
+    }
+
+    // Ensure corporate / packages keep a usable hero banner path when empty.
+    if (
+      (row.slug === "corporate" || row.slug === "packages") &&
+      row.banner_url &&
+      !String(data.banner_url ?? "").trim()
+    ) {
+      const { error: bannerError } = await supabase
+        .from("services")
+        .update({ banner_url: row.banner_url })
+        .eq("id", data.id);
+      if (bannerError) {
+        throw new Error(`Could not set ${row.slug} hero image: ${bannerError.message}`);
+      }
     }
 
     // Backfill corporate cards / photo rows if the row exists but is incomplete.
@@ -211,22 +226,6 @@ export async function ensureCoreServices() {
       let needsUpdate = false;
 
       if (features.length === 0 && defaults.features) {
-        patch.features = defaults.features;
-        needsUpdate = true;
-      } else if (
-        Array.isArray(defaults.features) &&
-        (features.length !== defaults.features.length ||
-          !features.some(
-            (f) =>
-              f &&
-              typeof f === "object" &&
-              "title" in f &&
-              String((f as { title?: string }).title ?? "")
-                .toLowerCase()
-                .includes("mice"),
-          ))
-      ) {
-        // Keep corporate hero service ribbon in sync (includes MICE & Events as 2nd item).
         patch.features = defaults.features;
         needsUpdate = true;
       }
@@ -264,11 +263,44 @@ export async function listServices() {
   return throwOnError(await supabase.from("services").select("*").order("sort_order").order("title"));
 }
 
-export async function upsertService(payload: Tables["services"]["Insert"]) {
+export async function upsertService(
+  payload: Tables["services"]["Insert"] & { id?: string },
+) {
   if (payload.id) {
-    return throwOnError(await supabase.from("services").update(payload).eq("id", payload.id).select().single());
+    const { id, ...rest } = payload;
+    return throwOnError(
+      await supabase.from("services").update(rest).eq("id", id).select().single(),
+    );
   }
   return throwOnError(await supabase.from("services").insert(payload).select().single());
+}
+
+/** Immediately update a service hero banner (used when admin uploads a new corporate/holiday hero). */
+export async function setServiceBannerUrl(slug: string, bannerUrl: string | null) {
+  const trimmed = bannerUrl?.trim() || null;
+  const { data: existing, error: readError } = await supabase
+    .from("services")
+    .select("id, content_blocks")
+    .eq("slug", slug)
+    .maybeSingle();
+  if (readError) throw new Error(readError.message);
+  if (!existing?.id) throw new Error(`Service "${slug}" not found`);
+
+  const blocks =
+    existing.content_blocks && typeof existing.content_blocks === "object"
+      ? { ...(existing.content_blocks as Record<string, unknown>) }
+      : {};
+  if (trimmed) blocks.heroBannerUrl = trimmed;
+  else delete blocks.heroBannerUrl;
+
+  return throwOnError(
+    await supabase
+      .from("services")
+      .update({ banner_url: trimmed, content_blocks: blocks })
+      .eq("id", existing.id)
+      .select()
+      .single(),
+  );
 }
 
 export async function deleteService(id: string) {

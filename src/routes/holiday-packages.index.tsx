@@ -170,7 +170,7 @@ function HolidayPackagesHub() {
         subtitle={hubHero.subtitle}
         imagePrimary={hero.primary}
         imageFallback={hero.fallback}
-        compact="hub"
+        compact
       >
         <div className="mx-auto mt-4 flex max-w-2xl items-center gap-1.5 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur sm:gap-2 sm:p-1.5">
           <Search className="ml-2 h-4 w-4 shrink-0 text-muted-foreground sm:ml-2.5" />

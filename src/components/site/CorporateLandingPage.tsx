@@ -81,7 +81,10 @@ export function CorporateLandingPage({ service }: Props) {
   const titleFirst = blocks.titleFirst ?? CORPORATE_HERO.titleFirst;
   const titleAccent = blocks.titleAccent ?? CORPORATE_HERO.titleAccent;
   const subtitle = service?.description?.trim() || CORPORATE_HERO.subtitle;
-  const hero = resolveServiceHero("corporate", service?.bannerUrl);
+  const hero = resolveServiceHero(
+    "corporate",
+    service?.bannerUrl || service?.contentBlocks?.heroBannerUrl,
+  );
   const heroBullets =
     blocks.heroBullets && blocks.heroBullets.length > 0
       ? blocks.heroBullets.map((b) => b.trim()).filter(Boolean)
@@ -163,6 +166,7 @@ export function CorporateLandingPage({ service }: Props) {
   return (
     <ServicePageShell modifier="corporate">
       <ServiceHeroSection
+        key={hero.primary}
         headingId="corporate-hero-heading"
         imagePrimary={hero.primary}
         imageFallback={hero.fallback}
@@ -171,6 +175,7 @@ export function CorporateLandingPage({ service }: Props) {
         subtitle={subtitle}
         badges={[]}
         compact
+        photoPosition="center"
       >
         <h1 id="corporate-hero-heading" className="hotels-hero__title hotels-hero__title--stacked">
           <span className="hotels-hero__title-line text-brand-gradient corp-hero-title-gradient">

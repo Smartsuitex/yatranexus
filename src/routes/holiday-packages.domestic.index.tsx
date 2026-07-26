@@ -53,7 +53,7 @@ function DomesticIndex() {
         subtitle={cmsHero.subtitle || HOLIDAY_DOMESTIC_HERO.subtitle}
         imagePrimary={hero.primary}
         imageFallback={hero.fallback}
-        compact="hub"
+        compact
       />
       <section className="about-section" aria-labelledby="holiday-states-heading">
         <div className="about-section__inner">

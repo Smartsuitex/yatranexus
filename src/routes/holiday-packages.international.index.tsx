@@ -62,7 +62,7 @@ function IntlIndex() {
         subtitle={cmsHero.subtitle || HOLIDAY_INTERNATIONAL_HERO.subtitle}
         imagePrimary={hero.primary}
         imageFallback={hero.fallback}
-        compact="hub"
+        compact
       />
       <section className="about-section" aria-labelledby="holiday-intl-dest-heading">
         <div className="about-section__inner">

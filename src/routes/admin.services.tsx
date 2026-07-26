@@ -37,6 +37,7 @@ import {
   deleteService,
   linesToArray,
   listServices,
+  setServiceBannerUrl,
   slugify,
   upsertService,
   type ServiceRow,
@@ -154,7 +155,10 @@ function AdminServicesPage() {
       title: row.title,
       short_description: row.short_description ?? "",
       description: row.description ?? "",
-      banner_url: row.banner_url ?? "",
+      banner_url:
+        row.banner_url?.trim() ||
+        (typeof blocks.heroBannerUrl === "string" ? blocks.heroBannerUrl.trim() : "") ||
+        "",
       icon: row.icon ?? "",
       meta_title: row.meta_title ?? "",
       meta_description: row.meta_description ?? "",
@@ -168,6 +172,21 @@ function AdminServicesPage() {
     setShowForm(true);
   }
 
+  async function applyHeroBanner(banner_url: string) {
+    setForm((f) => ({ ...f, banner_url }));
+    if (form.slug !== "corporate" && form.slug !== "packages") return;
+    try {
+      await setServiceBannerUrl(form.slug, banner_url.trim() || null);
+      toast.success(
+        form.slug === "corporate"
+          ? "Corporate hero image saved — refresh /corporate to see it."
+          : "Holiday packages hero image saved — refresh the page to see it.",
+      );
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not save hero image");
+    }
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -175,14 +194,20 @@ function AdminServicesPage() {
       const faqs = cleanFaqsForSave(parseFaqsJson(form.faqs_json || "[]"));
       const content_blocks = cleanServiceContentForSave(
         parseServiceContentJson(form.content_blocks_json || "{}"),
-      );
+      ) as Record<string, unknown>;
+      const banner = form.banner_url.trim();
+      if (banner) {
+        content_blocks.heroBannerUrl = banner;
+      } else {
+        delete content_blocks.heroBannerUrl;
+      }
       await upsertService({
         id: form.id,
         slug: form.slug || slugify(form.title),
         title: form.title,
         short_description: form.short_description || null,
         description: form.description || null,
-        banner_url: form.banner_url || null,
+        banner_url: banner || null,
         icon: form.icon || null,
         meta_title: form.meta_title || null,
         meta_description: form.meta_description || null,
@@ -193,7 +218,11 @@ function AdminServicesPage() {
         is_active: form.is_active,
         sort_order: Number(form.sort_order) || 0,
       });
-      toast.success("Service saved");
+      toast.success(
+        form.slug === "corporate"
+          ? "Corporate Travel saved — hard-refresh /corporate to see the new hero image."
+          : "Service saved",
+      );
       setShowForm(false);
       load();
     } catch (err) {
@@ -308,18 +337,37 @@ function AdminServicesPage() {
               </AdminField>
             </div>
             <AdminImageField
-              label="Service hero section image"
+              label={
+                form.slug === "corporate"
+                  ? "Corporate page hero image (/corporate)"
+                  : "Service hero section image"
+              }
               hint={
                 form.slug === "packages"
-                  ? "Hero background on /holiday-packages (Holiday Packages hub). Upload here to replace the default."
+                  ? "Hero background on /holiday-packages. Saved immediately when you upload."
                   : form.slug === "corporate"
-                    ? "Hero background on /corporate. Upload here to replace the default."
+                    ? "Hero background on /corporate. Upload a photo-only image (no text in the file). Saved immediately when you upload — then hard-refresh /corporate."
                     : "Hero background on this service page. Upload or choose from library to replace the default."
               }
-              folder="services"
+              folder={form.slug === "corporate" ? "corporate" : "services"}
               value={form.banner_url}
-              onChange={(banner_url) => setForm((f) => ({ ...f, banner_url }))}
+              onChange={(banner_url) => {
+                if (form.slug === "corporate" || form.slug === "packages") {
+                  void applyHeroBanner(banner_url);
+                } else {
+                  setForm((f) => ({ ...f, banner_url }));
+                }
+              }}
             />
+            {form.slug === "corporate" && form.banner_url.trim() ? (
+              <div className="overflow-hidden rounded-xl border border-border md:col-span-2">
+                <img
+                  src={form.banner_url.trim()}
+                  alt="Corporate hero preview"
+                  className="max-h-56 w-full object-cover object-right"
+                />
+              </div>
+            ) : null}
             <AdminField label="Sort order">
               <input
                 type="number"
@@ -365,6 +413,14 @@ function AdminServicesPage() {
             <ServiceContentEditor
               value={form.content_blocks_json}
               onChange={(content_blocks_json) => setForm((f) => ({ ...f, content_blocks_json }))}
+              bannerUrl={form.banner_url}
+              onBannerUrlChange={(banner_url) => {
+                if (form.slug === "corporate" || form.slug === "packages") {
+                  void applyHeroBanner(banner_url);
+                } else {
+                  setForm((f) => ({ ...f, banner_url }));
+                }
+              }}
             />
             <div className="md:col-span-2">
               <FaqListEditor

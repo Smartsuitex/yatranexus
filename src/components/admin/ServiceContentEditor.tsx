@@ -399,9 +399,17 @@ export function serviceContentToJson(form: ServiceContentForm): string {
 type Props = {
   value: string;
   onChange: (json: string) => void;
+  /** Service-level hero banner (services.banner_url) — shown for Corporate / Holiday hub. */
+  bannerUrl?: string;
+  onBannerUrlChange?: (url: string) => void;
 };
 
-export function ServiceContentEditor({ value, onChange }: Props) {
+export function ServiceContentEditor({
+  value,
+  onChange,
+  bannerUrl,
+  onBannerUrlChange,
+}: Props) {
   const form = parseServiceContentJson(value);
   const isVisa = form.layout === "visa";
   const isHoliday = form.layout === "holiday";
@@ -536,8 +544,8 @@ export function ServiceContentEditor({ value, onChange }: Props) {
             {isCorporate ? (
               <>
                 These fields control the hero on the Corporate page at{" "}
-                <code className="text-xs">/corporate</code>. Use slug{" "}
-                <code className="text-xs">corporate</code> for this service.
+                <code className="text-xs">/corporate</code>. Upload a new hero image
+                below to replace the default background.
               </>
             ) : (
               <>
@@ -547,6 +555,39 @@ export function ServiceContentEditor({ value, onChange }: Props) {
               </>
             )}
           </p>
+          {onBannerUrlChange ? (
+            <div className="md:col-span-2 space-y-2">
+              <AdminImageField
+                label={
+                  isCorporate
+                    ? "Corporate hero section image"
+                    : "Holiday packages hero section image"
+                }
+                hint={
+                  isCorporate
+                    ? "Upload a PHOTO ONLY (people / office / airport) — do not put title text in the image. Headline and bullets are edited separately below. Click Save service after uploading."
+                    : "Full-bleed background on /holiday-packages. Upload or pick from library, then Save service."
+                }
+                folder={isCorporate ? "corporate" : "services"}
+                value={bannerUrl ?? ""}
+                onChange={onBannerUrlChange}
+              />
+              {isCorporate && (bannerUrl ?? "").trim() ? (
+                <div className="overflow-hidden rounded-xl border border-border bg-muted/20">
+                  <img
+                    src={(bannerUrl ?? "").trim()}
+                    alt="Corporate hero preview"
+                    className="max-h-48 w-full object-cover object-right"
+                  />
+                  <p className="px-3 py-2 text-xs text-muted-foreground">
+                    Preview of the image that will show on{" "}
+                    <code className="text-[0.7rem]">/corporate</code>. Remove and
+                    upload a new file, then Save.
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
           {isHoliday && (
             <AdminField label="Hero eyebrow" hint='Small label above the title, e.g. "Holiday packages"'>
               <input
@@ -626,7 +667,7 @@ export function ServiceContentEditor({ value, onChange }: Props) {
                   <AdminImageField
                     label="Card photo"
                     hint="Upload or pick an image for this service card on /corporate."
-                    folder="services"
+                    folder="corporate"
                     value={feature.image ?? ""}
                     onChange={(image) =>
                       updateFeatures(
@@ -745,7 +786,7 @@ export function ServiceContentEditor({ value, onChange }: Props) {
                 <AdminImageField
                   label="Service image"
                   hint="Shown on the left/right photo row on the corporate page."
-                  folder="services"
+                  folder="corporate"
                   value={item.image ?? ""}
                   onChange={(image) =>
                     updateDetailedServices(

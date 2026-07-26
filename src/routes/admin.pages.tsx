@@ -196,11 +196,14 @@ function AdminPagesPage() {
       <div className="rounded-2xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
         <strong className="text-foreground">Hero section images:</strong> set each page’s{" "}
         <em>Hero section image</em> below (About, Contact, <strong className="text-foreground">Services list</strong>,
-        Blog, Gallery, FAQ, Testimonials, Domestic, International). Service detail heroes (Flights,
-        Hotels, Cabs, Visa, Insurance, Forex, Corporate, Holiday Packages) are under{" "}
-        <strong className="text-foreground">Admin → Services</strong>. Package card/detail images are
-        under <strong className="text-foreground">Admin → Holiday Packages</strong>. Homepage slides
-        are under <strong className="text-foreground">Admin → Homepage</strong>.
+        Blog, Gallery, FAQ, Testimonials, Domestic, International).{" "}
+        <strong className="text-foreground">Corporate page hero (/corporate)</strong> is under{" "}
+        <strong className="text-foreground">Admin → Services → Corporate Travel</strong> (not the homepage
+        corporate strip below). Service detail heroes (Flights, Hotels, Cabs, Visa, Insurance, Forex,
+        Holiday Packages) are also under <strong className="text-foreground">Admin → Services</strong>.
+        Package card/detail images are under{" "}
+        <strong className="text-foreground">Admin → Holiday Packages</strong>. Homepage slides are under{" "}
+        <strong className="text-foreground">Admin → Homepage</strong>.
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -570,7 +573,8 @@ function AdminPagesPage() {
                 }
               />
               <AdminImageField
-                label="Corporate banner image"
+                label="Homepage corporate strip banner"
+                hint="Image on the homepage corporate travel section only — not the /corporate page hero. Change /corporate hero under Admin → Services → Corporate Travel."
                 folder="corporate"
                 value={content.homepage?.corporateBannerUrl ?? ""}
                 onChange={(corporateBannerUrl) =>

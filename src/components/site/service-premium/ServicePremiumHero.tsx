@@ -69,7 +69,8 @@ export function ServicePremiumHero({
       <div className="hero-premium__stage hotels-hero__stage">
         <div className="hero-premium__media hotels-hero__media" aria-hidden="true">
           <div className="hotels-hero__overlay" />
-          <SafeImage
+      <SafeImage
+            key={src}
             src={hasImageSrc(src) ? src : imageFallback}
             alt=""
             loading="eager"
@@ -88,11 +89,9 @@ export function ServicePremiumHero({
         <div
           className={cn(
             "hero-premium__inner relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8",
-            compact === "hub"
-              ? "py-5 sm:py-6 lg:py-8"
-              : compact
-                ? "py-6 sm:py-8 lg:py-10"
-                : "py-10 sm:py-12 lg:py-14",
+            compact
+              ? "py-6 sm:py-8 lg:py-10"
+              : "py-10 sm:py-12 lg:py-14",
           )}
         >
           <div
