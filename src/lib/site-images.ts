@@ -2,16 +2,16 @@
 
 export const SITE_IMAGES = {
   hero: {
-    background: "/images/hero/hero-background.png",
-    hotels: "/images/hero/Hotal-Hero-Saction.png",
-    about: "/images/hero/about-hero.png",
-    contact: "/images/hero/contact-hero.png",
-    cabs: "/images/hero/cabs-hero.png",
-    visa: "/images/hero/visa-hero.png",
-    insurance: "/images/hero/insurance-hero.png",
-    forex: "/images/hero/forex-hero.png",
-    corporate: "/images/hero/corporate-hero.png",
-    flights: "/images/hero/flights-hero.png",
+    background: "/images/hero/hero-background.webp",
+    hotels: "/images/hero/Hotal-Hero-Saction.webp",
+    about: "/images/hero/about-hero.webp",
+    contact: "/images/hero/contact-hero.webp",
+    cabs: "/images/hero/cabs-hero.webp",
+    visa: "/images/hero/visa-hero.webp",
+    insurance: "/images/hero/insurance-hero.webp",
+    forex: "/images/hero/forex-hero.webp",
+    corporate: "/images/hero/corporate-hero.webp",
+    flights: "/images/hero/flights-hero.webp",
   },
   logo: {
     main: "/images/logo/yatranexus-logo.svg",
@@ -35,6 +35,14 @@ export const SITE_IMAGE_FOLDERS = {
   misc: "/images/misc",
 } as const;
 
+/** Prefer optimized WebP for local `/images/hero/*` assets when available. */
+export function preferWebpImage(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed.startsWith("/images/hero/")) return trimmed;
+  if (/\.webp$/i.test(trimmed)) return trimmed;
+  return trimmed.replace(/\.(png|jpe?g)$/i, ".webp");
+}
+
 /** Build a public URL for a file placed under `public/images/` */
 export function siteImageUrl(folder: keyof typeof SITE_IMAGE_FOLDERS, filename: string) {
   return `${SITE_IMAGE_FOLDERS[folder]}/${filename.replace(/^\/+/, "")}`;
@@ -55,7 +63,7 @@ export function resolveHeroBackground(cmsImage?: string | null): string {
     custom.startsWith("http://") ||
     custom.startsWith("https://")
   ) {
-    return custom;
+    return preferWebpImage(custom);
   }
   return "";
 }
@@ -73,7 +81,7 @@ export function resolveCorporateBanner(cmsImage?: string | null): string {
     /* Reject accidental contact/about heroes uploaded into the corporate slot */
     !/contact-hero|about-hero/i.test(custom)
   ) {
-    return custom;
+    return preferWebpImage(custom);
   }
   return SITE_IMAGES.corporate.banner;
 }
@@ -83,4 +91,16 @@ export function nextCorporateBannerFallback(current: string): string | null {
     return SITE_IMAGES.corporate.banner;
   }
   return null;
+}
+
+/** Head link to preload LCP hero image on first paint. */
+export function heroPreloadLink(href: string) {
+  const src = preferWebpImage(href.trim());
+  if (!src) return null;
+  return {
+    rel: "preload" as const,
+    as: "image" as const,
+    href: src,
+    fetchPriority: "high" as const,
+  };
 }

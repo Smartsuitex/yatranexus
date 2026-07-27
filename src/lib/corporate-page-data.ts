@@ -21,8 +21,8 @@ import type { ServiceHeroCopy, ServiceIconItem } from "@/components/site/service
 import { STANDARD_HERO_BADGES } from "@/lib/service-premium-trust";
 
 export const CORPORATE_HERO: ServiceHeroCopy = {
-  titleFirst: "Corporate & MICE Travel,",
-  titleAccent: "Simplified for Your Business",
+  titleFirst: "Corporate & MICE",
+  titleAccent: "Travel Solutions",
   subtitle:
     "Business travel made simple with dedicated support, GST invoicing & negotiated corporate fares.",
 };

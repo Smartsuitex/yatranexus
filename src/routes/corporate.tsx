@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CorporateLandingPage } from "@/components/site/CorporateLandingPage";
 import { fetchPublicServiceBySlug } from "@/lib/public-cms";
+import { resolveServiceHero } from "@/lib/service-hero-images";
+import { heroPreloadLink, SITE_IMAGES } from "@/lib/site-images";
 
 export const Route = createFileRoute("/corporate")({
   loader: async () => {
@@ -9,6 +11,11 @@ export const Route = createFileRoute("/corporate")({
   },
   head: ({ loaderData }) => {
     const service = loaderData?.service;
+    const hero = resolveServiceHero(
+      "corporate",
+      service?.bannerUrl || service?.contentBlocks?.heroBannerUrl,
+    );
+    const preload = heroPreloadLink(hero.primary || SITE_IMAGES.hero.corporate);
     return {
       meta: [
         {
@@ -32,6 +39,7 @@ export const Route = createFileRoute("/corporate")({
             "Your outsourced travel desk for business trips and group events.",
         },
       ],
+      links: preload ? [preload] : [],
     };
   },
   component: CorporatePage,

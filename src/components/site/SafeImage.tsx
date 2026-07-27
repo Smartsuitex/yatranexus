@@ -26,6 +26,8 @@ type SafeImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
  * Renders an `<img>` only when `src` is non-empty.
  * Empty/missing URLs get a neutral placeholder. While a real image loads,
  * an animated skeleton is shown (used across holiday-packages cards/heroes).
+ * LCP heroes (`fetchPriority="high"` / `loading="eager"`) skip the skeleton
+ * so the browser can paint the image immediately.
  */
 export function SafeImage({
   src,
@@ -35,21 +37,29 @@ export function SafeImage({
   showSkeleton = true,
   onLoad,
   onError,
+  loading,
+  fetchPriority,
   ...rest
 }: SafeImageProps) {
   const resolved = typeof src === "string" ? src.trim() : "";
   const imgRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
+  const isLcp =
+    fetchPriority === "high" || loading === "eager" || showSkeleton === false;
+  const [loaded, setLoaded] = useState(isLcp);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    setLoaded(false);
     setFailed(false);
+    if (isLcp) {
+      setLoaded(true);
+      return;
+    }
+    setLoaded(false);
     const img = imgRef.current;
     if (img?.complete && img.naturalWidth > 0) {
       setLoaded(true);
     }
-  }, [resolved]);
+  }, [resolved, isLcp]);
 
   if (!resolved || failed) {
     return (
@@ -67,7 +77,7 @@ export function SafeImage({
     );
   }
 
-  const showPlaceholder = showSkeleton && !loaded;
+  const showPlaceholder = showSkeleton && !isLcp && !loaded;
 
   return (
     <>
@@ -81,6 +91,8 @@ export function SafeImage({
         ref={imgRef}
         src={resolved}
         alt={alt}
+        loading={loading}
+        fetchPriority={fetchPriority}
         className={cn(className, showPlaceholder && "safe-image--loading")}
         onLoad={(event: SyntheticEvent<HTMLImageElement>) => {
           setLoaded(true);

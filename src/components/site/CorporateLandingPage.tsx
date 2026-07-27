@@ -19,6 +19,7 @@ import {
   CORPORATE_WHY_US_ROW,
 } from "@/lib/corporate-page-data";
 import { resolveServiceHero } from "@/lib/service-hero-images";
+import { SITE_IMAGES } from "@/lib/site-images";
 import { SafeImage } from "@/components/site/SafeImage";
 import type { PublicService, PublicServiceFeature } from "@/lib/public-cms";
 
@@ -81,9 +82,16 @@ export function CorporateLandingPage({ service }: Props) {
   const titleFirst = blocks.titleFirst ?? CORPORATE_HERO.titleFirst;
   const titleAccent = blocks.titleAccent ?? CORPORATE_HERO.titleAccent;
   const subtitle = service?.description?.trim() || CORPORATE_HERO.subtitle;
+  // Prefer a clean full-bleed photo. Some CMS uploads are dual-panel design mockups
+  // (text panel + photo) which look like "two images" under the light hero overlay.
+  const cmsBanner =
+    service?.bannerUrl?.trim() || service?.contentBlocks?.heroBannerUrl?.trim() || "";
+  const cleanLocalHero = SITE_IMAGES.hero.corporate;
+  const bannerLooksLikeDesignComposite =
+    /d156b350-6f53-49aa-96be-0b90c4847d62/i.test(cmsBanner);
   const hero = resolveServiceHero(
     "corporate",
-    service?.bannerUrl || service?.contentBlocks?.heroBannerUrl,
+    bannerLooksLikeDesignComposite || !cmsBanner ? cleanLocalHero : cmsBanner,
   );
   const heroBullets =
     blocks.heroBullets && blocks.heroBullets.length > 0
@@ -178,10 +186,8 @@ export function CorporateLandingPage({ service }: Props) {
         photoPosition="center"
       >
         <h1 id="corporate-hero-heading" className="hotels-hero__title hotels-hero__title--stacked">
-          <span className="hotels-hero__title-line text-brand-gradient corp-hero-title-gradient">
-            {titleFirst}
-          </span>
-          <span className="hotels-hero__title-accent corp-hero-title-sub">{titleAccent}</span>
+          <span className="hotels-hero__title-line text-brand-gradient">{titleFirst}</span>
+          <span className="hotels-hero__title-accent text-brand-gradient">{titleAccent}</span>
         </h1>
         <p className="hotels-hero__lead">{subtitle}</p>
         <ul className="corp-hero-bullets mt-5" role="list">
@@ -243,16 +249,18 @@ export function CorporateLandingPage({ service }: Props) {
               const Icon = item.icon;
               return (
                 <article key={`${item.title}-${index}`} className="corp-detailed-card">
-                  <div className="corp-detailed-card__media">
-                    <SafeImage
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      width={960}
-                      height={640}
-                      className="corp-detailed-card__img"
-                    />
-                  </div>
+                  {item.image ? (
+                    <div className="corp-detailed-card__media">
+                      <SafeImage
+                        src={item.image}
+                        alt={item.title}
+                        loading="lazy"
+                        width={960}
+                        height={640}
+                        className="corp-detailed-card__img"
+                      />
+                    </div>
+                  ) : null}
                   <div className="corp-detailed-card__content">
                     <div className="corp-detailed-card__head">
                       <span

@@ -1,4 +1,4 @@
-import { SITE_IMAGES } from "@/lib/site-images";
+import { preferWebpImage, SITE_IMAGES } from "@/lib/site-images";
 
 export type ServiceHeroSlug =
   | "hotels"
@@ -22,7 +22,7 @@ const SERVICE_HERO_FALLBACKS: Record<ServiceHeroSlug, string> = {
 /**
  * Prefer CMS / DB service banner URL.
  * Falls back to local hero image so pages still show a hero until admin uploads.
- * Rejects Unsplash stock URLs.
+ * Rejects Unsplash stock URLs. Local `/images/hero/*` paths prefer WebP.
  */
 export function resolveServiceHero(
   slug: ServiceHeroSlug,
@@ -32,9 +32,14 @@ export function resolveServiceHero(
   fallback: string;
 } {
   const cms = cmsBannerUrl?.trim() || "";
+  const local = preferWebpImage(SERVICE_HERO_FALLBACKS[slug] || "");
   if (cms && !cms.includes("images.unsplash.com") && !cms.includes("unsplash.com/")) {
-    return { primary: cms, fallback: SERVICE_HERO_FALLBACKS[slug] || cms };
+    // Prefer optimized local WebP over heavy CMS dual-panel / PNG uploads for heroes.
+    if (cms.startsWith("/images/hero/")) {
+      const optimized = preferWebpImage(cms);
+      return { primary: optimized, fallback: local || optimized };
+    }
+    return { primary: cms, fallback: local || cms };
   }
-  const local = SERVICE_HERO_FALLBACKS[slug] || "";
   return { primary: local, fallback: local };
 }

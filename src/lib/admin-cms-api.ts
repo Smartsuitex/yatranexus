@@ -87,7 +87,7 @@ const CORE_SERVICE_DEFAULTS: Tables["services"]["Insert"][] = [
     description:
       "Business travel made simple with dedicated support, GST invoicing & negotiated corporate fares.",
     icon: "Briefcase",
-    banner_url: "/images/hero/corporate-hero.png",
+    banner_url: "/images/hero/corporate-hero.webp",
     content_blocks: {
       layout: "corporate",
       titleFirst: "Corporate & MICE",
@@ -154,7 +154,7 @@ const CORE_SERVICE_DEFAULTS: Tables["services"]["Insert"][] = [
           title: "Crew & Group Travel Solutions",
           detail:
             "Block bookings, series fares and consolidated billing for teams, crew rotations and large groups.",
-          image: "/images/hero/corporate-hero.png",
+          image: "/images/hero/corporate-hero.webp",
           accent: "blue",
         },
         {

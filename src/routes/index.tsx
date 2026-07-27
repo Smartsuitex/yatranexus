@@ -10,11 +10,9 @@ import {
   WHY_CHOOSE_US,
   DOMESTIC_STATES,
 } from "@/lib/site-data";
-import { useSiteConfig } from "@/contexts/site-config";
 import { HomepageHero } from "@/components/site/HomepageHero";
 import { HomepageBelowHero } from "@/components/site/HomepageBelowHero";
 import { HeroDestinationMarquee } from "@/components/site/HeroDestinationMarquee";
-import { HomeTrustRibbon } from "@/components/site/HomeTrustRibbon";
 import { type HomeServiceLink } from "@/lib/nav-links";
 import {
   fetchPublicDestinations,
@@ -261,7 +259,6 @@ function Home() {
     marqueeDestinations,
     homeServices,
   } = Route.useLoaderData();
-  const site = useSiteConfig();
   const [heroDestination, setHeroDestination] = useState("");
 
   const heroStats = buildHeroStats(stats);
@@ -279,10 +276,6 @@ function Home() {
         serviceLinks={homeServices}
       />
       <HeroDestinationMarquee destinations={marqueeDestinations} />
-      <HomeTrustRibbon
-        items={site.pageContent.homepage?.trustBar}
-        pills={site.pageContent.homepage?.trustPills}
-      />
       <HomepageBelowHero
         featuredPackages={featuredPackages}
         featuredDestinations={featuredDestinations}
