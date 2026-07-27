@@ -7,6 +7,7 @@ import { ServiceSectionHeading } from "@/components/site/service-premium/Service
 import { ServiceCtaBanner } from "@/components/site/service-premium/ServiceCtaBanner";
 import { useSiteConfig } from "@/contexts/site-config";
 import { resolveCmsIcon } from "@/lib/cms-icons";
+import { aboutValueIconImage } from "@/lib/about-value-icons";
 import {
   ABOUT_CTA,
   ABOUT_HERO,
@@ -80,10 +81,12 @@ export function AboutLandingPage({ homepage }: Props) {
     about.valuesItems && about.valuesItems.length > 0
       ? about.valuesItems.map((item, index) => {
           const fallback = ABOUT_VALUES[index % ABOUT_VALUES.length];
+          const title = item.title || fallback.title;
           return {
             icon: resolveCmsIcon(item.icon) ?? fallback.icon,
-            title: item.title || fallback.title,
+            title,
             accent: item.accent ?? fallback.accent,
+            imageSrc: aboutValueIconImage(title) ?? fallback.imageSrc,
           };
         })
       : ABOUT_VALUES;
@@ -226,13 +229,24 @@ export function AboutLandingPage({ homepage }: Props) {
             }
           />
           <div className="about-values-grid mt-10">
-            {valueItems.map(({ icon: Icon, title, accent }) => (
+            {valueItems.map(({ icon: Icon, title, accent, imageSrc }) => (
               <article
                 key={title}
                 className={`about-value-card about-value-card--${accent}`}
               >
                 <span className="about-value-card__icon" aria-hidden="true">
-                  <Icon className="h-7 w-7" strokeWidth={1.5} />
+                  {imageSrc ? (
+                    <img
+                      src={imageSrc}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="about-value-card__icon-img"
+                      decoding="async"
+                    />
+                  ) : (
+                    <Icon className="h-7 w-7" strokeWidth={1.5} />
+                  )}
                 </span>
                 <p className="about-value-card__label">{title}</p>
               </article>

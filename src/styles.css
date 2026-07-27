@@ -9254,6 +9254,13 @@
     color: var(--brand-purple);
   }
 
+  .about-value-card__icon-img {
+    display: block;
+    width: 2.35rem;
+    height: 2.35rem;
+    object-fit: contain;
+  }
+
   .about-value-card--purple .about-value-card__icon {
     color: var(--brand-purple);
   }

@@ -26,6 +26,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import { ABOUT_VALUE_ICON_IMAGES } from "@/lib/about-value-icons";
 
 export const ABOUT_HERO = {
   eyebrow: "About YatraNexus",
@@ -184,15 +185,31 @@ export type AboutValueItem = {
   icon: LucideIcon;
   title: string;
   accent: "purple" | "orange" | "blue" | "green";
+  imageSrc?: string;
 };
 
 export const ABOUT_VALUES: AboutValueItem[] = [
-  { icon: Handshake, title: "Trust", accent: "purple" },
-  { icon: ShieldCheck, title: "Transparency", accent: "orange" },
+  {
+    icon: Handshake,
+    title: "Trust",
+    accent: "purple",
+    imageSrc: ABOUT_VALUE_ICON_IMAGES.trust,
+  },
+  { icon: Shield, title: "Transparency", accent: "orange" },
   { icon: Star, title: "Customer Satisfaction", accent: "blue" },
   { icon: ShieldCheck, title: "Reliability", accent: "green" },
-  { icon: Headphones, title: "Professionalism", accent: "purple" },
-  { icon: ChartColumnIncreasing, title: "Continuous Improvement", accent: "orange" },
+  {
+    icon: ClipboardCheck,
+    title: "Professionalism",
+    accent: "purple",
+    imageSrc: ABOUT_VALUE_ICON_IMAGES.professionalism,
+  },
+  {
+    icon: ChartColumnIncreasing,
+    title: "Continuous Improvement",
+    accent: "orange",
+    imageSrc: ABOUT_VALUE_ICON_IMAGES["continuous improvement"],
+  },
 ];
 
 export type AboutHowStep = {
