@@ -26,6 +26,7 @@ import {
   type PublicService,
 } from "@/lib/public-cms";
 import { resolveHomeHeroTagline } from "@/lib/homepage-admin";
+import { toHeroSearchDestinations, toHeroSearchPackages } from "@/lib/hero-search";
 
 function buildHomeServices(
   services: PublicService[],
@@ -79,6 +80,17 @@ export const Route = createFileRoute("/")({
       resolveShowInternational(),
       fetchPublicSiteSettings(),
     ]);
+
+    const internationalDestinations = showInternational
+      ? marqueeDestinations.filter(
+          (d) => !destinations.some((domestic) => domestic.slug === d.slug),
+        )
+      : [];
+    const searchPackages = toHeroSearchPackages(packages);
+    const searchDestinations = toHeroSearchDestinations(
+      destinations,
+      internationalDestinations,
+    );
 
     const featuredSlugs = homepage.featuredPackageSlugs;
     let featuredPackages =
@@ -197,6 +209,8 @@ export const Route = createFileRoute("/")({
       ),
       seoTitle: siteSettings.seoTitle,
       seoDescription: siteSettings.seoDescription,
+      searchPackages,
+      searchDestinations,
     };
   },
   head: ({ loaderData }) => {
@@ -258,6 +272,8 @@ function Home() {
     howItWorks,
     marqueeDestinations,
     homeServices,
+    searchPackages,
+    searchDestinations,
   } = Route.useLoaderData();
   const [heroDestination, setHeroDestination] = useState("");
 
@@ -273,6 +289,8 @@ function Home() {
         aboutLead={aboutLead}
         destination={heroDestination}
         onDestinationChange={setHeroDestination}
+        searchPackages={searchPackages}
+        searchDestinations={searchDestinations}
         serviceLinks={homeServices}
       />
       <HeroDestinationMarquee destinations={marqueeDestinations} />

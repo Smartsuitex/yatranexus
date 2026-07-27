@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Search, ArrowRight } from "lucide-react";
 import { DestinationCard } from "@/components/site/DestinationCard";
 import { HolidayPageHero } from "@/components/site/HolidayPageHero";
@@ -11,6 +11,11 @@ import {
   resolveHolidayHubContent,
   resolveHolidayHubHero,
 } from "@/lib/holiday-packages-page-data";
+import {
+  resolveHeroSearchTarget,
+  toHeroSearchDestinations,
+  toHeroSearchPackages,
+} from "@/lib/hero-search";
 import {
   HOLIDAY_THEMES,
   TOUR_TYPES,
@@ -29,6 +34,12 @@ import {
 
 export const Route = createFileRoute("/holiday-packages/")({
   staleTime: 0,
+  validateSearch: (search: Record<string, unknown>): { destination?: string } => ({
+    destination:
+      typeof search.destination === "string" && search.destination.trim()
+        ? search.destination.trim()
+        : undefined,
+  }),
   loader: async () => {
     const showInternational = await resolveShowInternational();
     const [packages, domesticStates, internationalDestinations, homepage, packagesService] =
@@ -115,10 +126,53 @@ function HolidayPackagesHub() {
     holidayThemes,
     hubHero,
   } = Route.useLoaderData();
-  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const { destination: destinationSearch } = Route.useSearch();
+  const [query, setQuery] = useState(destinationSearch ?? "");
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [domesticRegion, setDomesticRegion] = useState<string>(ALL);
   const [intlRegion, setIntlRegion] = useState<string>(ALL);
+
+  useEffect(() => {
+    if (destinationSearch) setQuery(destinationSearch);
+  }, [destinationSearch]);
+
+  const searchPackages = useMemo(() => toHeroSearchPackages(allPackages), [allPackages]);
+  const searchDestinations = useMemo(
+    () => toHeroSearchDestinations(domesticStates, internationalDestinations),
+    [domesticStates, internationalDestinations],
+  );
+
+  function handleHeroSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const target = resolveHeroSearchTarget(query, searchPackages, searchDestinations);
+
+    if (target.kind === "destination") {
+      if (target.scope === "international") {
+        navigate({
+          to: "/holiday-packages/international/$country",
+          params: { country: target.slug },
+        });
+      } else {
+        navigate({
+          to: "/holiday-packages/domestic/$state",
+          params: { state: target.slug },
+        });
+      }
+      return;
+    }
+
+    if (target.kind === "package") {
+      navigate({
+        to: "/holiday-packages/package/$slug",
+        params: { slug: target.slug },
+      });
+      return;
+    }
+
+    // Keep filtering on this page when there is no strong match.
+    setSelectedTheme(null);
+  }
 
   const domesticRegions = useMemo(
     () => [ALL, ...Array.from(new Set(domesticStates.map((s) => s.region)))],
@@ -172,24 +226,27 @@ function HolidayPackagesHub() {
         imageFallback={hero.fallback}
         compact
       >
-        <div className="mx-auto mt-4 flex max-w-2xl items-center gap-1.5 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur sm:gap-2 sm:p-1.5">
-          <Search className="ml-2 h-4 w-4 shrink-0 text-muted-foreground sm:ml-2.5" />
+        <form
+          onSubmit={handleHeroSearch}
+          className="mx-auto mt-4 flex max-w-2xl items-center gap-1.5 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur sm:gap-2 sm:p-1.5"
+          role="search"
+          aria-label="Search destinations"
+        >
+          <Search className="ml-2 h-4 w-4 shrink-0 text-muted-foreground sm:ml-2.5" aria-hidden="true" />
           <input
-            type="text"
+            type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search destinations — Goa, Kerala, Rajasthan…"
             className="min-w-0 flex-1 bg-transparent px-1 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2"
           />
-          <a
-            href={whatsappLink("Hi YatraNexus, I'd like to plan a holiday.")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 rounded-full bg-[color:var(--brand-orange)] px-3.5 py-2 text-xs font-semibold text-white shadow-glow transition hover:brightness-110 sm:px-5 sm:py-2.5"
+          <button
+            type="submit"
+            className="home-hero-search-btn shrink-0 rounded-full bg-[color:var(--brand-orange)] px-3.5 py-2 text-xs font-semibold text-white sm:px-5 sm:py-2.5"
           >
-            Plan on WhatsApp
-          </a>
-        </div>
+            Search
+          </button>
+        </form>
 
         <div className="mt-4 flex flex-wrap gap-2">
           <a

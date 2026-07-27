@@ -13,6 +13,11 @@ import {
 } from "lucide-react";
 import { useSiteConfig } from "@/contexts/site-config";
 import { resolveCmsIcon } from "@/lib/cms-icons";
+import {
+  resolveHeroSearchTarget,
+  type HeroSearchDestination,
+  type HeroSearchPackage,
+} from "@/lib/hero-search";
 import { MAX_HERO_SLIDES, DEFAULT_HOME_HERO_TAGLINE } from "@/lib/homepage-admin";
 import { resolveHeroBackground } from "@/lib/site-images";
 import { homeServiceLinkRoute, type HomeServiceLink } from "@/lib/nav-links";
@@ -32,6 +37,9 @@ type Props = {
   aboutLead?: string;
   onDestinationChange?: (value: string) => void;
   destination?: string;
+  /** Packages + destinations used to resolve search → package/destination page. */
+  searchPackages?: HeroSearchPackage[];
+  searchDestinations?: HeroSearchDestination[];
   /** CMS featured services from /admin/homepage; falls back to static SERVICES. */
   serviceLinks?: HomeServiceLink[];
 };
@@ -80,6 +88,8 @@ export function HomepageHero({
   aboutLead,
   onDestinationChange,
   destination = "",
+  searchPackages = [],
+  searchDestinations = [],
   serviceLinks,
 }: Props) {
   const site = useSiteConfig();
@@ -119,9 +129,35 @@ export function HomepageHero({
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const query = destination.trim();
+    const target = resolveHeroSearchTarget(query, searchPackages, searchDestinations);
+
+    if (target.kind === "package") {
+      navigate({
+        to: "/holiday-packages/package/$slug",
+        params: { slug: target.slug },
+      });
+      return;
+    }
+
+    if (target.kind === "destination") {
+      if (target.scope === "international") {
+        navigate({
+          to: "/holiday-packages/international/$country",
+          params: { country: target.slug },
+        });
+      } else {
+        navigate({
+          to: "/holiday-packages/domestic/$state",
+          params: { state: target.slug },
+        });
+      }
+      return;
+    }
+
     navigate({
       to: "/holiday-packages",
-      search: { destination: destination.trim() },
+      search: { destination: target.query || undefined },
     });
   }
 
@@ -252,12 +288,12 @@ export function HomepageHero({
 
           <form
             onSubmit={handleSearch}
-            className="mt-7 flex max-w-xl flex-col gap-2 rounded-2xl border border-border bg-white p-2 shadow-card sm:flex-row sm:items-center sm:gap-2 sm:rounded-full sm:p-2"
+            className="home-hero-search mt-7 flex max-w-xl items-center gap-1.5 rounded-full border border-border bg-white p-1 shadow-sm sm:gap-2 sm:p-1.5"
             role="search"
             aria-label="Search destinations"
           >
             <div className="flex min-w-0 flex-1 items-center gap-1.5 px-1 sm:gap-2">
-              <Search className="ml-1 h-5 w-5 shrink-0 text-muted-foreground sm:ml-2" aria-hidden="true" />
+              <Search className="ml-1.5 h-4 w-4 shrink-0 text-muted-foreground sm:ml-2.5" aria-hidden="true" />
               <label htmlFor="hero-destination" className="sr-only">
                 Destination
               </label>
@@ -267,13 +303,13 @@ export function HomepageHero({
                 name="destination"
                 value={destination}
                 onChange={(event) => onDestinationChange?.(event.target.value)}
-                placeholder="Where would you like to go?"
-                className="min-w-0 flex-1 bg-transparent px-1 py-2.5 text-base text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2"
+                placeholder="Search destinations — Goa, Kerala, Rajasthan…"
+                className="min-w-0 flex-1 bg-transparent px-1 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2"
               />
             </div>
             <button
               type="submit"
-              className="w-full shrink-0 rounded-xl bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:brightness-110 sm:w-auto sm:rounded-full sm:px-6 sm:py-3"
+              className="home-hero-search-btn shrink-0 rounded-full bg-[color:var(--brand-orange)] px-3.5 py-2 text-xs font-semibold text-white sm:px-5 sm:py-2.5"
             >
               Search
             </button>

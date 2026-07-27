@@ -2711,6 +2711,33 @@
     color: rgba(255, 255, 255, 0.7);
   }
 
+  .home-hero-search-btn {
+    box-shadow: var(--shadow-glow);
+    cursor: pointer;
+    transition:
+      filter 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .home-hero-search-btn:hover {
+    filter: brightness(1.1);
+    transform: scale(1.03);
+    box-shadow:
+      var(--shadow-glow),
+      0 10px 24px -10px oklch(0.7 0.17 47 / 0.55);
+  }
+
+  .home-hero-search-btn:active {
+    transform: scale(0.98);
+    filter: brightness(0.98);
+  }
+
+  .home-hero-search-btn:focus-visible {
+    outline: 2px solid oklch(0.7 0.17 47 / 0.55);
+    outline-offset: 2px;
+  }
+
   /* Homepage service icon ribbon — 4+3 centered on phones, wrap on larger screens */
   .home-hero-services {
     display: flex;
@@ -5734,8 +5761,6 @@
   .service-premium-page--cabs .hotels-hero--compact .hotels-hero__stage,
   .service-premium-page--forex .hotels-hero--compact .hotels-hero__stage,
   .service-premium-page--insurance .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--about .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--contact .hotels-hero--compact .hotels-hero__stage,
   .service-premium-page--services .hotels-hero--compact .hotels-hero__stage,
   .service-premium-page--flights .hotels-hero--compact .hero-premium__stage,
   .service-premium-page--hotels .hotels-hero--compact .hero-premium__stage,
@@ -5743,36 +5768,53 @@
   .service-premium-page--cabs .hotels-hero--compact .hero-premium__stage,
   .service-premium-page--forex .hotels-hero--compact .hero-premium__stage,
   .service-premium-page--insurance .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--about .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--contact .hotels-hero--compact .hero-premium__stage,
   .service-premium-page--services .hotels-hero--compact .hero-premium__stage {
     aspect-ratio: auto;
     min-height: clamp(14rem, 42vw, 18rem);
     max-height: none;
   }
 
+  /* About / Contact: no max-height clip (avoids internal hero scroll) */
+  .service-premium-page--about .hotels-hero--compact .hotels-hero__stage,
+  .service-premium-page--about .hotels-hero--compact .hero-premium__stage,
+  .service-premium-page--contact .hotels-hero--compact .hotels-hero__stage,
+  .service-premium-page--contact .hotels-hero--compact .hero-premium__stage {
+    aspect-ratio: auto;
+    min-height: clamp(14rem, 42vw, 18rem);
+    max-height: none;
+    height: auto;
+    overflow: visible;
+  }
+
   @media (min-width: 768px) {
     .service-premium-page--flights .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--hotels .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--visa .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--cabs .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--forex .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--insurance .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--about .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--contact .hotels-hero--compact .hotels-hero__stage,
-  .service-premium-page--services .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--hotels .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--visa .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--cabs .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--forex .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--insurance .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--services .hotels-hero--compact .hotels-hero__stage,
     .service-premium-page--flights .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--hotels .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--visa .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--cabs .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--forex .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--insurance .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--about .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--contact .hotels-hero--compact .hero-premium__stage,
-  .service-premium-page--services .hotels-hero--compact .hero-premium__stage {
+    .service-premium-page--hotels .hotels-hero--compact .hero-premium__stage,
+    .service-premium-page--visa .hotels-hero--compact .hero-premium__stage,
+    .service-premium-page--cabs .hotels-hero--compact .hero-premium__stage,
+    .service-premium-page--forex .hotels-hero--compact .hero-premium__stage,
+    .service-premium-page--insurance .hotels-hero--compact .hero-premium__stage,
+    .service-premium-page--services .hotels-hero--compact .hero-premium__stage {
       aspect-ratio: auto;
       min-height: clamp(13rem, 24vw, 16rem);
       max-height: min(340px, 48vh);
+    }
+
+    .service-premium-page--about .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--about .hotels-hero--compact .hero-premium__stage,
+    .service-premium-page--contact .hotels-hero--compact .hotels-hero__stage,
+    .service-premium-page--contact .hotels-hero--compact .hero-premium__stage {
+      aspect-ratio: auto;
+      min-height: clamp(13rem, 24vw, 16rem);
+      max-height: none;
+      height: auto;
+      overflow: visible;
     }
   }
 
@@ -9783,6 +9825,21 @@
   }
 
   .service-premium-page--corporate .hotels-hero.hero-premium {
+    overflow: hidden;
+  }
+
+  /* About / Contact: grow with content — no clipped/scrollable hero */
+  .service-premium-page--about .hotels-hero--compact .hotels-hero__stage,
+  .service-premium-page--about .hotels-hero--compact .hero-premium__stage,
+  .service-premium-page--contact .hotels-hero--compact .hotels-hero__stage,
+  .service-premium-page--contact .hotels-hero--compact .hero-premium__stage {
+    max-height: none !important;
+    height: auto;
+    overflow: visible;
+  }
+
+  .service-premium-page--about .hotels-hero.hero-premium,
+  .service-premium-page--contact .hotels-hero.hero-premium {
     overflow: hidden;
   }
 
