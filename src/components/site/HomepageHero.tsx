@@ -349,21 +349,30 @@ export function HomepageHero({
           ) : null}
 
           <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-white bg-[color:var(--brand-navy-deep)]/10 shadow-card sm:aspect-[5/6]">
-            {slides.map((item, index) =>
-              imageSrc(item.image) ? (
+            {slides.map((item, index) => {
+              const isActive = index === slide;
+              const isNext = index === (slide + 1) % slides.length;
+              // Only keep active + next in the DOM to avoid downloading every slide up front.
+              if (!isActive && !isNext) return null;
+              const src = imageSrc(item.image);
+              if (!src) return null;
+              return (
                 <img
                   key={`${item.image}-${index}`}
-                  src={imageSrc(item.image)}
+                  src={src}
                   alt={item.name}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "low"}
+                  width={800}
+                  height={1000}
+                  decoding={isActive ? "sync" : "async"}
+                  loading={isActive ? "eager" : "lazy"}
+                  fetchPriority={isActive ? "high" : "low"}
                   onError={() => setFailedImages((prev) => ({ ...prev, [item.image]: true }))}
                   className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-                    index === slide ? "animate-kenburns opacity-100" : "opacity-0"
+                    isActive ? "animate-kenburns opacity-100" : "opacity-0"
                   }`}
                 />
-              ) : null,
-            )}
+              );
+            })}
             <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--brand-navy-deep)]/80 via-transparent to-transparent" />
 
             <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--brand-navy-deep)] shadow-soft backdrop-blur">

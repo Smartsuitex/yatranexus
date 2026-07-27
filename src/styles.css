@@ -10697,16 +10697,32 @@
     justify-content: center;
     border-radius: 9999px;
     background-color: var(--brand-orange);
+    background-image: var(--gradient-brand);
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 600;
     color: white;
-    box-shadow: var(--shadow-soft);
-    transition: filter 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--shadow-glow);
+    cursor: pointer;
+    transition:
+      filter 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
   .btn-brand-cta:hover:not(:disabled) {
-    filter: brightness(1.05);
-    box-shadow: var(--shadow-glow);
+    filter: brightness(1.1);
+    transform: scale(1.03);
+    box-shadow:
+      var(--shadow-glow),
+      0 10px 24px -10px oklch(0.7 0.17 47 / 0.55);
+  }
+  .btn-brand-cta:active:not(:disabled) {
+    transform: scale(0.98);
+    filter: brightness(0.98);
+  }
+  .btn-brand-cta:focus-visible {
+    outline: 2px solid oklch(0.7 0.17 47 / 0.55);
+    outline-offset: 2px;
   }
   .btn-brand-cta:disabled {
     opacity: 0.7;

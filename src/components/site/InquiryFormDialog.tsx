@@ -53,4 +53,4 @@ export function InquiryFormDialog({
 }
 
 export const inquiryCtaButtonClass =
-  "inline-flex w-full items-center justify-center rounded-full bg-brand-gradient px-8 py-3.5 text-sm font-semibold text-white shadow-soft transition hover:shadow-glow sm:w-auto";
+  "home-hero-search-btn inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-8 py-3.5 text-sm font-semibold text-white sm:w-auto";

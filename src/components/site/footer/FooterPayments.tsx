@@ -1,7 +1,6 @@
 "use client";
 
 import { Star } from "lucide-react";
-import { motion } from "framer-motion";
 import { FOOTER_COLORS, PAYMENT_METHODS } from "./footer-data";
 
 export function FooterPayments() {
@@ -13,14 +12,13 @@ export function FooterPayments() {
     >
       <div className="flex flex-wrap items-center gap-2" aria-label="Accepted payment methods">
         {PAYMENT_METHODS.map((name) => (
-          <motion.span
+          <span
             key={name}
-            whileHover={{ y: -2 }}
-            className="inline-flex h-9 min-w-[4.25rem] items-center justify-center rounded-xl border bg-white px-2.5 text-[10px] font-bold tracking-wide shadow-sm"
+            className="inline-flex h-9 min-w-[4.25rem] items-center justify-center rounded-xl border bg-white px-2.5 text-[10px] font-bold tracking-wide shadow-sm transition-transform hover:-translate-y-0.5"
             style={{ borderColor: FOOTER_COLORS.border, color: FOOTER_COLORS.purple }}
           >
             {name}
-          </motion.span>
+          </span>
         ))}
       </div>
 

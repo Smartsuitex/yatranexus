@@ -10,7 +10,6 @@ import {
   Youtube,
   type LucideIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { Logo } from "@/components/site/Logo";
 import { FOOTER_BRAND_COPY, FOOTER_COLORS, SOCIAL_KEYS } from "./footer-data";
 
@@ -80,19 +79,17 @@ function SocialIcons({ socialLinks }: { socialLinks: Record<string, string> }) {
         }
 
         return (
-          <motion.a
+          <a
             key={key}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.96 }}
-            className={`${className} hover:border-transparent hover:bg-[#34235F] hover:text-white`}
+            className={`${className} transition-transform hover:scale-110 hover:border-transparent hover:bg-[#34235F] hover:text-white active:scale-95`}
             style={style}
           >
             <Icon className="h-4 w-4" aria-hidden="true" />
-          </motion.a>
+          </a>
         );
       })}
     </div>

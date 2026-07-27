@@ -7,7 +7,6 @@ import {
   Plane,
   ShieldCheck,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { FOOTER_COLORS, TRUST_ITEMS } from "./footer-data";
 
 const ICONS = {
@@ -22,17 +21,12 @@ export function FooterTrustStrip() {
   return (
     <section aria-label="Why travellers trust YatraNexus">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
-        {TRUST_ITEMS.map((item, index) => {
+        {TRUST_ITEMS.map((item) => {
           const Icon = ICONS[item.icon];
           return (
-            <motion.div
+            <div
               key={item.key}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              whileHover={{ y: -6 }}
-              className="flex items-center gap-3 rounded-[20px] border bg-white px-4 py-4 shadow-[0_10px_30px_-22px_rgba(52,35,95,0.35)] sm:flex-col sm:items-center sm:px-3 sm:py-5 sm:text-center lg:px-4"
+              className="flex items-center gap-3 rounded-[20px] border bg-white px-4 py-4 shadow-[0_10px_30px_-22px_rgba(52,35,95,0.35)] transition-transform hover:-translate-y-1.5 sm:flex-col sm:items-center sm:px-3 sm:py-5 sm:text-center lg:px-4"
               style={{ borderColor: FOOTER_COLORS.border }}
             >
               <span
@@ -47,7 +41,7 @@ export function FooterTrustStrip() {
               >
                 {item.label}
               </p>
-            </motion.div>
+            </div>
           );
         })}
       </div>

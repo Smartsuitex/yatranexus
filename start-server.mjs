@@ -1,8 +1,10 @@
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
+import { createGzip } from "node:zlib";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { fileURLToPath } from "node:url";
+import { pipeline } from "node:stream/promises";
 import handler from "./dist/server/server.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -21,6 +23,7 @@ const MIME_TYPES = {
   ".gif": "image/gif",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
+  ".avif": "image/avif",
   ".ico": "image/x-icon",
   ".woff": "font/woff",
   ".woff2": "font/woff2",
@@ -30,6 +33,17 @@ const MIME_TYPES = {
   ".txt": "text/plain; charset=utf-8",
   ".html": "text/html; charset=utf-8",
 };
+
+const COMPRESSIBLE = new Set([
+  ".css",
+  ".js",
+  ".mjs",
+  ".json",
+  ".svg",
+  ".xml",
+  ".txt",
+  ".html",
+]);
 
 function requestFromNode(req) {
   const url = `http://${req.headers.host}${req.url}`;
@@ -51,12 +65,43 @@ async function sendNodeResponse(res, response) {
     res.setHeader(key, value);
   });
 
+  // Ensure HTML responses are not cached forever (SSR freshness).
+  if (!response.headers.has("cache-control")) {
+    const contentType = response.headers.get("content-type") ?? "";
+    if (contentType.includes("text/html")) {
+      res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+    }
+  }
+
   if (!response.body) {
     res.end();
     return;
   }
 
   Readable.fromWeb(response.body).pipe(res);
+}
+
+function cacheControlForPath(pathname, ext) {
+  if (pathname.startsWith("/assets/")) {
+    return "public, max-age=31536000, immutable";
+  }
+  if (
+    pathname.startsWith("/images/") ||
+    pathname.startsWith("/fonts/") ||
+    ext === ".woff" ||
+    ext === ".woff2" ||
+    ext === ".webp" ||
+    ext === ".avif" ||
+    ext === ".png" ||
+    ext === ".jpg" ||
+    ext === ".jpeg" ||
+    ext === ".gif" ||
+    ext === ".svg" ||
+    ext === ".ico"
+  ) {
+    return "public, max-age=2592000, stale-while-revalidate=86400";
+  }
+  return null;
 }
 
 function tryServeStatic(req, res) {
@@ -75,14 +120,27 @@ function tryServeStatic(req, res) {
 
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] ?? "application/octet-stream";
+  const acceptsGzip = String(req.headers["accept-encoding"] ?? "").includes("gzip");
+  const shouldGzip = acceptsGzip && COMPRESSIBLE.has(ext) && stats.size > 1024;
+
   res.statusCode = 200;
   res.setHeader("Content-Type", contentType);
-  if (pathname.startsWith("/assets/")) {
-    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-  }
+  res.setHeader("Vary", "Accept-Encoding");
+
+  const cache = cacheControlForPath(pathname, ext);
+  if (cache) res.setHeader("Cache-Control", cache);
 
   if (req.method === "HEAD") {
     res.end();
+    return true;
+  }
+
+  if (shouldGzip) {
+    res.setHeader("Content-Encoding", "gzip");
+    void pipeline(createReadStream(filePath), createGzip({ level: 6 }), res).catch(() => {
+      if (!res.headersSent) res.statusCode = 500;
+      res.end();
+    });
     return true;
   }
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
 import type { FooterNavItem } from "./footer-data";
 import { FOOTER_COLORS } from "./footer-data";
 
@@ -179,9 +178,9 @@ export function FooterLinkColumn({ title, items }: FooterLinkListProps) {
       <ul className={title ? "mt-2.5 space-y-1.5" : "space-y-1.5"}>
         {items.map((item) => (
           <li key={`${item.label}-${item.to ?? item.href}`}>
-            <motion.div whileHover={{ x: 4 }} className="inline-block">
+            <div className="inline-block transition-transform hover:translate-x-1">
               <FooterNavLink item={item} />
-            </motion.div>
+            </div>
           </li>
         ))}
       </ul>
@@ -209,18 +208,18 @@ export function FooterServicesColumns({
         <ul className="space-y-2 sm:space-y-1.5">
           {left.map((item) => (
             <li key={`${item.label}-${item.to ?? item.href}`}>
-              <motion.div whileHover={{ x: 4 }} className="inline-block">
+              <div className="inline-block transition-transform hover:translate-x-1">
                 <FooterNavLink item={item} />
-              </motion.div>
+              </div>
             </li>
           ))}
         </ul>
         <ul className="mt-2 space-y-2 min-[400px]:mt-0 sm:space-y-1.5">
           {right.map((item) => (
             <li key={`${item.label}-${item.to ?? item.href}`}>
-              <motion.div whileHover={{ x: 4 }} className="inline-block">
+              <div className="inline-block transition-transform hover:translate-x-1">
                 <FooterNavLink item={item} />
-              </motion.div>
+              </div>
             </li>
           ))}
         </ul>

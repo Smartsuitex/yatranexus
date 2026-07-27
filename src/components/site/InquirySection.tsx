@@ -52,7 +52,7 @@ export function InquirySection({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className={`mt-8 gap-2 ${inquiryCtaButtonClass}`}
+            className={`mt-8 ${inquiryCtaButtonClass}`}
           >
             {resolvedButtonLabel}
             <ArrowRight className="h-4 w-4" />

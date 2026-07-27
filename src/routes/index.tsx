@@ -1,5 +1,8 @@
+import { resolveHomeHeroTagline } from "@/lib/homepage-admin";
+import { toHeroSearchDestinations, toHeroSearchPackages } from "@/lib/hero-search";
+import { heroPreloadLink, resolveHeroBackground } from "@/lib/site-images";
+import { lazy, Suspense, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import {
   Compass,
   Headphones,
@@ -11,7 +14,6 @@ import {
   DOMESTIC_STATES,
 } from "@/lib/site-data";
 import { HomepageHero } from "@/components/site/HomepageHero";
-import { HomepageBelowHero } from "@/components/site/HomepageBelowHero";
 import { HeroDestinationMarquee } from "@/components/site/HeroDestinationMarquee";
 import { type HomeServiceLink } from "@/lib/nav-links";
 import {
@@ -25,8 +27,12 @@ import {
   type PublicDestination,
   type PublicService,
 } from "@/lib/public-cms";
-import { resolveHomeHeroTagline } from "@/lib/homepage-admin";
-import { toHeroSearchDestinations, toHeroSearchPackages } from "@/lib/hero-search";
+
+const HomepageBelowHero = lazy(() =>
+  import("@/components/site/HomepageBelowHero").then((m) => ({
+    default: m.HomepageBelowHero,
+  })),
+);
 
 function buildHomeServices(
   services: PublicService[],
@@ -220,6 +226,8 @@ export const Route = createFileRoute("/")({
     const description =
       loaderData?.seoDescription?.trim() ||
       "Plan flights, hotels, holiday packages, cabs, visa, travel insurance and forex with YatraNexus Ventures LLP. Your Journey, Our Priority.";
+    const firstSlideImage = loaderData?.heroSlides?.[0]?.image;
+    const preload = heroPreloadLink(resolveHeroBackground(firstSlideImage));
     return {
       meta: [
         { title },
@@ -227,6 +235,7 @@ export const Route = createFileRoute("/")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
       ],
+      links: preload ? [preload] : [],
     };
   },
   component: Home,
@@ -294,14 +303,16 @@ function Home() {
         serviceLinks={homeServices}
       />
       <HeroDestinationMarquee destinations={marqueeDestinations} />
-      <HomepageBelowHero
-        featuredPackages={featuredPackages}
-        featuredDestinations={featuredDestinations}
-        whyChooseUs={whyChooseUs}
-        tourTypes={tourTypes}
-        howItWorks={howItWorks}
-        testimonials={testimonials}
-      />
+      <Suspense fallback={<div className="min-h-[40vh]" aria-hidden />}>
+        <HomepageBelowHero
+          featuredPackages={featuredPackages}
+          featuredDestinations={featuredDestinations}
+          whyChooseUs={whyChooseUs}
+          tourTypes={tourTypes}
+          howItWorks={howItWorks}
+          testimonials={testimonials}
+        />
+      </Suspense>
     </div>
   );
 }
