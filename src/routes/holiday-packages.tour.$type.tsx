@@ -10,6 +10,7 @@ import {
   fetchPackagesForTourType,
   fetchPublicHomepageSettings,
 } from "@/lib/public-cms";
+import { breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 import { TOUR_TYPES } from "@/lib/site-data";
 import { toTitleCase } from "@/lib/utils";
 
@@ -25,28 +26,28 @@ export const Route = createFileRoute("/holiday-packages/tour/$type")({
     const relatedPackages = await fetchPackagesForTourType(tour);
     return { tour, relatedPackages };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.tour.name} Holiday Packages — YatraNexus` },
-          {
-            name: "description",
-            content: `Browse ${loaderData.tour.name.toLowerCase()} holiday packages with YatraNexus. Custom itineraries planned by real travel experts.`,
-          },
-          {
-            property: "og:title",
-            content: `${loaderData.tour.name} Packages | YatraNexus`,
-          },
-          {
-            property: "og:description",
-            content: `${loaderData.tour.name} holiday packages — curated and customisable.`,
-          },
-          ...(loaderData.tour.image
-            ? [{ property: "og:image", content: loaderData.tour.image }]
-            : []),
-        ]
-      : [],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [] };
+    const { tour } = loaderData;
+    const path = `/holiday-packages/tour/${tour.slug}`;
+    return mergeSeoHead(
+      buildPageSeo({
+        path,
+        title: `${tour.name} Holiday Packages India | YatraNexus`,
+        description: `Browse ${tour.name.toLowerCase()} holiday packages with YatraNexus. Custom itineraries planned by travel experts in Ahmedabad.`,
+        image: tour.image,
+        keywords: `${tour.name} packages, ${tour.name} tour India, YatraNexus`,
+      }),
+      {
+        jsonLd: [
+          breadcrumbJsonLd([
+            { name: "Holiday Packages", path: "/holiday-packages" },
+            { name: tour.name, path },
+          ]),
+        ],
+      },
+    );
+  },
   errorComponent: () => <div className="p-10 text-center">Failed to load tour type.</div>,
   notFoundComponent: () => (
     <div className="p-20 text-center">

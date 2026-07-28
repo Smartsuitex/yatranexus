@@ -1,6 +1,7 @@
 import { resolveHomeHeroTagline } from "@/lib/homepage-admin";
 import { toHeroSearchDestinations, toHeroSearchPackages } from "@/lib/hero-search";
 import { heroPreloadLink, resolveHeroBackground } from "@/lib/site-images";
+import { buildPageSeo } from "@/lib/seo";
 import { lazy, Suspense, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
@@ -220,22 +221,24 @@ export const Route = createFileRoute("/")({
     };
   },
   head: ({ loaderData }) => {
-    const title =
-      loaderData?.seoTitle?.trim() ||
-      "YatraNexus — Plan Your Travel Now! Holidays, Flights, Hotels, Visa";
+    const title = loaderData?.seoTitle?.trim() || "YatraNexus";
     const description =
       loaderData?.seoDescription?.trim() ||
-      "Plan flights, hotels, holiday packages, cabs, visa, travel insurance and forex with YatraNexus Ventures LLP. Your Journey, Our Priority.";
+      "Plan flights, hotels, holiday packages across India, cabs, visa, travel insurance and forex with YatraNexus Ventures LLP in Ahmedabad. Your Journey, Our Priority.";
     const firstSlideImage = loaderData?.heroSlides?.[0]?.image;
     const preload = heroPreloadLink(resolveHeroBackground(firstSlideImage));
+    const seo = buildPageSeo({
+      path: "/",
+      title,
+      description,
+      image: firstSlideImage || undefined,
+      keywords:
+        "travel agency Ahmedabad, holiday packages India, Kashmir tour, Kerala tour, flight booking Ahmedabad, visa services",
+    });
     return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-      ],
-      links: preload ? [preload] : [],
+      meta: seo.meta,
+      links: [...seo.links, ...(preload ? [preload] : [])],
+      scripts: seo.scripts,
     };
   },
   component: Home,

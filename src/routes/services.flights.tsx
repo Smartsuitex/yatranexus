@@ -7,7 +7,7 @@ export const Route = createFileRoute("/services/flights")({
   staleTime: 5 * 60 * 1000,
   pendingMs: 0,
   pendingComponent: ServicePagePending,
-  head: ({ loaderData }) => ({ meta: loaderData ? serviceRouteMeta(loaderData.service) : [] }),
+  head: ({ loaderData }) => (loaderData ? serviceRouteMeta(loaderData.service) : { meta: [] }),
   notFoundComponent: serviceNotFound,
   component: FlightsPage,
 });

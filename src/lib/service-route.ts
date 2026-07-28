@@ -1,24 +1,23 @@
 import { notFound } from "@tanstack/react-router";
 import { fetchPublicServiceBySlug, type PublicService } from "@/lib/public-cms";
+import { buildPageSeo } from "@/lib/seo";
 
 export function serviceRouteMeta(service: PublicService) {
-  return [
-    {
-      title: service.metaTitle ?? `${service.title} | YatraNexus`,
-    },
-    {
-      name: "description",
-      content: service.metaDescription ?? service.shortDescription ?? service.description,
-    },
-    {
-      property: "og:title",
-      content: `${service.title} | YatraNexus`,
-    },
-    {
-      property: "og:description",
-      content: service.shortDescription ?? service.description,
-    },
-  ];
+  const path = `/services/${service.slug}`;
+  const title = service.metaTitle ?? `${service.title} in Ahmedabad | YatraNexus`;
+  const description =
+    service.metaDescription ??
+    service.shortDescription ??
+    service.description ??
+    `Book ${service.title} with YatraNexus — trusted travel experts in Ahmedabad.`;
+
+  return buildPageSeo({
+    path,
+    title,
+    description,
+    image: service.bannerUrl || service.contentBlocks.heroBannerUrl || undefined,
+    keywords: `${service.title}, ${service.title} Ahmedabad, travel agency India, YatraNexus`,
+  });
 }
 
 export async function loadService(slug: string) {

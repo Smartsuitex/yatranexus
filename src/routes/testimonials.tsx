@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/site/SectionHeading";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
 import { fetchPublicTestimonials } from "@/lib/public-cms";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/testimonials")({
   staleTime: 0,
@@ -14,21 +15,14 @@ export const Route = createFileRoute("/testimonials")({
     const testimonials = await fetchPublicTestimonials();
     return { testimonials };
   },
-  head: () => ({
-    meta: [
-      { title: "Customer Testimonials | YatraNexus" },
-      {
-        name: "description",
-        content:
-          "Read what travellers across India say about YatraNexus — holidays, visas and corporate trips planned with care.",
-      },
-      { property: "og:title", content: "Testimonials | YatraNexus" },
-      {
-        property: "og:description",
-        content: "Real reviews from real travellers.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/testimonials",
+      title: "Customer Testimonials — Traveller Reviews | YatraNexus",
+      description:
+        "Read what travellers across India say about YatraNexus — holidays, visas and corporate trips planned with care from Ahmedabad.",
+      keywords: "YatraNexus reviews, travel agency testimonials Ahmedabad",
+    }),
   component: TestimonialsPage,
 });
 

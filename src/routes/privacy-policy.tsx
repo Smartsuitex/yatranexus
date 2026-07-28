@@ -2,19 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/privacy-policy")({
-  head: () => ({
-    meta: [
-      { title: "Privacy Policy | YatraNexus" },
-      {
-        name: "description",
-        content:
-          "Privacy policy for YatraNexus — how we collect, use and protect your personal information.",
-      },
-      { property: "og:title", content: "Privacy Policy | YatraNexus" },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/privacy-policy",
+      title: "Privacy Policy | YatraNexus",
+      description:
+        "Privacy policy for YatraNexus — how we collect, use and protect your personal information when you enquire or book travel.",
+    }),
   component: PrivacyPolicyPage,
 });
 

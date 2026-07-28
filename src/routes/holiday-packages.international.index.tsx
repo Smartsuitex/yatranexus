@@ -11,6 +11,7 @@ import {
   HOLIDAY_INTERNATIONAL_HERO,
   resolveHolidayHubHero,
 } from "@/lib/holiday-packages-page-data";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/holiday-packages/international/")({
   loader: async () => {
@@ -21,21 +22,14 @@ export const Route = createFileRoute("/holiday-packages/international/")({
     const destinations = await fetchPublicDestinations("international");
     return { destinations };
   },
-  head: () => ({
-    meta: [
-      { title: "International Holiday Packages — YatraNexus" },
-      {
-        name: "description",
-        content:
-          "International holiday packages — Dubai, Bali, Thailand, Maldives, Singapore, Europe, Turkey and more.",
-      },
-      { property: "og:title", content: "International Holiday Packages | YatraNexus" },
-      {
-        property: "og:description",
-        content: "Explore the world with curated packages from YatraNexus.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/holiday-packages/international",
+      title: "International Holiday Packages — Dubai, Bali, Europe | YatraNexus",
+      description:
+        "International holiday packages — Dubai, Bali, Thailand, Maldives, Singapore, Europe, Turkey and more. Book with YatraNexus Ahmedabad.",
+      keywords: "international holiday packages, Dubai tour package, Bali honeymoon, Europe tour India",
+    }),
   component: IntlIndex,
 });
 

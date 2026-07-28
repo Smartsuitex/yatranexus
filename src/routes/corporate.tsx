@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CorporateLandingPage } from "@/components/site/CorporateLandingPage";
 import { fetchPublicServiceBySlug } from "@/lib/public-cms";
 import { resolveServiceHero } from "@/lib/service-hero-images";
+import { buildPageSeo } from "@/lib/seo";
 import { heroPreloadLink, SITE_IMAGES } from "@/lib/site-images";
 
 export const Route = createFileRoute("/corporate")({
@@ -16,30 +17,19 @@ export const Route = createFileRoute("/corporate")({
       service?.bannerUrl || service?.contentBlocks?.heroBannerUrl,
     );
     const preload = heroPreloadLink(hero.primary || SITE_IMAGES.hero.corporate);
+    const seo = buildPageSeo({
+      path: "/corporate",
+      title: service?.metaTitle ?? "Corporate & MICE Travel Management | YatraNexus",
+      description:
+        service?.metaDescription ??
+        "Business travel, MICE, crew bookings, GST invoicing and dedicated account management for companies — outsourced travel desk by YatraNexus Ahmedabad.",
+      image: hero.primary || SITE_IMAGES.hero.corporate,
+      keywords: "corporate travel Ahmedabad, MICE travel India, business travel management",
+    });
     return {
-      meta: [
-        {
-          title: service?.metaTitle ?? "Corporate & MICE Travel — YatraNexus",
-        },
-        {
-          name: "description",
-          content:
-            service?.metaDescription ??
-            "Business travel, MICE, crew bookings, GST invoicing and dedicated account management for companies.",
-        },
-        {
-          property: "og:title",
-          content: `${service?.title ?? "Corporate Travel"} | YatraNexus`,
-        },
-        {
-          property: "og:description",
-          content:
-            service?.metaDescription ??
-            service?.shortDescription ??
-            "Your outsourced travel desk for business trips and group events.",
-        },
-      ],
-      links: preload ? [preload] : [],
+      meta: seo.meta,
+      links: [...seo.links, ...(preload ? [preload] : [])],
+      scripts: seo.scripts,
     };
   },
   component: CorporatePage,

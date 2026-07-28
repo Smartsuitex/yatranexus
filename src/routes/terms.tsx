@@ -2,18 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/terms")({
-  head: () => ({
-    meta: [
-      { title: "Terms & Conditions | YatraNexus" },
-      {
-        name: "description",
-        content: "Terms and conditions for using YatraNexus website and travel booking services.",
-      },
-      { property: "og:title", content: "Terms & Conditions | YatraNexus" },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/terms",
+      title: "Terms & Conditions | YatraNexus",
+      description:
+        "Terms and conditions for using the YatraNexus website and travel booking services.",
+    }),
   component: TermsPage,
 });
 

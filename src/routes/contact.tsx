@@ -1,23 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ContactLandingPage } from "@/components/site/ContactLandingPage";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
   validateSearch: (search: Record<string, unknown>) => ({
     destination: typeof search.destination === "string" ? search.destination : "",
     service: typeof search.service === "string" ? search.service : "",
   }),
-  head: () => ({
-    meta: [
-      { title: "Contact YatraNexus — Plan your trip" },
-      {
-        name: "description",
-        content:
-          "Get in touch with YatraNexus for holidays, flights, hotels, visa and corporate travel. Call, email or WhatsApp our travel desk.",
-      },
-      { property: "og:title", content: "Contact YatraNexus" },
-      { property: "og:description", content: "Reach our travel team anytime." },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/contact",
+      title: "Contact YatraNexus — Travel Desk in Ahmedabad",
+      description:
+        "Contact YatraNexus in Ahmedabad for holiday packages, flights, hotels, visa and corporate travel. Call, email or WhatsApp our travel experts today.",
+      keywords: "contact travel agency Ahmedabad, YatraNexus phone, book holiday India",
+    }),
   component: ContactPage,
 });
 

@@ -19,6 +19,12 @@ import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { BackToTop } from "@/components/site/BackToTop";
 import { SiteConfigContext, useSiteConfig } from "@/contexts/site-config";
 import { fetchPublicHomepageSettings, fetchPublicNavLinks, fetchPublicServices, fetchPublicSiteSettings } from "@/lib/public-cms";
+import {
+  buildPageSeo,
+  mergeSeoHead,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 import { TOUR_TYPES } from "@/lib/site-data";
 
 function NotFoundComponent() {
@@ -105,46 +111,49 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     };
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+  head: ({ loaderData }) => {
+    const title = loaderData?.siteSettings.seoTitle ?? "YatraNexus";
+    const description =
+      loaderData?.siteSettings.seoDescription ??
+      "YatraNexus Ventures LLP — Ahmedabad travel agency for flights, hotels, holiday packages across India, cabs, visa, travel insurance and forex. Your Journey, Our Priority.";
+    const seo = mergeSeoHead(
+      buildPageSeo({
+        path: "/",
+        title,
+        description,
+        keywords:
+          "travel agency Ahmedabad, holiday packages India, flight booking, hotel booking, visa services, YatraNexus",
+        includeCanonical: false,
+      }),
       {
-        title:
-          loaderData?.siteSettings.seoTitle ??
-          "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs",
+        jsonLd: [
+          organizationJsonLd({
+            phone: loaderData?.siteSettings.phone,
+            email: loaderData?.siteSettings.email,
+            address: loaderData?.siteSettings.address,
+          }),
+          websiteJsonLd(),
+        ],
       },
-      {
-        name: "description",
-        content:
-          loaderData?.siteSettings.seoDescription ??
-          "YatraNexus Ventures LLP — flights, hotels, holiday packages, cabs, visa, travel insurance and forex. Your Journey, Our Priority.",
-      },
-      { name: "author", content: "YatraNexus" },
-      {
-        property: "og:title",
-        content:
-          loaderData?.siteSettings.seoTitle ?? "YatraNexus — Your Journey, Our Priority",
-      },
-      {
-        property: "og:description",
-        content:
-          loaderData?.siteSettings.seoDescription ??
-          "Plan your next trip with India's friendliest travel partner — flights, hotels, holidays, visa, insurance & forex.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/png", href: "/favicon.png" },
-      { rel: "apple-touch-icon", href: "/favicon.png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      // Preload only — stylesheet is injected non-blocking in RootShell.
-      { rel: "preload", as: "style", href: GOOGLE_FONTS_HREF },
-    ],
-  }),
+    );
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        ...seo.meta,
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "icon", type: "image/png", href: "/favicon.png" },
+        { rel: "apple-touch-icon", href: "/favicon.png" },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        { rel: "preload", as: "style", href: GOOGLE_FONTS_HREF },
+        ...seo.links,
+      ],
+      scripts: seo.scripts,
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

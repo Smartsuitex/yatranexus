@@ -11,6 +11,7 @@ import { publicNavLinkRoute } from "@/lib/nav-links";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
 import { SITE_IMAGES } from "@/lib/site-images";
 import { fetchPublicNavLinks, fetchPublicServices } from "@/lib/public-cms";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/services/")({
   loader: async () => {
@@ -20,21 +21,14 @@ export const Route = createFileRoute("/services/")({
     ]);
     return { services, navLinks };
   },
-  head: () => ({
-    meta: [
-      { title: "Travel Services — Flights, Hotels, Visa & More | YatraNexus" },
-      {
-        name: "description",
-        content:
-          "Explore YatraNexus services — flights, hotels, cabs, holiday packages, visa, forex, insurance and corporate travel.",
-      },
-      { property: "og:title", content: "Travel Services | YatraNexus" },
-      {
-        property: "og:description",
-        content: "One partner for every leg of your journey across India.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/services",
+      title: "Travel Services — Flights, Hotels, Visa & More | YatraNexus",
+      description:
+        "Explore YatraNexus travel services in Ahmedabad — flights, hotels, outstation cabs, holiday packages, visa, forex, insurance and corporate travel across India.",
+      keywords: "travel services Ahmedabad, flight booking, hotel booking, visa services India",
+    }),
   component: ServicesHubPage,
 });
 

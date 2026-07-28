@@ -2,6 +2,7 @@ import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { ServiceDetailPage } from "@/components/site/ServiceDetailPage";
 import { fetchPublicServiceBySlug } from "@/lib/public-cms";
+import { serviceRouteMeta } from "@/lib/service-route";
 
 function ServicePagePending() {
   return (
@@ -28,32 +29,7 @@ export const Route = createFileRoute("/services/$slug")({
   staleTime: 5 * 60 * 1000,
   pendingMs: 0,
   pendingComponent: ServicePagePending,
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          {
-            title:
-              loaderData.service.metaTitle ??
-              `${loaderData.service.title} | YatraNexus`,
-          },
-          {
-            name: "description",
-            content:
-              loaderData.service.metaDescription ??
-              loaderData.service.shortDescription ??
-              loaderData.service.description,
-          },
-          {
-            property: "og:title",
-            content: `${loaderData.service.title} | YatraNexus`,
-          },
-          {
-            property: "og:description",
-            content: loaderData.service.shortDescription ?? loaderData.service.description,
-          },
-        ]
-      : [],
-  }),
+  head: ({ loaderData }) => (loaderData ? serviceRouteMeta(loaderData.service) : { meta: [] }),
   notFoundComponent: () => (
     <div className="p-20 text-center">
       <h1 className="font-display text-3xl">Service not found</h1>

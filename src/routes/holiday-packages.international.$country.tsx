@@ -9,6 +9,7 @@ import {
   fetchPublicDestinationBySlug,
   resolveShowInternational,
 } from "@/lib/public-cms";
+import { breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/international/$country")({
@@ -27,20 +28,29 @@ export const Route = createFileRoute("/holiday-packages/international/$country")
     });
     return { dest, relatedPackages };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.dest.name} Holiday Packages — YatraNexus` },
-          {
-            name: "description",
-            content: `${loaderData.dest.name} packages: ${loaderData.dest.blurb}`,
-          },
-          { property: "og:title", content: `${loaderData.dest.name} Packages | YatraNexus` },
-          { property: "og:description", content: loaderData.dest.blurb },
-          { property: "og:image", content: loaderData.dest.image },
-        ]
-      : [],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [] };
+    const { dest } = loaderData;
+    const path = `/holiday-packages/international/${dest.slug}`;
+    return mergeSeoHead(
+      buildPageSeo({
+        path,
+        title: `${dest.name} Holiday Packages | YatraNexus`,
+        description: `${dest.name} packages: ${dest.blurb}. Book international holidays with YatraNexus.`,
+        image: dest.image,
+        keywords: `${dest.name} holiday packages, ${dest.name} tour from India`,
+      }),
+      {
+        jsonLd: [
+          breadcrumbJsonLd([
+            { name: "Holiday Packages", path: "/holiday-packages" },
+            { name: "International", path: "/holiday-packages/international" },
+            { name: dest.name, path },
+          ]),
+        ],
+      },
+    );
+  },
   notFoundComponent: () => (
     <div className="p-20 text-center">
       <h1 className="font-display text-3xl">Destination not found</h1>

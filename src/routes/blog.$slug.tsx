@@ -6,6 +6,7 @@ import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { SafeImage, hasImageSrc } from "@/components/site/SafeImage";
 import { fetchPublicBlogPostBySlug, fetchPublicBlogPosts } from "@/lib/public-cms";
+import { blogPostJsonLd, breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
@@ -27,21 +28,35 @@ export const Route = createFileRoute("/blog/$slug")({
   head: ({ loaderData }) => {
     const post = loaderData?.post;
     if (!post) return { meta: [] };
-    return {
-      meta: [
-        {
-          title: post.metaTitle ?? `${post.title} | YatraNexus Blog`,
-        },
-        {
-          name: "description",
-          content: post.metaDescription ?? post.excerpt,
-        },
-        { property: "og:title", content: post.title },
-        { property: "og:description", content: post.excerpt },
-        { property: "og:type", content: "article" },
-        ...(post.image ? [{ property: "og:image", content: post.image }] : []),
-      ],
-    };
+    const path = `/blog/${post.slug}`;
+    const description = post.metaDescription ?? post.excerpt ?? post.title;
+    return mergeSeoHead(
+      buildPageSeo({
+        path,
+        title: post.metaTitle ?? `${post.title} | YatraNexus Travel Blog`,
+        description,
+        image: post.image,
+        type: "article",
+        keywords: `${post.title}, travel tips India, ${post.category ?? "travel blog"}, YatraNexus`,
+      }),
+      {
+        jsonLd: [
+          breadcrumbJsonLd([
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path },
+          ]),
+          blogPostJsonLd({
+            title: post.title,
+            description,
+            image: post.image,
+            path,
+            publishedAt: post.date,
+            updatedAt: post.date,
+            author: "YatraNexus",
+          }),
+        ],
+      },
+    );
   },
   component: BlogPostPage,
 });

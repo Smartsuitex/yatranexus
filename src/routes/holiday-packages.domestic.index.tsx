@@ -11,23 +11,21 @@ import {
   HOLIDAY_DOMESTIC_HERO,
   resolveHolidayHubHero,
 } from "@/lib/holiday-packages-page-data";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/holiday-packages/domestic/")({
   loader: async () => {
     const destinations = await fetchPublicDestinations("domestic");
     return { destinations };
   },
-  head: () => ({
-    meta: [
-      { title: "Domestic Holiday Packages — India | YatraNexus" },
-      {
-        name: "description",
-        content:
-          "Domestic holiday packages across India — Goa, Kerala, Rajasthan, Kashmir, Himachal and more.",
-      },
-      { property: "og:title", content: "Domestic Holiday Packages | YatraNexus" },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/holiday-packages/domestic",
+      title: "Domestic Holiday Packages India — Goa, Kerala, Kashmir | YatraNexus",
+      description:
+        "Domestic holiday packages across India — Goa, Kerala, Rajasthan, Kashmir, Himachal and more. Custom tours from YatraNexus Ahmedabad.",
+      keywords: "domestic holiday packages India, India tour packages, Kashmir Kerala Goa packages",
+    }),
   component: DomesticIndex,
 });
 

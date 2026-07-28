@@ -2,6 +2,12 @@ import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router"
 import { AdminShell } from "@/components/admin/AdminShell";
 
 export const Route = createFileRoute("/admin")({
+  head: () => ({
+    meta: [
+      { title: "Admin | YatraNexus" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
   component: AdminRoot,
 });
 

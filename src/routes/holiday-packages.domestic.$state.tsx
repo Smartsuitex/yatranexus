@@ -8,6 +8,7 @@ import {
   fetchPackagesForDestination,
   fetchPublicDestinationBySlug,
 } from "@/lib/public-cms";
+import { breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/domestic/$state")({
@@ -22,20 +23,29 @@ export const Route = createFileRoute("/holiday-packages/domestic/$state")({
     });
     return { dest, relatedPackages };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.dest.name} Holiday Packages — YatraNexus` },
-          {
-            name: "description",
-            content: `${loaderData.dest.name} packages: ${loaderData.dest.blurb}`,
-          },
-          { property: "og:title", content: `${loaderData.dest.name} Packages | YatraNexus` },
-          { property: "og:description", content: loaderData.dest.blurb },
-          { property: "og:image", content: loaderData.dest.image },
-        ]
-      : [],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [] };
+    const { dest } = loaderData;
+    const path = `/holiday-packages/domestic/${dest.slug}`;
+    return mergeSeoHead(
+      buildPageSeo({
+        path,
+        title: `${dest.name} Holiday Packages — Tours from Ahmedabad | YatraNexus`,
+        description: `${dest.name} holiday packages: ${dest.blurb}. Plan your ${dest.name} trip with YatraNexus travel experts.`,
+        image: dest.image,
+        keywords: `${dest.name} holiday packages, ${dest.name} tour package, ${dest.name} trip from Ahmedabad`,
+      }),
+      {
+        jsonLd: [
+          breadcrumbJsonLd([
+            { name: "Holiday Packages", path: "/holiday-packages" },
+            { name: "Domestic", path: "/holiday-packages/domestic" },
+            { name: dest.name, path },
+          ]),
+        ],
+      },
+    );
+  },
   errorComponent: () => <div className="p-10 text-center">Failed to load destination.</div>,
   notFoundComponent: () => (
     <div className="p-20 text-center">

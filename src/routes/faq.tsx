@@ -5,6 +5,7 @@ import { InquiryForm } from "@/components/site/InquiryForm";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
 import { fetchPublicFaqs } from "@/lib/public-cms";
+import { buildPageSeo, faqPageJsonLd, mergeSeoHead } from "@/lib/seo";
 import {
   Accordion,
   AccordionContent,
@@ -17,21 +18,19 @@ export const Route = createFileRoute("/faq")({
     const faqs = await fetchPublicFaqs();
     return { faqs };
   },
-  head: () => ({
-    meta: [
-      { title: "FAQ — Frequently Asked Questions | YatraNexus" },
+  head: ({ loaderData }) =>
+    mergeSeoHead(
+      buildPageSeo({
+        path: "/faq",
+        title: "FAQ — Travel Booking Questions | YatraNexus",
+        description:
+          "Answers to common questions about booking holiday packages, visas, payments and corporate travel with YatraNexus in Ahmedabad.",
+        keywords: "YatraNexus FAQ, holiday booking questions, visa FAQ India",
+      }),
       {
-        name: "description",
-        content:
-          "Answers to common questions about booking holidays, visas, payments and corporate travel with YatraNexus.",
+        jsonLd: [faqPageJsonLd(loaderData?.faqs ?? [])],
       },
-      { property: "og:title", content: "FAQ | YatraNexus" },
-      {
-        property: "og:description",
-        content: "Quick answers before you plan your next trip with us.",
-      },
-    ],
-  }),
+    ),
   component: FaqPage,
 });
 

@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import {
   BookPackageButton,
@@ -15,11 +15,26 @@ import {
   fetchPublicPackageBySlug,
   packageMatchesDestination,
 } from "@/lib/public-cms";
+import {
+  breadcrumbJsonLd,
+  buildPageSeo,
+  mergeSeoHead,
+  travelPackageJsonLd,
+} from "@/lib/seo";
+import { PACKAGE_SLUG_ALIASES } from "@/lib/site-data";
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/package/$slug")({
   staleTime: 0,
   loader: async ({ params }) => {
+    const aliasTarget = PACKAGE_SLUG_ALIASES[params.slug];
+    if (aliasTarget && aliasTarget !== params.slug) {
+      throw redirect({
+        to: "/holiday-packages/package/$slug",
+        params: { slug: aliasTarget },
+      });
+    }
+
     const pkg = await fetchPublicPackageBySlug(params.slug);
     if (!pkg) throw notFound();
 
@@ -36,26 +51,45 @@ export const Route = createFileRoute("/holiday-packages/package/$slug")({
 
     return { pkg, dest };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          {
-            title:
-              loaderData.pkg.metaTitle ??
-              `${loaderData.pkg.title} — ${loaderData.pkg.fromPrice} | YatraNexus`,
-          },
-          {
-            name: "description",
-            content:
-              loaderData.pkg.metaDescription ??
-              loaderData.pkg.overview ??
-              `${loaderData.pkg.nights} nights / ${loaderData.pkg.days} days in ${loaderData.pkg.destination}.`,
-          },
-          { property: "og:title", content: `${loaderData.pkg.title} | YatraNexus` },
-          { property: "og:image", content: loaderData.pkg.image },
-        ]
-      : [],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [] };
+    const { pkg } = loaderData;
+    const path = `/holiday-packages/package/${pkg.slug}`;
+    const description =
+      pkg.metaDescription ??
+      pkg.overview ??
+      `${pkg.nights} nights / ${pkg.days} days holiday package in ${pkg.destination}. Book with YatraNexus Ahmedabad.`;
+    return mergeSeoHead(
+      buildPageSeo({
+        path,
+        title:
+          pkg.metaTitle ??
+          `${pkg.title} — ${pkg.fromPrice} | Holiday Package | YatraNexus`,
+        description,
+        image: pkg.image,
+        type: "product",
+        keywords: `${pkg.title}, ${pkg.destination} tour package, ${pkg.destination} holiday, YatraNexus`,
+      }),
+      {
+        jsonLd: [
+          breadcrumbJsonLd([
+            { name: "Holiday Packages", path: "/holiday-packages" },
+            { name: pkg.title, path },
+          ]),
+          travelPackageJsonLd({
+            name: pkg.title,
+            description,
+            image: pkg.image,
+            path,
+            priceLabel: pkg.fromPrice,
+            destination: pkg.destination,
+            days: pkg.days,
+            nights: pkg.nights,
+          }),
+        ],
+      },
+    );
+  },
   notFoundComponent: () => (
     <div className="p-20 text-center">
       <h1 className="font-display text-3xl">Package not found</h1>

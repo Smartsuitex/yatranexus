@@ -465,11 +465,12 @@ function AdminSettingsPage() {
             </h2>
           </div>
           <div className="md:col-span-2">
-            <AdminField label="Default meta title">
+            <AdminField label="Default meta title" hint="Browser tab / Google title for the homepage. Use only YatraNexus if you want a short brand name.">
               <input
                 value={form.seo_title}
                 onChange={(e) => setForm((f) => ({ ...f, seo_title: e.target.value }))}
                 className={adminInputClass}
+                placeholder="YatraNexus"
               />
             </AdminField>
           </div>

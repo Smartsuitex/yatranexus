@@ -295,9 +295,9 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
     whatsappPreset: "Hi YatraNexus, I'd like to plan a trip.",
     corporateWhatsappMessage:
       "Hi YatraNexus corporate desk, we'd like to discuss business travel for our company.",
-    seoTitle: "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs",
+    seoTitle: "YatraNexus",
     seoDescription:
-      "YatraNexus Ventures LLP — flights, hotels, holiday packages, cabs, visa, travel insurance and forex. Your Journey, Our Priority.",
+      "YatraNexus Ventures LLP — Ahmedabad travel agency for flights, hotels, India holiday packages, cabs, visa, travel insurance and forex. Your Journey, Our Priority.",
     commonPackageExclusions: [
       "Flights / airfare",
       "Travel insurance",

@@ -7,27 +7,21 @@ import { SectionHeading } from "@/components/site/SectionHeading";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
 import { fetchPublicBlogPosts } from "@/lib/public-cms";
+import { buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/")({
   loader: async () => {
     const posts = await fetchPublicBlogPosts();
     return { posts };
   },
-  head: () => ({
-    meta: [
-      { title: "Travel Blog — Tips & Guides | YatraNexus" },
-      {
-        name: "description",
-        content:
-          "Travel tips, visa guides and destination ideas from the YatraNexus team — for domestic and international trips.",
-      },
-      { property: "og:title", content: "Travel Blog | YatraNexus" },
-      {
-        property: "og:description",
-        content: "Inspiration and practical advice for your next journey.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPageSeo({
+      path: "/blog",
+      title: "Travel Blog — Tips, Visa Guides & Destinations | YatraNexus",
+      description:
+        "Travel tips, visa guides and destination ideas from the YatraNexus team — practical advice for trips across India and beyond.",
+      keywords: "travel blog India, visa guide, destination tips, YatraNexus blog",
+    }),
   component: BlogIndexPage,
 });
 

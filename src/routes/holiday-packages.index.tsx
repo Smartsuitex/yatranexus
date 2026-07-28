@@ -16,6 +16,7 @@ import {
   toHeroSearchDestinations,
   toHeroSearchPackages,
 } from "@/lib/hero-search";
+import { buildPageSeo } from "@/lib/seo";
 import {
   HOLIDAY_THEMES,
   TOUR_TYPES,
@@ -85,31 +86,18 @@ export const Route = createFileRoute("/holiday-packages/")({
       },
     };
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      {
-        title: loaderData?.showInternational
-          ? "Holiday Packages — Domestic & International | YatraNexus"
-          : "Holiday Packages — Domestic | YatraNexus",
-      },
-      {
-        name: "description",
-        content: loaderData?.showInternational
-          ? "Browse hand-crafted holiday packages across Indian states and 100+ international destinations. Filter by region, theme or tour type."
-          : "Browse hand-crafted holiday packages across Indian states. Filter by region, theme or tour type.",
-      },
-      {
-        property: "og:title",
-        content: "Holiday Packages | YatraNexus",
-      },
-      {
-        property: "og:description",
-        content: loaderData?.showInternational
-          ? "Domestic and international holiday packages, filtered by region and theme."
-          : "Domestic holiday packages across India, filtered by region and theme.",
-      },
-    ],
-  }),
+  head: ({ loaderData }) =>
+    buildPageSeo({
+      path: "/holiday-packages",
+      title: loaderData?.showInternational
+        ? "Holiday Packages — Domestic & International Tours | YatraNexus"
+        : "Holiday Packages India — Kashmir, Kerala, Goa & More | YatraNexus",
+      description: loaderData?.showInternational
+        ? "Browse hand-crafted holiday packages across Indian states and international destinations. Filter by region, theme or tour type with YatraNexus."
+        : "Browse hand-crafted India holiday packages — Kashmir, Kerala, Goa, Rajasthan, Himachal and more. Custom tours from Ahmedabad with YatraNexus.",
+      keywords:
+        "holiday packages India, Kashmir tour package, Kerala honeymoon package, domestic tour packages Ahmedabad",
+    }),
   component: HolidayPackagesHub,
 });
 

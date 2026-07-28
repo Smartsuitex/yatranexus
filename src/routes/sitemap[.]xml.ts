@@ -7,14 +7,19 @@ import {
   fetchPublicHomepageSettings,
   resolveShowInternational,
 } from "@/lib/public-cms";
+import { getSiteUrl } from "@/lib/seo";
 import { TOUR_TYPES } from "@/lib/site-data";
 
-const SITE_URL = "https://yatranexus.com";
-
-type SitemapEntry = { loc: string; changefreq: string; priority: string };
+type SitemapEntry = {
+  loc: string;
+  changefreq: string;
+  priority: string;
+  lastmod?: string;
+};
 
 async function buildSitemapUrls(): Promise<SitemapEntry[]> {
   const showInternational = await resolveShowInternational();
+  const lastmod = new Date().toISOString().slice(0, 10);
   const [packageSlugs, blogSlugs, serviceSlugs, domesticSlugs, internationalSlugs, homepage] =
     await Promise.all([
       fetchSitemapPackageSlugs(),
@@ -25,67 +30,56 @@ async function buildSitemapUrls(): Promise<SitemapEntry[]> {
       fetchPublicHomepageSettings(),
     ]);
 
-  const tourTypeSlugs =
-    (homepage.tourTypes.length > 0 ? homepage.tourTypes : TOUR_TYPES)
-      .map((t) => t.slug.trim())
-      .filter(Boolean);
+  const tourTypeSlugs = (homepage.tourTypes.length > 0 ? homepage.tourTypes : TOUR_TYPES)
+    .map((t) => t.slug.trim())
+    .filter(Boolean);
+
+  const withMeta = (
+    loc: string,
+    changefreq: string,
+    priority: string,
+  ): SitemapEntry => ({ loc, changefreq, priority, lastmod });
 
   const staticPages: SitemapEntry[] = [
-    { loc: "/", changefreq: "weekly", priority: "1.0" },
-    { loc: "/about", changefreq: "monthly", priority: "0.8" },
-    { loc: "/contact", changefreq: "monthly", priority: "0.8" },
-    { loc: "/services", changefreq: "monthly", priority: "0.9" },
-    { loc: "/corporate", changefreq: "monthly", priority: "0.8" },
-    { loc: "/holiday-packages", changefreq: "weekly", priority: "0.9" },
-    { loc: "/holiday-packages/domestic", changefreq: "weekly", priority: "0.9" },
+    withMeta("/", "daily", "1.0"),
+    withMeta("/about", "monthly", "0.8"),
+    withMeta("/contact", "monthly", "0.9"),
+    withMeta("/services", "weekly", "0.9"),
+    withMeta("/corporate", "monthly", "0.8"),
+    withMeta("/holiday-packages", "daily", "0.95"),
+    withMeta("/holiday-packages/domestic", "weekly", "0.9"),
     ...(showInternational
-      ? [{ loc: "/holiday-packages/international", changefreq: "weekly", priority: "0.9" }]
+      ? [withMeta("/holiday-packages/international", "weekly", "0.9")]
       : []),
-    { loc: "/blog", changefreq: "weekly", priority: "0.7" },
-    { loc: "/gallery", changefreq: "monthly", priority: "0.6" },
-    { loc: "/faq", changefreq: "monthly", priority: "0.6" },
-    { loc: "/testimonials", changefreq: "monthly", priority: "0.6" },
-    { loc: "/privacy-policy", changefreq: "yearly", priority: "0.3" },
-    { loc: "/terms", changefreq: "yearly", priority: "0.3" },
+    withMeta("/blog", "weekly", "0.7"),
+    withMeta("/gallery", "monthly", "0.5"),
+    withMeta("/faq", "monthly", "0.7"),
+    withMeta("/testimonials", "monthly", "0.6"),
+    withMeta("/privacy-policy", "yearly", "0.2"),
+    withMeta("/terms", "yearly", "0.2"),
   ];
 
   const services = serviceSlugs
     .filter((slug) => slug !== "packages" && slug !== "corporate")
-    .map((slug) => ({
-      loc: `/services/${slug}`,
-      changefreq: "monthly",
-      priority: "0.8",
-    }));
+    .map((slug) => withMeta(`/services/${slug}`, "weekly", "0.85"));
 
-  const domestic = domesticSlugs.map((slug) => ({
-    loc: `/holiday-packages/domestic/${slug}`,
-    changefreq: "weekly",
-    priority: "0.8",
-  }));
+  const domestic = domesticSlugs.map((slug) =>
+    withMeta(`/holiday-packages/domestic/${slug}`, "weekly", "0.85"),
+  );
 
-  const international = internationalSlugs.map((slug) => ({
-    loc: `/holiday-packages/international/${slug}`,
-    changefreq: "weekly",
-    priority: "0.8",
-  }));
+  const international = internationalSlugs.map((slug) =>
+    withMeta(`/holiday-packages/international/${slug}`, "weekly", "0.85"),
+  );
 
-  const packages = packageSlugs.map((slug) => ({
-    loc: `/holiday-packages/package/${slug}`,
-    changefreq: "weekly",
-    priority: "0.8",
-  }));
+  const packages = packageSlugs.map((slug) =>
+    withMeta(`/holiday-packages/package/${slug}`, "weekly", "0.9"),
+  );
 
-  const tourTypes = tourTypeSlugs.map((slug) => ({
-    loc: `/holiday-packages/tour/${slug}`,
-    changefreq: "weekly",
-    priority: "0.8",
-  }));
+  const tourTypes = tourTypeSlugs.map((slug) =>
+    withMeta(`/holiday-packages/tour/${slug}`, "weekly", "0.8"),
+  );
 
-  const blog = blogSlugs.map((slug) => ({
-    loc: `/blog/${slug}`,
-    changefreq: "monthly",
-    priority: "0.6",
-  }));
+  const blog = blogSlugs.map((slug) => withMeta(`/blog/${slug}`, "monthly", "0.65"));
 
   return [
     ...staticPages,
@@ -98,12 +92,13 @@ async function buildSitemapUrls(): Promise<SitemapEntry[]> {
   ];
 }
 
-function toXml(entries: SitemapEntry[]): string {
+function toXml(entries: SitemapEntry[], siteUrl: string): string {
   const urls = entries
-    .map(
-      (e) =>
-        `  <url><loc>${SITE_URL}${e.loc === "/" ? "" : e.loc}</loc><changefreq>${e.changefreq}</changefreq><priority>${e.priority}</priority></url>`,
-    )
+    .map((e) => {
+      const loc = `${siteUrl}${e.loc === "/" ? "" : e.loc}`;
+      const lastmod = e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : "";
+      return `  <url><loc>${loc}</loc>${lastmod}<changefreq>${e.changefreq}</changefreq><priority>${e.priority}</priority></url>`;
+    })
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -116,9 +111,12 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const xml = toXml(await buildSitemapUrls());
+        const xml = toXml(await buildSitemapUrls(), getSiteUrl());
         return new Response(xml, {
-          headers: { "Content-Type": "application/xml; charset=utf-8" },
+          headers: {
+            "Content-Type": "application/xml; charset=utf-8",
+            "Cache-Control": "public, max-age=3600",
+          },
         });
       },
     },

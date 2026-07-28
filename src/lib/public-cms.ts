@@ -271,11 +271,10 @@ export const DEFAULT_SITE_SETTINGS: PublicSiteSettings = {
   showInternational: SHOW_INTERNATIONAL,
   whatsappPreset:
     DEFAULT_PAGE_CONTENT.site?.whatsappPreset ?? "Hi YatraNexus, I'd like to plan a trip.",
-  seoTitle:
-    DEFAULT_PAGE_CONTENT.site?.seoTitle ?? "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs",
+  seoTitle: DEFAULT_PAGE_CONTENT.site?.seoTitle ?? "YatraNexus",
   seoDescription:
     DEFAULT_PAGE_CONTENT.site?.seoDescription ??
-    "YatraNexus Ventures LLP — flights, hotels, holiday packages, cabs, visa, travel insurance and forex.",
+    "YatraNexus Ventures LLP — Ahmedabad travel agency for flights, hotels, India holiday packages, cabs, visa, travel insurance and forex. Your Journey, Our Priority.",
   commonPackageExclusions: DEFAULT_PAGE_CONTENT.site?.commonPackageExclusions ?? [],
 };
 
