@@ -64,7 +64,7 @@ function emptyForm(): EmailFormState {
   return {
     is_enabled: d.is_enabled,
     provider: d.provider,
-    smtp_preset: "gmail",
+    smtp_preset: "zoho",
     from_name: d.from_name ?? "",
     from_email: d.from_email ?? "",
     reply_to_email: d.reply_to_email ?? "",
@@ -357,7 +357,7 @@ export function AdminEmailSettingsCard({
             className={adminInputClass}
           >
             <option value="resend">Resend (API key)</option>
-            <option value="smtp">SMTP (Gmail, Outlook, Hostinger…)</option>
+            <option value="smtp">SMTP (Zoho, Gmail, Outlook, Hostinger…)</option>
           </select>
         </AdminField>
 
@@ -452,7 +452,7 @@ export function AdminEmailSettingsCard({
                   }))
                 }
                 className={adminInputClass}
-                placeholder="smtp.gmail.com"
+                placeholder="smtp.zoho.in"
               />
             </AdminField>
             <AdminField label="SMTP port">
@@ -487,7 +487,7 @@ export function AdminEmailSettingsCard({
               hint={
                 hasStoredSmtpPassword
                   ? "Saved — leave blank to keep the existing password"
-                  : "App password for Gmail / mailbox password for others"
+                  : "Mailbox password (Zoho) or App Password (Gmail)"
               }
             >
               <input

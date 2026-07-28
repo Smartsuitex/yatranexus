@@ -27,6 +27,7 @@ type SubmitInquiryResult = {
   inquiryId?: string;
   updated?: boolean;
   emailSent?: boolean;
+  emailError?: string;
 };
 
 /** In-memory rate limit: max submissions per key within window. */
@@ -170,6 +171,7 @@ export const submitInquiry = createServerFn({ method: "POST" })
     }
 
     let emailSent = false;
+    let emailError: string | undefined;
     if (!result.alreadySubmitted) {
       try {
         const { sendInquiryEmails } = await import("@/lib/email");
@@ -184,7 +186,12 @@ export const submitInquiry = createServerFn({ method: "POST" })
           message: data.message || null,
         });
         emailSent = emailResult.customerSent || emailResult.adminSent;
+        emailError = emailResult.error;
+        if (!emailSent) {
+          console.error("[inquiries] inquiry saved but email was not sent:", emailError ?? "unknown");
+        }
       } catch (emailErr) {
+        emailError = emailErr instanceof Error ? emailErr.message : "Email notification failed";
         console.error("[inquiries] email notification failed:", emailErr);
       }
     }
@@ -195,5 +202,6 @@ export const submitInquiry = createServerFn({ method: "POST" })
       inquiryId: result.inquiryId,
       updated: result.updated ?? false,
       emailSent,
+      emailError,
     };
   });

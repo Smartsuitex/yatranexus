@@ -215,7 +215,7 @@ export function HomepageHero({
 
       <svg
         aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full"
+        className="pointer-events-none absolute inset-0 hidden h-full w-full sm:block"
         viewBox="0 0 1300 600"
         preserveAspectRatio="none"
       >
@@ -247,7 +247,7 @@ export function HomepageHero({
         ))}
       </svg>
 
-      <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden sm:block">
         <div className="absolute animate-fly-path text-[color:var(--brand-orange)] drop-shadow-sm">
           <Plane className="h-6 w-6 -rotate-45" strokeWidth={2.2} />
         </div>
@@ -274,9 +274,11 @@ export function HomepageHero({
 
           <h1
             id="hero-heading"
-            className="mt-6 font-display text-[2.4rem] font-extrabold leading-[1.02] tracking-tight text-brand-gradient sm:text-6xl lg:text-[4.4rem]"
+            className="mt-6 font-display text-[clamp(2rem,8.5vw,3.75rem)] font-extrabold leading-[1.05] tracking-tight text-brand-gradient lg:text-[4.4rem]"
           >
-            {heroTitle.lead ? <span className="block text-brand-gradient">{heroTitle.lead}</span> : null}
+            {heroTitle.lead ? (
+              <span className="block break-words text-brand-gradient">{heroTitle.lead}</span>
+            ) : null}
             {heroTitle.accent ? (
               <span className="block break-words text-brand-gradient">{heroTitle.accent}</span>
             ) : null}
@@ -288,7 +290,7 @@ export function HomepageHero({
 
           <form
             onSubmit={handleSearch}
-            className="home-hero-search mt-7 flex max-w-xl items-center gap-1.5 rounded-full border border-border bg-white p-1 shadow-sm sm:gap-2 sm:p-1.5"
+            className="home-hero-search mt-7 flex max-w-xl flex-col gap-2 rounded-2xl border border-border bg-white p-2 shadow-sm sm:flex-row sm:items-center sm:gap-2 sm:rounded-full sm:p-1.5"
             role="search"
             aria-label="Search destinations"
           >
@@ -303,13 +305,13 @@ export function HomepageHero({
                 name="destination"
                 value={destination}
                 onChange={(event) => onDestinationChange?.(event.target.value)}
-                placeholder="Search destinations — Goa, Kerala, Rajasthan…"
-                className="min-w-0 flex-1 bg-transparent px-1 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2"
+                placeholder="Search destinations — Goa, Kerala…"
+                className="min-w-0 flex-1 bg-transparent px-1 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2 sm:py-1.5"
               />
             </div>
             <button
               type="submit"
-              className="home-hero-search-btn shrink-0 rounded-full bg-[color:var(--brand-orange)] px-3.5 py-2 text-xs font-semibold text-white sm:px-5 sm:py-2.5"
+              className="home-hero-search-btn w-full shrink-0 rounded-xl bg-[color:var(--brand-orange)] px-3.5 py-2.5 text-xs font-semibold text-white sm:w-auto sm:rounded-full sm:px-5 sm:py-2.5"
             >
               Search
             </button>

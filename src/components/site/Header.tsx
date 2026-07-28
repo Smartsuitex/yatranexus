@@ -153,8 +153,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
-      <div className="relative z-[60] mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
-        <Logo />
+      <div className="relative z-[60] mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:px-8">
+        <div className="min-w-0 max-w-[calc(100%-3.25rem)] shrink">
+          <Logo />
+        </div>
         <nav className="hidden items-center gap-6 lg:flex">
           {beforeServices.map((item) => (
             <NavItem key={`${item.label}-${item.to ?? item.href}`} item={item} />
@@ -177,7 +179,7 @@ export function Header() {
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2.5 text-foreground lg:hidden"
+          className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md p-2.5 text-foreground lg:hidden"
           onClick={() => (open ? closeMenu() : setOpen(true))}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

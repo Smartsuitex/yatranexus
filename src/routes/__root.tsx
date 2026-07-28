@@ -203,7 +203,7 @@ function RootComponent() {
         ) : (
           <div className="flex min-h-screen flex-col overflow-x-clip">
             <Header />
-            <main className="flex-1 overflow-x-clip bg-cream max-lg:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))]">
+            <main className="flex-1 overflow-x-clip bg-cream max-lg:pb-[calc(8rem+env(safe-area-inset-bottom,0px))]">
               <Outlet />
             </main>
             <Footer />

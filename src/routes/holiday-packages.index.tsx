@@ -228,21 +228,23 @@ function HolidayPackagesHub() {
       >
         <form
           onSubmit={handleHeroSearch}
-          className="mx-auto mt-4 flex max-w-2xl items-center gap-1.5 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur sm:gap-2 sm:p-1.5"
+          className="mx-auto mt-4 flex max-w-2xl flex-col gap-2 rounded-2xl border border-border bg-white/90 p-2 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:gap-2 sm:rounded-full sm:p-1.5"
           role="search"
           aria-label="Search destinations"
         >
-          <Search className="ml-2 h-4 w-4 shrink-0 text-muted-foreground sm:ml-2.5" aria-hidden="true" />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search destinations — Goa, Kerala, Rajasthan…"
-            className="min-w-0 flex-1 bg-transparent px-1 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2"
-          />
+          <div className="flex min-w-0 flex-1 items-center gap-1.5 px-1 sm:gap-2">
+            <Search className="ml-1.5 h-4 w-4 shrink-0 text-muted-foreground sm:ml-2.5" aria-hidden="true" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search destinations — Goa, Kerala…"
+              className="min-w-0 flex-1 bg-transparent px-1 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2 sm:py-1.5"
+            />
+          </div>
           <button
             type="submit"
-            className="home-hero-search-btn shrink-0 rounded-full bg-[color:var(--brand-orange)] px-3.5 py-2 text-xs font-semibold text-white sm:px-5 sm:py-2.5"
+            className="home-hero-search-btn w-full shrink-0 rounded-xl bg-[color:var(--brand-orange)] px-3.5 py-2.5 text-xs font-semibold text-white sm:w-auto sm:rounded-full sm:px-5 sm:py-2.5"
           >
             Search
           </button>
@@ -335,12 +337,12 @@ function HolidayPackagesHub() {
       {/* DOMESTIC DESTINATIONS */}
       <section id="domestic" className="scroll-mt-24 bg-cream-gradient">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
             <div className="min-w-0">
               <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--brand-orange)] sm:text-xs">
                 <span className="h-px w-8 bg-[color:var(--brand-orange)]/60" /> Incredible India
               </span>
-              <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-brand-gradient sm:text-4xl lg:text-5xl">
+              <h2 className="mt-4 font-display text-[1.75rem] font-extrabold tracking-tight text-brand-gradient sm:text-4xl lg:text-5xl">
                 Domestic Destinations
               </h2>
               <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
@@ -349,7 +351,7 @@ function HolidayPackagesHub() {
             </div>
             <Link
               to="/holiday-packages/domestic"
-              className="shrink-0 whitespace-nowrap text-xs font-semibold text-[color:var(--brand-orange)] hover:underline sm:text-sm"
+              className="shrink-0 self-start whitespace-nowrap text-xs font-semibold text-[color:var(--brand-orange)] hover:underline sm:self-auto sm:text-sm"
             >
               View all →
             </Link>
@@ -389,12 +391,12 @@ function HolidayPackagesHub() {
       {showInternational && (
         <section id="international" className="scroll-mt-24">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:items-end sm:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
               <div className="min-w-0">
                 <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--brand-orange)] sm:text-xs">
                   <span className="h-px w-8 bg-[color:var(--brand-orange)]/60" /> Beyond borders
                 </span>
-                <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-brand-gradient sm:text-4xl lg:text-5xl">
+                <h2 className="mt-4 font-display text-[1.75rem] font-extrabold tracking-tight text-brand-gradient sm:text-4xl lg:text-5xl">
                   International Destinations
                 </h2>
                 <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
@@ -403,7 +405,7 @@ function HolidayPackagesHub() {
               </div>
               <Link
                 to="/holiday-packages/international"
-                className="shrink-0 whitespace-nowrap text-xs font-semibold text-[color:var(--brand-orange)] hover:underline sm:text-sm"
+                className="shrink-0 self-start whitespace-nowrap text-xs font-semibold text-[color:var(--brand-orange)] hover:underline sm:self-auto sm:text-sm"
               >
                 View all →
               </Link>

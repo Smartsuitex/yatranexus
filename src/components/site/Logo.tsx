@@ -15,13 +15,15 @@ export function Logo({ className = "", size = "header" }: LogoProps) {
   const cmsLogo = site.logoUrl?.trim();
   const isFooter = size === "footer";
 
-  const iconClass = isFooter ? "h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]" : "h-14 w-14 sm:h-16 sm:w-16";
-  const textClass = isFooter ? "h-14 w-auto sm:h-16" : "h-12 w-auto sm:h-14";
-  const gapClass = isFooter ? "gap-3 sm:gap-3.5" : "gap-2.5 sm:gap-3";
+  const iconClass = isFooter ? "h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]" : "h-11 w-11 sm:h-16 sm:w-16";
+  const textClass = isFooter ? "h-14 w-auto sm:h-16" : "h-9 w-auto sm:h-14";
+  const gapClass = isFooter ? "gap-3 sm:gap-3.5" : "gap-2 sm:gap-3";
   const textMaxClass = isFooter
     ? "max-w-[13rem] sm:max-w-[15rem] lg:max-w-none"
-    : "max-w-[11.5rem] sm:max-w-[13.5rem] lg:max-w-none";
-  const cmsClass = isFooter ? "h-[4.5rem] w-auto sm:h-20" : "h-16 w-auto sm:h-[4.5rem]";
+    : "max-w-[9.5rem] sm:max-w-[13.5rem] lg:max-w-none";
+  const cmsClass = isFooter
+    ? "h-[4.5rem] w-auto max-w-[min(15rem,70vw)] sm:h-20"
+    : "h-12 w-auto max-w-[min(11rem,calc(100vw-5.5rem))] sm:h-[4.5rem] sm:max-w-[13.5rem]";
 
   return (
     <Link

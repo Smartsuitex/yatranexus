@@ -35,7 +35,7 @@ export function getServerSupabaseService() {
     process.env.VITE_SUPABASE_URL ||
     (typeof import.meta !== "undefined" ? import.meta.env?.VITE_SUPABASE_URL : undefined);
 
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   if (!url || !serviceKey) return null;
 
   return createClient<Database>(url, serviceKey, {

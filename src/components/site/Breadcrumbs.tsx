@@ -42,7 +42,10 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
                   {item.label}
                 </Link>
               ) : (
-                <span className="font-medium text-foreground" aria-current={isLast ? "page" : undefined}>
+                <span
+                  className="max-w-[min(100%,18rem)] break-words font-medium text-foreground sm:max-w-none"
+                  aria-current={isLast ? "page" : undefined}
+                >
                   {item.label}
                 </span>
               )}
