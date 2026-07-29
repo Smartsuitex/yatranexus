@@ -54,7 +54,7 @@ function ServicesHubPage() {
           title="Browse services"
           subtitle="Tap any card to learn more and send an inquiry."
         />
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {navLinks.map((item) => {
             const Icon = resolveCmsIcon(item.icon);
             const route = publicNavLinkRoute(item);

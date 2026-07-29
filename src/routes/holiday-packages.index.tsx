@@ -353,7 +353,7 @@ function HolidayPackagesHub() {
             })}
           </div>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
             {filteredDomestic.map((d) => (
               <DestinationCard
                 key={d.slug}
@@ -416,7 +416,7 @@ function HolidayPackagesHub() {
                     </h3>
                     <span className="text-xs text-muted-foreground">{list.length} destinations</span>
                   </div>
-                  <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+                  <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
                     {list.map((d) => (
                       <DestinationCard
                         key={d.slug}
@@ -461,7 +461,7 @@ function HolidayPackagesHub() {
             ) : null}
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
             {displayedPackages.map((p) => (
               <OverlayImageCard
                 key={p.slug}

@@ -29,7 +29,7 @@ export function ServiceDetailPage({ service }: Props) {
             title="How the visa process works"
             subtitle="A simple, transparent five-step journey."
           />
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
             {blocks.steps.map((s) => (
               <div key={s.n} className="rounded-2xl border border-border bg-card p-5 shadow-soft">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-gradient font-display font-bold text-white">
@@ -80,7 +80,7 @@ export function ServiceDetailPage({ service }: Props) {
               {!isVisa && (
                 <SectionHeading title={blocks.sectionTitle ?? `Why choose our ${service.title.toLowerCase()}`} />
               )}
-              <div className={`grid gap-5 sm:grid-cols-2 ${isVisa ? "sm:grid-cols-3" : "lg:grid-cols-3"}`}>
+              <div className={`grid grid-cols-2 gap-3 sm:gap-5 ${isVisa ? "sm:grid-cols-3" : "lg:grid-cols-3"}`}>
                 {blocks.features.map((f) => {
                   const Icon = resolveCmsIcon(f.icon);
                   return (

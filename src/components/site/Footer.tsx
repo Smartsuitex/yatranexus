@@ -92,8 +92,8 @@ export function Footer() {
         <FooterDecor />
 
         <div className="relative z-[1] mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-6">
-          <div className="flex flex-col gap-5 sm:gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-5 xl:gap-6">
-            <div className="shrink-0 lg:max-w-[14rem] xl:max-w-[15rem]">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-6 lg:flex lg:flex-row lg:items-start lg:justify-between lg:gap-5 xl:gap-6">
+            <div className="col-span-2 shrink-0 sm:col-span-1 lg:max-w-[14rem] xl:max-w-[15rem]">
               <FooterBrandColumn description={description} />
             </div>
 
@@ -105,7 +105,7 @@ export function Footer() {
               <FooterLinkColumn title="Company" items={companyLinks} />
             </div>
 
-            <div className="min-w-0 shrink-0 lg:max-w-[16rem] xl:max-w-[17rem]">
+            <div className="col-span-2 min-w-0 shrink-0 sm:col-span-1 lg:col-auto lg:max-w-[16rem] xl:max-w-[17rem]">
               <FooterContactColumn
                 legalName={site.legalName || COMPANY.legalName}
                 address={site.address || COMPANY.address}
@@ -120,18 +120,18 @@ export function Footer() {
       </div>
 
       <div className="relative z-[1] border-t" style={{ borderColor: FOOTER_COLORS.border }}>
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-3 text-center text-[12px] sm:px-6 lg:grid lg:grid-cols-3 lg:gap-3 lg:px-8 lg:py-3 lg:text-left">
-          <p style={{ color: `${FOOTER_COLORS.purple}C7` }}>
+        <div className="mx-auto flex max-w-6xl flex-row flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-3 text-left text-[11px] sm:px-6 sm:text-[12px] lg:grid lg:grid-cols-3 lg:gap-3 lg:px-8 lg:py-3">
+          <p className="min-w-0 shrink" style={{ color: `${FOOTER_COLORS.purple}C7` }}>
             © {year} YatraNexus Ventures LLP.
-            <span className="block sm:inline"> All Rights Reserved.</span>
+            <span className="hidden sm:inline"> All Rights Reserved.</span>
           </p>
 
-          <p className="lg:text-center" style={{ color: `${FOOTER_COLORS.purple}C7` }}>
+          <p className="hidden text-center sm:block lg:text-center" style={{ color: `${FOOTER_COLORS.purple}C7` }}>
             Made with <span aria-hidden="true">❤️</span> for Travellers
           </p>
 
           <nav
-            className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 lg:justify-end"
+            className="flex min-w-0 flex-wrap items-center justify-end gap-x-2 gap-y-1"
             aria-label="Legal"
           >
             {bottomLinks.map((item, index) => (

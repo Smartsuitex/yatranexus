@@ -28,12 +28,12 @@ export function FooterBrandColumn({ description }: FooterBrandColumnProps) {
   const copy = description?.trim() || FOOTER_BRAND_COPY;
 
   return (
-    <div className="text-center sm:text-left">
-      <div className="flex justify-center sm:justify-start">
+    <div className="text-left sm:text-left">
+      <div className="flex justify-start sm:justify-start">
         <Logo size="footer" />
       </div>
       <p
-        className="mx-auto mt-2.5 max-w-sm text-[13px] leading-relaxed sm:mx-0"
+        className="mt-2.5 max-w-sm text-[12px] leading-relaxed sm:text-[13px]"
         style={{ color: `${FOOTER_COLORS.purple}E0` }}
       >
         {copy}

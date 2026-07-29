@@ -13,8 +13,8 @@ export function ServiceTrustFooter({
 }: Props) {
   const gridClass =
     columns === 5
-      ? "grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5"
-      : "grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4";
+      ? "grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-5"
+      : "grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4";
 
   return (
     <section className="hotels-trust-footer" aria-label={ariaLabel}>

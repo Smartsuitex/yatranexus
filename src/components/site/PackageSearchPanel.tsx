@@ -181,7 +181,7 @@ export function PackageSearchPanel({
         </div>
 
         {showPackages && showAdvanced && (
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
             <input
               type="number"
               placeholder="Min price (₹)"
@@ -265,7 +265,7 @@ export function PackageSearchPanel({
           No packages found for {filters.destination}. Try another {regionLabel} or adjust filters.
         </div>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
           {results.map((p) => (
             <OverlayImageCard
               key={p.slug}

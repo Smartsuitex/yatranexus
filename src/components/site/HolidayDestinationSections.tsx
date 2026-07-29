@@ -33,7 +33,7 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
             }
             subtitle={dest.blurb}
           />
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-3">
             {dest.highlights.map((h) => (
               <li
                 key={h}
@@ -60,7 +60,7 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
             subtitle="Browse curated itineraries — every package can be customised to your dates and budget."
           />
           {relatedPackages.length > 0 ? (
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
               {relatedPackages.map((p) => (
                 <OverlayImageCard
                   key={p.slug}

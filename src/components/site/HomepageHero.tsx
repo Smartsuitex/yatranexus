@@ -265,7 +265,7 @@ export function HomepageHero({
         <circle cx="100" cy="100" r="50" strokeWidth="1" />
       </svg>
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 pt-10 pb-16 sm:px-6 sm:pt-14 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:px-8 lg:pt-20 lg:pb-24">
+      <div className="relative mx-auto grid max-w-7xl gap-8 px-4 pt-8 pb-10 sm:gap-10 sm:px-6 sm:pt-14 sm:pb-16 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:px-8 lg:pt-20 lg:pb-24">
         <div className="flex flex-col justify-center">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[color:var(--brand-orange)]/25 bg-white/80 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-[color:var(--brand-navy)] shadow-soft backdrop-blur sm:text-xs">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[color:var(--brand-orange)]" />
@@ -274,7 +274,7 @@ export function HomepageHero({
 
           <h1
             id="hero-heading"
-            className="mt-6 font-display text-[clamp(2rem,8.5vw,3.75rem)] font-extrabold leading-[1.05] tracking-tight text-brand-gradient lg:text-[4.4rem]"
+            className="mt-5 font-display text-[clamp(1.85rem,8vw,3.75rem)] font-extrabold leading-[1.05] tracking-tight text-brand-gradient sm:mt-6 lg:text-[4.4rem]"
           >
             {heroTitle.lead ? (
               <span className="block break-words text-brand-gradient">{heroTitle.lead}</span>
@@ -284,13 +284,13 @@ export function HomepageHero({
             ) : null}
           </h1>
 
-          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-foreground/75 sm:text-lg">
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-foreground/75 sm:mt-5 sm:text-lg">
             {subtitle}
           </p>
 
           <form
             onSubmit={handleSearch}
-            className="home-hero-search mt-7 flex max-w-xl flex-col gap-2 rounded-2xl border border-border bg-white p-2 shadow-sm sm:flex-row sm:items-center sm:gap-2 sm:rounded-full sm:p-1.5"
+            className="home-hero-search mt-5 flex max-w-xl flex-col gap-2 rounded-2xl border border-border bg-white p-2 shadow-sm sm:mt-7 sm:flex-row sm:items-center sm:gap-2 sm:rounded-full sm:p-1.5"
             role="search"
             aria-label="Search destinations"
           >
@@ -317,17 +317,17 @@ export function HomepageHero({
             </button>
           </form>
 
-          <div className="home-hero-stats mt-8 grid max-w-xl grid-cols-2 gap-2.5 sm:flex sm:flex-nowrap sm:gap-4">
+          <div className="home-hero-stats mt-5 grid max-w-xl grid-cols-4 gap-1.5 sm:mt-8 sm:flex sm:flex-nowrap sm:gap-4">
             {heroStats.map(({ value, label, icon: Icon }) => (
               <div
                 key={label}
-                className="min-w-0 rounded-2xl border border-border bg-white/80 p-3 text-left shadow-soft backdrop-blur sm:flex-1 sm:p-4"
+                className="min-w-0 rounded-xl border border-border bg-white/80 p-2 text-left shadow-soft backdrop-blur sm:flex-1 sm:rounded-2xl sm:p-4"
               >
-                <Icon className="h-4 w-4 text-[color:var(--brand-orange)]" aria-hidden="true" />
-                <div className="mt-1.5 font-display text-lg font-bold leading-tight text-[color:var(--brand-navy-deep)] sm:mt-2 sm:text-2xl">
+                <Icon className="h-3.5 w-3.5 text-[color:var(--brand-orange)] sm:h-4 sm:w-4" aria-hidden="true" />
+                <div className="mt-1 font-display text-sm font-bold leading-tight text-[color:var(--brand-navy-deep)] sm:mt-2 sm:text-2xl">
                   {value}
                 </div>
-                <div className="mt-0.5 break-words text-[11px] leading-snug text-muted-foreground sm:text-xs">
+                <div className="mt-0.5 break-words text-[9px] leading-snug text-muted-foreground sm:text-xs">
                   {label}
                 </div>
               </div>
@@ -350,7 +350,7 @@ export function HomepageHero({
             </div>
           ) : null}
 
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-white bg-[color:var(--brand-navy-deep)]/10 shadow-card sm:aspect-[5/6]">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-[1.5rem] border-4 border-white bg-[color:var(--brand-navy-deep)]/10 shadow-card sm:aspect-[5/6] sm:rounded-[2rem]">
             {slides.map((item, index) => {
               const isActive = index === slide;
               const isNext = index === (slide + 1) % slides.length;
@@ -415,7 +415,7 @@ export function HomepageHero({
         </div>
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14 lg:px-8">
         <div className="home-hero-services" role="navigation" aria-label="Popular services">
           {iconServices.map((service) => {
             const Icon = resolveCmsIcon(service.icon) ?? Globe2;
