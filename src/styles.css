@@ -4593,7 +4593,13 @@
 
   .holiday-packages-page .hotels-hero--light .about-hero__eyebrow {
     color: var(--brand-navy-deep);
+    font-size: 1rem;
     font-weight: 600;
+  }
+
+  .holiday-packages-page .hotels-hero--light .about-hero__eyebrow-line {
+    width: 1.75rem;
+    height: 2px;
   }
 
   .hotels-hero--premium .about-hero__eyebrow,
@@ -9280,6 +9286,7 @@
     color: var(--brand-purple);
   }
 
+  .about-value-card__icon-svg,
   .about-value-card__icon-img {
     display: block;
     width: 2.35rem;
@@ -9287,12 +9294,16 @@
     object-fit: contain;
   }
 
+  .about-value-card__icon-svg {
+    flex-shrink: 0;
+  }
+
   .about-value-card--purple .about-value-card__icon {
-    color: var(--brand-purple);
+    color: #6b4dff;
   }
 
   .about-value-card--orange .about-value-card__icon {
-    color: #ea580c;
+    color: var(--brand-orange);
   }
 
   .about-value-card--blue .about-value-card__icon {
@@ -9301,6 +9312,11 @@
 
   .about-value-card--green .about-value-card__icon {
     color: #16a34a;
+  }
+
+  /* Trust: warm brand orange so it doesn't blend with navy label */
+  .about-value-card[data-value="trust"] .about-value-card__icon {
+    color: var(--brand-orange);
   }
 
   .about-value-card__label {
@@ -9956,13 +9972,15 @@
 
   .holiday-packages-page .hotels-hero--compact .about-hero__eyebrow,
   .holiday-packages-page .hotels-hero--compact-hub .about-hero__eyebrow {
-    font-size: 0.6875rem;
-    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    gap: 0.625rem;
   }
 
   .holiday-packages-page .hotels-hero--compact .about-hero__eyebrow-line,
   .holiday-packages-page .hotels-hero--compact-hub .about-hero__eyebrow-line {
-    width: 1.25rem;
+    width: 1.75rem;
+    height: 2px;
   }
 
   .holiday-packages-page .hotels-hero--compact .hotels-hero__cta,

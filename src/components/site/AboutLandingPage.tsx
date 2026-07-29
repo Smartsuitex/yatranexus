@@ -7,7 +7,7 @@ import { ServiceSectionHeading } from "@/components/site/service-premium/Service
 import { ServiceCtaBanner } from "@/components/site/service-premium/ServiceCtaBanner";
 import { useSiteConfig } from "@/contexts/site-config";
 import { resolveCmsIcon } from "@/lib/cms-icons";
-import { aboutValueIconImage } from "@/lib/about-value-icons";
+import { resolveAboutValueIcon } from "@/components/site/AboutValueIcons";
 import {
   ABOUT_CTA,
   ABOUT_HERO,
@@ -86,7 +86,6 @@ export function AboutLandingPage({ homepage }: Props) {
             icon: resolveCmsIcon(item.icon) ?? fallback.icon,
             title,
             accent: item.accent ?? fallback.accent,
-            imageSrc: aboutValueIconImage(title) ?? fallback.imageSrc,
           };
         })
       : ABOUT_VALUES;
@@ -229,28 +228,25 @@ export function AboutLandingPage({ homepage }: Props) {
             }
           />
           <div className="about-values-grid mt-10">
-            {valueItems.map(({ icon: Icon, title, accent, imageSrc }) => (
-              <article
-                key={title}
-                className={`about-value-card about-value-card--${accent}`}
-              >
-                <span className="about-value-card__icon" aria-hidden="true">
-                  {imageSrc ? (
-                    <img
-                      src={imageSrc}
-                      alt=""
-                      width={40}
-                      height={40}
-                      className="about-value-card__icon-img"
-                      decoding="async"
-                    />
-                  ) : (
-                    <Icon className="h-7 w-7" strokeWidth={1.5} />
-                  )}
-                </span>
-                <p className="about-value-card__label">{title}</p>
-              </article>
-            ))}
+            {valueItems.map(({ icon: Icon, title, accent }) => {
+              const ValueIcon = resolveAboutValueIcon(title);
+              return (
+                <article
+                  key={title}
+                  data-value={title.trim().toLowerCase()}
+                  className={`about-value-card about-value-card--${accent}`}
+                >
+                  <span className="about-value-card__icon" aria-hidden="true">
+                    {ValueIcon ? (
+                      <ValueIcon className="about-value-card__icon-svg" />
+                    ) : (
+                      <Icon className="h-7 w-7" strokeWidth={1.75} />
+                    )}
+                  </span>
+                  <p className="about-value-card__label">{title}</p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

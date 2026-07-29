@@ -265,17 +265,9 @@ function HolidayPackagesHub() {
       {/* TOUR TYPES */}
       <section className="border-b border-border">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <h2 className="font-display text-lg font-semibold text-brand-gradient sm:text-xl">
-              Browse By Tour Type
-            </h2>
-            <Link
-              to="/holiday-packages"
-              className="text-xs font-semibold text-[color:var(--brand-orange)] hover:underline sm:text-sm"
-            >
-              View all themes →
-            </Link>
-          </div>
+          <h2 className="font-display text-lg font-semibold text-brand-gradient sm:text-xl">
+            Browse By Tour Type
+          </h2>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-6">
             {tourTypes.map((t) => (
               <Link
