@@ -43,10 +43,17 @@ export const ABOUT_HERO_BADGES: ServiceIconItem[] = [
 ];
 
 export const ABOUT_TRUST_STATS: ServiceIconItem[] = [
-  { icon: Plane, title: "End-to-End", detail: "Travel Desk" },
-  { icon: MessageCircle, title: "WhatsApp", detail: "First Support" },
-  { icon: ShieldCheck, title: "Honest", detail: "Advice" },
-  { icon: Heart, title: "Customer", detail: "First Always" },
+  { icon: Plane, title: "End-to-End Travel Desk", detail: "" },
+  { icon: MessageCircle, title: "WhatsApp First Support", detail: "" },
+  { icon: ShieldCheck, title: "Honest Advice", detail: "" },
+  { icon: Heart, title: "Customer First Always", detail: "" },
+];
+
+export const ABOUT_TRUST_FOOTER: ServiceIconItem[] = [
+  { icon: ShieldCheck, title: "No Website Booking", detail: "We only take inquiry" },
+  { icon: Star, title: "Best Options Shared", detail: "As per your requirement" },
+  { icon: Headphones, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: Shield, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
 /** Prefer CMS banner; fall back to local About hero. Reject Unsplash stock. */

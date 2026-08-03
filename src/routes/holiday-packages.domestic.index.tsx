@@ -11,7 +11,7 @@ import {
   HOLIDAY_DOMESTIC_HERO,
   resolveHolidayHubHero,
 } from "@/lib/holiday-packages-page-data";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/holiday-packages/domestic/")({
   loader: async () => {
@@ -21,9 +21,10 @@ export const Route = createFileRoute("/holiday-packages/domestic/")({
   head: () =>
     buildPageSeo({
       path: "/holiday-packages/domestic",
-      title: "Domestic Holiday Packages India — Goa, Kerala, Kashmir | YatraNexus",
-      description:
-        "Domestic holiday packages across India — Goa, Kerala, Rajasthan, Kashmir, Himachal and more. Custom tours from YatraNexus Ahmedabad.",
+      title: brandSeoTitle("Domestic Holidays, Goa, Kerala & Kashmir"),
+      description: brandSeoDescription(
+        "Goa, Kerala, Rajasthan, Kashmir, Himachal & India holiday packages",
+      ),
       keywords: "domestic holiday packages India, India tour packages, Kashmir Kerala Goa packages",
     }),
   component: DomesticIndex,

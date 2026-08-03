@@ -112,10 +112,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     };
   },
   head: ({ loaderData }) => {
-    const title = loaderData?.siteSettings.seoTitle ?? "YatraNexus";
+    const title =
+      loaderData?.siteSettings.seoTitle ??
+      "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs";
     const description =
       loaderData?.siteSettings.seoDescription ??
-      "YatraNexus Ventures LLP — Ahmedabad travel agency for flights, hotels, holiday packages across India, cabs, visa, travel insurance and forex. Your Journey, Our Priority.";
+      "YatraNexus Ventures LLP. Your Journey, Our Priority. Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.";
     const seo = mergeSeoHead(
       buildPageSeo({
         path: "/",
@@ -212,7 +214,7 @@ function RootComponent() {
         ) : (
           <div className="flex min-h-screen flex-col overflow-x-clip">
             <Header />
-            <main className="flex-1 overflow-x-clip bg-cream max-lg:pb-[calc(8rem+env(safe-area-inset-bottom,0px))]">
+            <main className="flex-1 overflow-x-clip bg-cream max-lg:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))]">
               <Outlet />
             </main>
             <Footer />

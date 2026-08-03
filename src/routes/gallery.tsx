@@ -6,7 +6,7 @@ import { CmsPageHero } from "@/components/site/CmsPageHero";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
 import { fetchPublicGallery, resolveShowInternational } from "@/lib/public-cms";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 import { SafeImage } from "@/components/site/SafeImage";
 import { cn } from "@/lib/utils";
 
@@ -21,10 +21,12 @@ export const Route = createFileRoute("/gallery")({
   head: ({ loaderData }) =>
     buildPageSeo({
       path: "/gallery",
-      title: "Photo Gallery — Travel Destinations | YatraNexus",
-      description: loaderData?.showInternational
-        ? "Browse photos from domestic and international trips planned by YatraNexus — inspiration for your next holiday."
-        : "Browse photos from domestic India trips planned by YatraNexus — inspiration for your next holiday.",
+      title: brandSeoTitle("Photo Gallery & Travel Destinations"),
+      description: brandSeoDescription(
+        loaderData?.showInternational
+          ? "Photos from domestic & international trips planned by our team"
+          : "Photos from domestic India trips planned by our team",
+      ),
     }),
   component: GalleryPage,
 });

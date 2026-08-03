@@ -66,11 +66,19 @@ export function HotelsLandingPage({ service }: Props) {
   const badges = resolveCmsFeatureItems(blocks.heroBadges, HOTELS_HERO_BADGES, 1);
   const trustStats = resolveCmsFeatureItems(blocks.trustItems, HOTELS_TRUST_STATS, 1)
     .filter((item) => !/^trusted by$/i.test(item.title.trim()))
-    .map((item) =>
-      /^best deals$/i.test(item.title.trim())
-        ? { ...item, detail: "On 10,000+ Hotels" }
-        : item,
-    );
+    .map((item) => {
+      const base = /^best deals$/i.test(item.title.trim())
+        ? { ...item, detail: item.detail?.trim() || "On 10,000+ Hotels" }
+        : item;
+      const title = base.title?.trim() ?? "";
+      const detail = base.detail?.trim() ?? "";
+      const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+      return {
+        ...base,
+        title: oneLine || title,
+        detail: "",
+      };
+    });
   const trustFooter = resolveCmsFeatureItems(blocks.trustFooter, HOTELS_TRUST_FOOTER, 1);
 
   return (

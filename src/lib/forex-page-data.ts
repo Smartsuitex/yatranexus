@@ -1,9 +1,11 @@
 import {
   BadgePercent,
   Briefcase,
+  Clock,
   CreditCard,
   Globe2,
   GraduationCap,
+  Lock,
   RefreshCw,
   ShieldCheck,
   Star,
@@ -28,31 +30,18 @@ export const FOREX_HERO_BADGES: ServiceIconItem[] = [
 
 /** Services ribbon under hero. */
 export const FOREX_TRUST_ROW: ServiceIconItem[] = [
-  {
-    icon: ShieldCheck,
-    title: "100% Secure",
-    detail: "Your money is safe with advanced security",
-  },
-  {
-    icon: BadgePercent,
-    title: "Zero Hidden Charges",
-    detail: "Transparent pricing you can trust",
-  },
-  {
-    icon: Globe2,
-    title: "200+ Countries",
-    detail: "Use your card across the globe",
-  },
-  {
-    icon: RefreshCw,
-    title: "Instant Activation",
-    detail: "Get your card quickly and start your journey",
-  },
-  {
-    icon: Truck,
-    title: "Doorstep Delivery",
-    detail: "Get your forex card delivered to you",
-  },
+  { icon: ShieldCheck, title: "100% Secure", detail: "" },
+  { icon: BadgePercent, title: "Zero Hidden Charges", detail: "" },
+  { icon: Globe2, title: "200+ Countries", detail: "" },
+  { icon: RefreshCw, title: "Instant Activation", detail: "" },
+  { icon: Truck, title: "Doorstep Delivery", detail: "" },
+];
+
+export const FOREX_TRUST_FOOTER: ServiceIconItem[] = [
+  { icon: ShieldCheck, title: "No Website Booking", detail: "We only take inquiry" },
+  { icon: BadgePercent, title: "Best Options Shared", detail: "As per your requirement" },
+  { icon: Clock, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: Lock, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
 export type ForexCardType = {

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AboutLandingPage } from "@/components/site/AboutLandingPage";
 import { fetchPublicHomepageSettings } from "@/lib/public-cms";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   loader: async () => {
@@ -11,9 +11,10 @@ export const Route = createFileRoute("/about")({
   head: () =>
     buildPageSeo({
       path: "/about",
-      title: "About YatraNexus — Travel Agency in Ahmedabad",
-      description:
-        "Learn about YatraNexus Ventures LLP — Ahmedabad's trusted travel partner for flights, hotels, holiday packages, visa, insurance, forex and corporate travel across India.",
+      title: brandSeoTitle("Travel Agency in Ahmedabad"),
+      description: brandSeoDescription(
+        "Flights, hotels, holidays, visa, insurance, forex & corporate travel",
+      ),
       keywords: "about YatraNexus, travel agency Ahmedabad, YatraNexus Ventures LLP",
     }),
   component: AboutPage,

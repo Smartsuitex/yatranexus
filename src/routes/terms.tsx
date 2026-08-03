@@ -2,15 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/terms")({
   head: () =>
     buildPageSeo({
       path: "/terms",
-      title: "Terms & Conditions | YatraNexus",
-      description:
-        "Terms and conditions for using the YatraNexus website and travel booking services.",
+      title: brandSeoTitle("Terms & Conditions"),
+      description: brandSeoDescription(
+        "Terms for using our website and booking travel services",
+      ),
     }),
   component: TermsPage,
 });

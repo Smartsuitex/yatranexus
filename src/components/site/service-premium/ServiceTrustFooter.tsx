@@ -19,7 +19,7 @@ export function ServiceTrustFooter({
   return (
     <section className="hotels-trust-footer" aria-label={ariaLabel}>
       <div
-        className={`hotels-trust-footer__inner mx-auto grid w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 ${gridClass}`}
+        className={`hotels-trust-footer__inner mx-auto grid w-full max-w-7xl px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${gridClass}`}
       >
         {items.map(({ icon: Icon, title, detail }) => (
           <div key={title} className="hotels-trust-footer__item">

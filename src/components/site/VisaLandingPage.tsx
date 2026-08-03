@@ -35,7 +35,17 @@ export function VisaLandingPage({ service }: Props) {
     .slice(0, 4);
   const trustStats = resolveCmsFeatureItems(blocks.trustItems, VISA_TRUST_STATS, 1)
     .filter((item) => !/end-to-end|safe\s*&\s*secure/i.test(`${item.title} ${item.detail}`))
-    .slice(0, 4);
+    .slice(0, 4)
+    .map((item) => {
+      const title = item.title?.trim() ?? "";
+      const detail = item.detail?.trim() ?? "";
+      const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+      return {
+        ...item,
+        title: oneLine || title,
+        detail: "",
+      };
+    });
   const whyItems = resolveCmsFeatureItems(blocks.features, VISA_WHY_ITEMS, 1);
   const trustFooter = resolveCmsFeatureItems(blocks.trustFooter, VISA_TRUST_FOOTER, 1);
   const tableRows = resolveVisaTableRows(blocks.visaCountries);

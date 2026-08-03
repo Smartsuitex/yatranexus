@@ -103,10 +103,16 @@ export function FlightsLandingPage({ service }: Props) {
   const catalogTitle = blocks.catalogSectionTitle?.trim() || "Popular Destinations";
   const badges = resolveCmsFeatureItems(blocks.heroBadges, FLIGHTS_HERO_BADGES, 1);
   const trustStats = resolveCmsFeatureItems(blocks.trustItems, FLIGHTS_TRUST_STATS, 1).map(
-    (item) => ({
-      ...item,
-      detail: item.detail ? cleanTrustDetail(item.detail) : item.detail,
-    }),
+    (item) => {
+      const title = item.title?.trim() ?? "";
+      const detail = item.detail ? cleanTrustDetail(item.detail) : "";
+      const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+      return {
+        ...item,
+        title: oneLine || title,
+        detail: "",
+      };
+    },
   );
   const trustFooter = resolveCmsFeatureItems(blocks.trustFooter, FLIGHTS_TRUST_FOOTER, 1);
   const ctaTitle = blocks.ctaTitle?.trim() || FLIGHTS_CTA.title;

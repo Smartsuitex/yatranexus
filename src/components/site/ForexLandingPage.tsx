@@ -7,12 +7,14 @@ import { ServicePageShell } from "@/components/site/service-premium/ServicePageS
 import { ServiceHeroSection } from "@/components/site/service-premium/ServiceHeroSection";
 import { useServiceInquiry } from "@/components/site/service-premium/ServiceInquiryDialog";
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
+import { ServiceTrustFooter } from "@/components/site/service-premium/ServiceTrustFooter";
 import { resolveServiceHero } from "@/lib/service-hero-images";
 import { SafeImage, hasImageSrc } from "@/components/site/SafeImage";
 import {
   FOREX_CTA,
   FOREX_HERO,
   FOREX_HERO_BADGES,
+  FOREX_TRUST_FOOTER,
   FOREX_TRUST_ROW,
   resolveForexCardTypes,
 } from "@/lib/forex-page-data";
@@ -23,7 +25,16 @@ type Props = { service: PublicService };
 export function ForexLandingPage({ service }: Props) {
   const hero = resolveServiceHero("forex", service.bannerUrl);
   const blocks = service.contentBlocks;
-  const trustItems = [...FOREX_TRUST_ROW];
+  const trustItems = FOREX_TRUST_ROW.map((item) => {
+    const title = item.title?.trim() ?? "";
+    const detail = item.detail?.trim() ?? "";
+    const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+    return {
+      ...item,
+      title: oneLine || title,
+      detail: "",
+    };
+  });
   const badges = [...FOREX_HERO_BADGES];
   const cardTypes = resolveForexCardTypes(blocks.catalogItems);
   const catalogTitle =
@@ -110,6 +121,8 @@ export function ForexLandingPage({ service }: Props) {
       </section>
 
       <ServiceCmsExtras service={service} className="hotels-section hotels-section--alt" />
+
+      <ServiceTrustFooter items={FOREX_TRUST_FOOTER} ariaLabel="Inquiry process guarantees" />
 
       {dialog}
     </ServicePageShell>

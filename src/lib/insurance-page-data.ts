@@ -1,10 +1,10 @@
 import {
   BadgePercent,
+  Clock,
   FileCheck,
-  Globe2,
   Headphones,
   HeartPulse,
-  Hospital,
+  Lock,
   Luggage,
   ShieldCheck,
   ShieldPlus,
@@ -28,10 +28,10 @@ export const INSURANCE_HERO_BADGES: ServiceIconItem[] = [
 ];
 
 export const INSURANCE_TRUST_STATS: ServiceIconItem[] = [
-  { icon: ShieldCheck, title: "Worldwide Coverage" },
-  { icon: Headphones, title: "Always Available" },
-  { icon: FileCheck, title: "Fast Claims" },
-  { icon: BadgePercent, title: "Tailored Plans" },
+  { icon: ShieldCheck, title: "Worldwide Coverage", detail: "" },
+  { icon: Headphones, title: "Always Available", detail: "" },
+  { icon: FileCheck, title: "Fast Claims", detail: "" },
+  { icon: BadgePercent, title: "Tailored Plans", detail: "" },
 ];
 
 export const INSURANCE_COVERAGE_LEAD =
@@ -132,11 +132,10 @@ export const INSURANCE_CTA = {
 } as const;
 
 export const INSURANCE_TRUST_FOOTER: ServiceIconItem[] = [
-  { icon: ShieldCheck, title: "100% Genuine Policies", detail: "From trusted insurers" },
-  { icon: FileCheck, title: "Instant Policy", detail: "Quick issuance after inquiry" },
-  { icon: Globe2, title: "Global Coverage", detail: "Domestic & international" },
-  { icon: Hospital, title: "Cashless Support", detail: "Where network allows" },
-  { icon: Headphones, title: "24×7 Claim Assistance", detail: "Help when you need it" },
+  { icon: ShieldCheck, title: "No Website Booking", detail: "We only take inquiry" },
+  { icon: FileCheck, title: "Best Options Shared", detail: "As per your requirement" },
+  { icon: Clock, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: Lock, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
 export const INSURANCE_PLANS_NOTE =

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ContactLandingPage } from "@/components/site/ContactLandingPage";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -10,9 +10,10 @@ export const Route = createFileRoute("/contact")({
   head: () =>
     buildPageSeo({
       path: "/contact",
-      title: "Contact YatraNexus — Travel Desk in Ahmedabad",
-      description:
-        "Contact YatraNexus in Ahmedabad for holiday packages, flights, hotels, visa and corporate travel. Call, email or WhatsApp our travel experts today.",
+      title: brandSeoTitle("Contact, Call, Email & WhatsApp"),
+      description: brandSeoDescription(
+        "Holidays, flights, hotels, visa & corporate travel enquiries",
+      ),
       keywords: "contact travel agency Ahmedabad, YatraNexus phone, book holiday India",
     }),
   component: ContactPage,

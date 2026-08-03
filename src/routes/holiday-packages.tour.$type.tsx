@@ -10,7 +10,13 @@ import {
   fetchPackagesForTourType,
   fetchPublicHomepageSettings,
 } from "@/lib/public-cms";
-import { breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
+import {
+  brandSeoDescription,
+  brandSeoTitle,
+  breadcrumbJsonLd,
+  buildPageSeo,
+  mergeSeoHead,
+} from "@/lib/seo";
 import { TOUR_TYPES } from "@/lib/site-data";
 import { toTitleCase } from "@/lib/utils";
 
@@ -33,8 +39,10 @@ export const Route = createFileRoute("/holiday-packages/tour/$type")({
     return mergeSeoHead(
       buildPageSeo({
         path,
-        title: `${tour.name} Holiday Packages India | YatraNexus`,
-        description: `Browse ${tour.name.toLowerCase()} holiday packages with YatraNexus. Custom itineraries planned by travel experts in Ahmedabad.`,
+        title: brandSeoTitle(`${tour.name} Holiday Packages`),
+        description: brandSeoDescription(
+          `${tour.name} holiday packages & custom itineraries across India`,
+        ),
         image: tour.image,
         keywords: `${tour.name} packages, ${tour.name} tour India, YatraNexus`,
       }),

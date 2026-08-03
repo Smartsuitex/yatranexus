@@ -3,8 +3,10 @@ import {
   Car,
   Clock,
   Headphones,
+  Lock,
   MapPin,
   ShieldCheck,
+  Tag,
 } from "lucide-react";
 import type { ServiceHeroCopy, ServiceIconItem } from "@/components/site/service-premium/types";
 
@@ -33,26 +35,17 @@ export const CABS_HERO_BADGES: ServiceIconItem[] = [
 ];
 
 export const CABS_TRUST_ROW: ServiceIconItem[] = [
-  {
-    icon: ShieldCheck,
-    title: "Best Price Guarantee",
-    detail: "Competitive rates guaranteed",
-  },
-  {
-    icon: BadgePercent,
-    title: "No Hidden Charges",
-    detail: "Transparent pricing you can trust",
-  },
-  {
-    icon: Headphones,
-    title: "24×7 Customer Support",
-    detail: "We are always here to assist you",
-  },
-  {
-    icon: Car,
-    title: "Clean & Well Maintained",
-    detail: "Regularly serviced for a safe journey",
-  },
+  { icon: ShieldCheck, title: "Best Price Guarantee", detail: "" },
+  { icon: BadgePercent, title: "No Hidden Charges", detail: "" },
+  { icon: Headphones, title: "24×7 Customer Support", detail: "" },
+  { icon: Car, title: "Clean & Well Maintained", detail: "" },
+];
+
+export const CABS_TRUST_FOOTER: ServiceIconItem[] = [
+  { icon: ShieldCheck, title: "No Website Booking", detail: "We only take inquiry" },
+  { icon: Tag, title: "Best Options Shared", detail: "As per your requirement" },
+  { icon: Clock, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: Lock, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
 export type CabCategory = {

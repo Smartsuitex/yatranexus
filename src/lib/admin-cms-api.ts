@@ -74,9 +74,9 @@ const CORE_SERVICE_DEFAULTS: Tables["services"]["Insert"][] = [
       titleAccent: "Remember",
       sectionTitle: "Browse by region",
     },
-    meta_title: "Holiday Packages — Domestic & International | YatraNexus",
+    meta_title: "YatraNexus — Holiday Packages, Domestic & International",
     meta_description:
-      "Curated holiday packages across India — Goa, Kerala, Rajasthan, Kashmir and more.",
+      "YatraNexus Ventures LLP. Your Journey, Our Priority. Domestic & international holiday packages — handled by real travel experts on WhatsApp.",
     is_active: true,
     sort_order: 4,
   },
@@ -167,9 +167,9 @@ const CORE_SERVICE_DEFAULTS: Tables["services"]["Insert"][] = [
         },
       ],
     },
-    meta_title: "Corporate & MICE Travel — YatraNexus",
+    meta_title: "YatraNexus — Corporate Travel, MICE & Business Trips",
     meta_description:
-      "Business travel, MICE, crew bookings, GST invoicing and dedicated account management for companies.",
+      "YatraNexus Ventures LLP. Your Journey, Our Priority. Corporate travel, MICE, crew bookings & GST invoicing — handled by real travel experts on WhatsApp.",
     is_active: true,
     sort_order: 8,
   },

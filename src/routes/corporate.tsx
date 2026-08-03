@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CorporateLandingPage } from "@/components/site/CorporateLandingPage";
 import { fetchPublicServiceBySlug } from "@/lib/public-cms";
 import { resolveServiceHero } from "@/lib/service-hero-images";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 import { heroPreloadLink, SITE_IMAGES } from "@/lib/site-images";
 
 export const Route = createFileRoute("/corporate")({
@@ -19,10 +19,10 @@ export const Route = createFileRoute("/corporate")({
     const preload = heroPreloadLink(hero.primary || SITE_IMAGES.hero.corporate);
     const seo = buildPageSeo({
       path: "/corporate",
-      title: service?.metaTitle ?? "Corporate & MICE Travel Management | YatraNexus",
+      title: service?.metaTitle ?? brandSeoTitle("Corporate Travel, MICE & Business Trips"),
       description:
         service?.metaDescription ??
-        "Business travel, MICE, crew bookings, GST invoicing and dedicated account management for companies — outsourced travel desk by YatraNexus Ahmedabad.",
+        brandSeoDescription("Corporate travel, MICE, crew bookings & GST invoicing"),
       image: hero.primary || SITE_IMAGES.hero.corporate,
       keywords: "corporate travel Ahmedabad, MICE travel India, business travel management",
     });

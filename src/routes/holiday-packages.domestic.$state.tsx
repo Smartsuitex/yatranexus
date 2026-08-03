@@ -8,7 +8,7 @@ import {
   fetchPackagesForDestination,
   fetchPublicDestinationBySlug,
 } from "@/lib/public-cms";
-import { breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/domestic/$state")({
@@ -30,8 +30,10 @@ export const Route = createFileRoute("/holiday-packages/domestic/$state")({
     return mergeSeoHead(
       buildPageSeo({
         path,
-        title: `${dest.name} Holiday Packages — Tours from Ahmedabad | YatraNexus`,
-        description: `${dest.name} holiday packages: ${dest.blurb}. Plan your ${dest.name} trip with YatraNexus travel experts.`,
+        title: brandSeoTitle(`${dest.name} Holiday Packages & Tours`),
+        description: brandSeoDescription(
+          dest.blurb?.trim() || `${dest.name} holiday packages & custom tours`,
+        ),
         image: dest.image,
         keywords: `${dest.name} holiday packages, ${dest.name} tour package, ${dest.name} trip from Ahmedabad`,
       }),

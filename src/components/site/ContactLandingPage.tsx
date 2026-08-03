@@ -16,9 +16,11 @@ import {
   CONTACT_HERO_BADGES,
   CONTACT_METHODS,
   CONTACT_PROMISES,
+  CONTACT_TRUST_FOOTER,
   CONTACT_TRUST_STATS,
   resolveContactHero,
 } from "@/lib/contact-page-data";
+import { ServiceTrustFooter } from "@/components/site/service-premium/ServiceTrustFooter";
 import { buildWhatsappHref } from "@/lib/site-links";
 
 type Props = {
@@ -106,6 +108,18 @@ export function ContactLandingPage({
     (method) => method.kind !== "hours" || Boolean(site.businessHours),
   );
 
+  const badges = CONTACT_HERO_BADGES;
+  const trustItems = CONTACT_TRUST_STATS.map((item) => {
+    const title = item.title?.trim() ?? "";
+    const detail = item.detail?.trim() ?? "";
+    const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+    return {
+      ...item,
+      title: oneLine || title,
+      detail: "",
+    };
+  });
+
   function scrollToInquiry() {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     if (typeof window !== "undefined") {
@@ -122,8 +136,8 @@ export function ContactLandingPage({
         titleFirst={heroTitleFirst}
         titleAccent={heroTitleAccent}
         subtitle={heroSubtitle}
-        badges={CONTACT_HERO_BADGES}
-        trustItems={CONTACT_TRUST_STATS}
+        badges={badges}
+        trustItems={trustItems}
         trustAriaLabel="Ways we can help"
         trustColumns={4}
         heroVariant="light"
@@ -286,6 +300,8 @@ export function ContactLandingPage({
           />
         </div>
       </section>
+
+      <ServiceTrustFooter items={CONTACT_TRUST_FOOTER} ariaLabel="Inquiry process guarantees" />
     </ServicePageShell>
   );
 }

@@ -1,15 +1,17 @@
 import { notFound } from "@tanstack/react-router";
 import { fetchPublicServiceBySlug, type PublicService } from "@/lib/public-cms";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export function serviceRouteMeta(service: PublicService) {
   const path = `/services/${service.slug}`;
-  const title = service.metaTitle ?? `${service.title} in Ahmedabad | YatraNexus`;
+  const title = service.metaTitle ?? brandSeoTitle(service.title);
   const description =
     service.metaDescription ??
-    service.shortDescription ??
-    service.description ??
-    `Book ${service.title} with YatraNexus — trusted travel experts in Ahmedabad.`;
+    brandSeoDescription(
+      service.shortDescription?.trim() ||
+        service.description?.trim() ||
+        `${service.title} from Ahmedabad`,
+    );
 
   return buildPageSeo({
     path,

@@ -212,6 +212,103 @@
     bottom: calc(max(1rem, env(safe-area-inset-bottom, 0px)) + 3.75rem);
   }
 
+  .whatsapp-fab {
+    right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  .back-to-top-fab {
+    right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  @media (min-width: 1024px) {
+    .back-to-top-fab {
+      bottom: 2rem;
+      right: 6rem;
+    }
+  }
+
+  .holiday-hub-cta-section {
+    padding-bottom: 0.5rem;
+  }
+
+  .holiday-hub-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    background-color: var(--brand-orange);
+    background-image: var(--gradient-brand);
+    padding: 2rem 1.25rem 2.25rem;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  @media (min-width: 640px) {
+    .holiday-hub-cta {
+      padding: 3rem 3rem 3.25rem;
+    }
+  }
+
+  .holiday-hub-cta__title {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+  }
+
+  @media (min-width: 640px) {
+    .holiday-hub-cta__title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .holiday-hub-cta__lead {
+    position: relative;
+    z-index: 1;
+    margin: 0.75rem auto 0;
+    max-width: 36rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.92);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (min-width: 640px) {
+    .holiday-hub-cta__lead {
+      font-size: 1rem;
+    }
+  }
+
+  .holiday-hub-cta__btn {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--brand-navy-deep);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s ease;
+  }
+
+  .holiday-hub-cta__btn:hover {
+    transform: translateY(-2px);
+  }
+
   /* ---------- Premium homepage hero ---------- */
   .hero-premium {
     background: #ffffff;
@@ -4598,6 +4695,16 @@
     line-height: 1.2;
   }
 
+  .service-premium-page--flights .hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--visa .hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--insurance .hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--forex .hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--contact .hotels-hero--light .hotels-hero__badge-label {
+    color: #2d235f;
+  }
+
   .service-premium-page--flights .hotels-hero--light .hotels-hero__badge-detail,
   .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge-detail,
   .service-premium-page--visa .hotels-hero--light .hotels-hero__badge-detail,
@@ -4609,6 +4716,17 @@
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.25;
+  }
+
+  .service-premium-page--flights .hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--visa .hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--insurance .hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--forex .hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--contact .hotels-hero--light .hotels-hero__badge-detail {
+    font-weight: 600;
+    color: #e57828;
   }
 
   @media (min-width: 640px) {
@@ -5196,21 +5314,52 @@
     color: #ffffff;
   }
 
-  /* Forex ribbon: label large/bold, description smaller. */
+  /* Forex ribbon: one-line labels like Flights/Hotels. */
   .service-premium-page--forex .service-trust-bar__title {
-    font-size: 0.8125rem;
-    font-weight: 700;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
   }
 
   .service-premium-page--forex .service-trust-bar__detail {
-    font-size: 0.6875rem;
-    font-weight: 500;
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .service-premium-page--forex .service-trust-bar__title {
+      font-size: 0.6875rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .service-premium-page--forex .service-trust-bar__title {
+      font-size: 0.75rem;
+    }
   }
 
   /* Insurance ribbon: title-only items keep the existing detail size. */
   .service-premium-page--insurance .service-trust-bar__item:not(:has(.service-trust-bar__detail)) .service-trust-bar__title {
     font-size: 0.8125rem;
     font-weight: 700;
+  }
+
+  @media (max-width: 639px) {
+    .service-premium-page--insurance .service-trust-bar__item:not(:has(.service-trust-bar__detail)) .service-trust-bar__title {
+      font-size: 0.4375rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .service-premium-page--insurance .service-trust-bar__item:not(:has(.service-trust-bar__detail)) .service-trust-bar__title {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
   }
 
   @media (min-width: 1024px) {
@@ -5223,11 +5372,9 @@
     }
 
     .service-premium-page--forex .service-trust-bar__title {
-      font-size: 0.875rem;
-    }
-
-    .service-premium-page--forex .service-trust-bar__detail {
       font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
     .service-premium-page--insurance .service-trust-bar__item:not(:has(.service-trust-bar__detail)) .service-trust-bar__title {
@@ -5796,6 +5943,1978 @@
     }
   }
 
+  /* Flights mobile — compact ribbon/cards + solid white hero badges */
+  @media (max-width: 639px) {
+    .service-premium-page--flights .hotels-hero--light .hotels-hero__badges {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--flights .hotels-hero--light .hotels-hero__badge {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.375rem;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .service-premium-page--flights .hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--flights .hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--flights .hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2d235f;
+    }
+
+    .service-premium-page--flights .hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #e57828;
+    }
+
+    .service-premium-page--flights .service-trust-bar {
+      padding-inline: 0.75rem;
+    }
+
+    .service-premium-page--flights .service-trust-bar__inner {
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--flights .service-trust-bar__grid--4 {
+      gap: 0.15rem 0.2rem;
+    }
+
+    .service-premium-page--flights .service-trust-bar__icon {
+      height: 1.375rem;
+      width: 1.375rem;
+      border-radius: 0.4rem;
+    }
+
+    .service-premium-page--flights .service-trust-bar__icon svg {
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    .service-premium-page--flights .service-trust-bar__title {
+      font-size: 0.4375rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+    }
+
+    .service-premium-page--flights .service-trust-bar__detail {
+      display: none;
+    }
+
+    .service-premium-page--flights .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--flights .hotels-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--flights .flights-popular-dest-grid {
+      margin-top: 0.75rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--flights .flights-popular-dest-grid .hotels-dest-card--compact-row {
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--flights .flights-popular-dest-grid .hotels-dest-card--compact-row .hotels-dest-card__overlay {
+      padding: 0.5rem 0.55rem;
+    }
+
+    .service-premium-page--flights .flights-popular-dest-grid .hotels-dest-card--compact-row .hotels-dest-card__name {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--flights .flights-popular-dest-grid .hotels-dest-card--compact-row .hotels-dest-card__price {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--flights .flights-why-grid {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--flights .flights-why-card {
+      gap: 0.4rem;
+      padding: 0.5rem 0.35rem;
+      border-radius: 0.75rem;
+      border: 1px solid oklch(0.93 0.012 80 / 0.9);
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .service-premium-page--flights .flights-why-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--flights .flights-why-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--flights .flights-why-card__content {
+      gap: 0.2rem;
+      padding-top: 0;
+    }
+
+    .service-premium-page--flights .flights-why-card__title {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--flights .flights-why-card__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--flights .flights-why-section {
+      padding-block: 1.25rem;
+    }
+
+    .service-premium-page--flights .flights-why-section .flights-cta-wrap,
+    .service-premium-page--flights .flights-cta-wrap {
+      margin-top: 1rem;
+    }
+
+    .service-premium-page--flights .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--flights .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--flights .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--flights .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--flights .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--flights .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--flights .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--flights .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--flights .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--flights .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--flights .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--flights .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--flights .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* Hotels mobile — same Flights compact treatment */
+  @media (max-width: 639px) {
+    .service-premium-page--hotels .hotels-hero--light .hotels-hero__badges {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.375rem;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2d235f;
+    }
+
+    .service-premium-page--hotels .hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #e57828;
+    }
+
+    .service-premium-page--hotels .service-trust-bar {
+      padding-inline: 0.75rem;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__inner {
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__grid--4 {
+      gap: 0.15rem 0.2rem;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__icon {
+      height: 1.375rem;
+      width: 1.375rem;
+      border-radius: 0.4rem;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__icon svg {
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__title {
+      font-size: 0.4375rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__detail {
+      display: none;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--hotels .hotels-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--hotels .flights-popular-dest-grid {
+      margin-top: 0.75rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--hotels .flights-popular-dest-grid .hotels-dest-card--compact-row {
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--hotels .flights-popular-dest-grid .hotels-dest-card--compact-row .hotels-dest-card__overlay {
+      padding: 0.5rem 0.55rem;
+    }
+
+    .service-premium-page--hotels .flights-popular-dest-grid .hotels-dest-card--compact-row .hotels-dest-card__name {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--hotels .flights-popular-dest-grid .hotels-dest-card--compact-row .hotels-dest-card__price {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--hotels .flights-why-grid {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--hotels .flights-why-card {
+      gap: 0.4rem;
+      padding: 0.5rem 0.35rem;
+      border-radius: 0.75rem;
+      border: 1px solid oklch(0.93 0.012 80 / 0.9);
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .service-premium-page--hotels .flights-why-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--hotels .flights-why-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--hotels .flights-why-card__content {
+      gap: 0.2rem;
+      padding-top: 0;
+    }
+
+    .service-premium-page--hotels .flights-why-card__title {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--hotels .flights-why-card__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--hotels .flights-why-section {
+      padding-block: 1.25rem;
+    }
+
+    .service-premium-page--hotels .flights-why-section .flights-cta-wrap,
+    .service-premium-page--hotels .flights-cta-wrap {
+      margin-top: 1rem;
+    }
+
+    .service-premium-page--hotels .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--hotels .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--hotels .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--hotels .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--hotels .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--hotels .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--hotels .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--hotels .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--hotels .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--hotels .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--hotels .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--hotels .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--hotels .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* Cabs mobile — same Flights/Hotels compact treatment */
+  @media (max-width: 639px) {
+    .service-premium-page--cabs .hotels-hero--light .hotels-hero__badges {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.375rem;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2d235f;
+    }
+
+    .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #e57828;
+    }
+
+    .service-premium-page--cabs .service-trust-bar {
+      padding-inline: 0.75rem;
+    }
+
+    .service-premium-page--cabs .service-trust-bar__inner {
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--cabs .service-trust-bar__grid--4 {
+      gap: 0.15rem 0.2rem;
+    }
+
+    .service-premium-page--cabs .service-trust-bar__icon {
+      height: 1.375rem;
+      width: 1.375rem;
+      border-radius: 0.4rem;
+    }
+
+    .service-premium-page--cabs .service-trust-bar__icon svg {
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    .service-premium-page--cabs .service-trust-bar__title {
+      font-size: 0.4375rem !important;
+      font-weight: 600 !important;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap !important;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+      color: #ffffff;
+    }
+
+    .service-premium-page--cabs .service-trust-bar__detail {
+      display: none !important;
+    }
+
+    .service-premium-page--cabs .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--cabs .hotels-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--cabs .sp-card-grid--4 {
+      margin-top: 0.75rem;
+      gap: 0.5rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card {
+      padding: 0.55rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card .sp-plan-card__media {
+      border-radius: 0.55rem;
+      min-height: 4.5rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card__media--empty {
+      min-height: 4.5rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card__media--empty svg {
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card .sp-plan-card__title {
+      margin-top: 0.45rem;
+      font-size: 0.6875rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card__specs {
+      margin-top: 0.3rem;
+      gap: 0.3rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card__spec {
+      padding: 0.15rem 0.4rem;
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card__spec svg {
+      height: 0.625rem;
+      width: 0.625rem;
+    }
+
+    .service-premium-page--cabs .cabs-plan-card__desc {
+      margin-top: 0.35rem;
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--cabs .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--cabs .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--cabs .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--cabs .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--cabs .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--cabs .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--cabs .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--cabs .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--cabs .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--cabs .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--cabs .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--cabs .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--cabs .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* Visa mobile — same Flights/Hotels compact treatment */
+  @media (max-width: 639px) {
+    .service-premium-page--visa .hotels-hero--light .hotels-hero__badges {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--visa .hotels-hero--light .hotels-hero__badge {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.375rem;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .service-premium-page--visa .hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--visa .hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--visa .hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2d235f;
+    }
+
+    .service-premium-page--visa .hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #e57828;
+    }
+
+    .service-premium-page--visa .service-trust-bar {
+      padding-inline: 0.75rem;
+    }
+
+    .service-premium-page--visa .service-trust-bar__inner {
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--visa .service-trust-bar__grid--4 {
+      gap: 0.15rem 0.2rem;
+    }
+
+    .service-premium-page--visa .service-trust-bar__icon {
+      height: 1.375rem;
+      width: 1.375rem;
+      border-radius: 0.4rem;
+    }
+
+    .service-premium-page--visa .service-trust-bar__icon svg {
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    .service-premium-page--visa .service-trust-bar__title {
+      font-size: 0.4375rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+    }
+
+    .service-premium-page--visa .service-trust-bar__detail {
+      display: none;
+    }
+
+    .service-premium-page--visa .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--visa .hotels-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--visa .hotels-why-grid,
+    .service-premium-page--visa .hotels-why-grid--5 {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--visa .hotels-why-card {
+      gap: 0.4rem;
+      padding: 0.5rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--visa .hotels-why-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--visa .hotels-why-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--visa .hotels-why-card__title {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--visa .hotels-why-card__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--visa .visa-process {
+      margin-top: 0.875rem;
+      gap: 0.5rem;
+    }
+
+    .service-premium-page--visa .visa-process__card {
+      padding: 0.65rem 0.55rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--visa .visa-process__num {
+      font-size: 0.625rem;
+    }
+
+    .service-premium-page--visa .visa-process__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--visa .visa-process__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--visa .visa-process__title {
+      font-size: 0.6875rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--visa .visa-process__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--visa .visa-process__duration {
+      font-size: 0.5rem;
+      gap: 0.25rem;
+    }
+
+    .service-premium-page--visa .visa-process__duration svg {
+      height: 0.625rem;
+      width: 0.625rem;
+    }
+
+    .service-premium-page--visa .visa-services-cards {
+      margin-top: 0.75rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--visa .visa-services-card {
+      padding: 0.45rem 0.4rem;
+      border-radius: 0.65rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--visa .visa-services-card__country {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--visa .visa-services-card__list {
+      margin-top: 0.4rem;
+      gap: 0.3rem;
+    }
+
+    .service-premium-page--visa .visa-services-card__list dt {
+      font-size: 0.4375rem;
+      letter-spacing: 0.04em;
+    }
+
+    .service-premium-page--visa .visa-services-card__list dd {
+      margin-top: 0.05rem;
+      font-size: 0.5rem;
+      line-height: 1.25;
+    }
+
+    .service-premium-page--visa .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--visa .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--visa .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--visa .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--visa .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--visa .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--visa .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--visa .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--visa .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--visa .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--visa .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--visa .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--visa .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* Insurance mobile — same Flights/Hotels compact treatment */
+  @media (max-width: 639px) {
+    .service-premium-page--insurance .hotels-hero--light .hotels-hero__badges {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--insurance .hotels-hero--light .hotels-hero__badge {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.375rem;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .service-premium-page--insurance .hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--insurance .hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--insurance .hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2d235f;
+    }
+
+    .service-premium-page--insurance .hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #e57828;
+    }
+
+    .service-premium-page--insurance .service-trust-bar {
+      padding-inline: 0.75rem;
+    }
+
+    .service-premium-page--insurance .service-trust-bar__inner {
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--insurance .service-trust-bar__grid--4 {
+      gap: 0.15rem 0.2rem;
+    }
+
+    .service-premium-page--insurance .service-trust-bar__icon {
+      height: 1.375rem;
+      width: 1.375rem;
+      border-radius: 0.4rem;
+    }
+
+    .service-premium-page--insurance .service-trust-bar__icon svg {
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    .service-premium-page--insurance .service-trust-bar__title {
+      font-size: 0.4375rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+    }
+
+    .service-premium-page--insurance .service-trust-bar__detail {
+      display: none;
+    }
+
+    .service-premium-page--insurance .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--insurance .hotels-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--insurance .flights-why-grid {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--insurance .flights-why-card {
+      gap: 0.4rem;
+      padding: 0.5rem 0.35rem;
+      border-radius: 0.75rem;
+      border: 1px solid oklch(0.93 0.012 80 / 0.9);
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .service-premium-page--insurance .flights-why-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--insurance .flights-why-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--insurance .flights-why-card__content {
+      gap: 0.2rem;
+      padding-top: 0;
+    }
+
+    .service-premium-page--insurance .flights-why-card__title {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--insurance .flights-why-card__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--insurance .flights-why-section {
+      padding-block: 1.25rem;
+    }
+
+    .service-premium-page--insurance .sp-card-grid--4 {
+      margin-top: 0.75rem;
+      gap: 0.5rem;
+    }
+
+    .service-premium-page--insurance .sp-plan-card {
+      padding: 0.55rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--insurance .sp-plan-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--insurance .sp-plan-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--insurance .sp-plan-card__title {
+      margin-top: 0.4rem;
+      font-size: 0.6875rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--insurance .sp-plan-card__tagline {
+      font-size: 0.5rem;
+      line-height: 1.25;
+    }
+
+    .service-premium-page--insurance .sp-plan-card__features {
+      margin-top: 0.4rem;
+      gap: 0.2rem;
+      font-size: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .service-premium-page--insurance .sp-plans-note {
+      margin-top: 0.75rem;
+      font-size: 0.5625rem;
+      line-height: 1.35;
+    }
+
+    .service-premium-page--insurance .sp-plans-note svg {
+      height: 0.75rem;
+      width: 0.75rem;
+    }
+
+    .service-premium-page--insurance .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--insurance .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--insurance .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--insurance .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--insurance .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--insurance .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--insurance .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--insurance .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--insurance .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--insurance .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--insurance .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--insurance .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--insurance .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* Forex mobile — same Flights/Hotels compact treatment */
+  @media (max-width: 639px) {
+    .service-premium-page--forex .hotels-hero--light .hotels-hero__badges {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--forex .hotels-hero--light .hotels-hero__badge {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.375rem;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .service-premium-page--forex .hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--forex .hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--forex .hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2d235f;
+    }
+
+    .service-premium-page--forex .hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #e57828;
+    }
+
+    .service-premium-page--forex .service-trust-bar {
+      padding-inline: 0.5rem;
+    }
+
+    .service-premium-page--forex .service-trust-bar__inner {
+      padding: 0.35rem 0.25rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--forex .service-trust-bar__grid--5 {
+      gap: 0.1rem 0.12rem;
+    }
+
+    .service-premium-page--forex .service-trust-bar__icon {
+      height: 1.25rem;
+      width: 1.25rem;
+      border-radius: 0.35rem;
+    }
+
+    .service-premium-page--forex .service-trust-bar__icon svg {
+      height: 0.625rem;
+      width: 0.625rem;
+    }
+
+    .service-premium-page--forex .service-trust-bar__title {
+      font-size: 0.375rem !important;
+      font-weight: 600 !important;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap !important;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+      color: #ffffff;
+    }
+
+    .service-premium-page--forex .service-trust-bar__detail {
+      display: none !important;
+    }
+
+    .service-premium-page--forex .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--forex .hotels-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--forex .sp-card-grid--4 {
+      margin-top: 0.75rem;
+      gap: 0.5rem;
+    }
+
+    .service-premium-page--forex .forex-card.sp-plan-card {
+      padding: 0.55rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--forex .forex-card .sp-plan-card__title {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--forex .forex-card .sp-plan-card__tagline {
+      font-size: 0.5rem;
+      line-height: 1.25;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--forex .forex-card .sp-plan-card__media {
+      margin-top: 0.4rem;
+      border-radius: 0.55rem;
+      min-height: 4.25rem;
+    }
+
+    .service-premium-page--forex .forex-card .sp-plan-card__features {
+      margin-top: 0.4rem;
+      gap: 0.2rem;
+      font-size: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .service-premium-page--forex .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--forex .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--forex .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--forex .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--forex .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--forex .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--forex .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--forex .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--forex .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--forex .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--forex .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--forex .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--forex .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* About mobile — same Flights/Hotels compact treatment */
+  @media (max-width: 639px) {
+    .service-premium-page--about .service-trust-bar {
+      padding-inline: 0.75rem;
+    }
+
+    .service-premium-page--about .service-trust-bar__inner {
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--about .service-trust-bar__grid--4 {
+      gap: 0.15rem 0.2rem;
+    }
+
+    .service-premium-page--about .service-trust-bar__icon {
+      height: 1.375rem;
+      width: 1.375rem;
+      border-radius: 0.4rem;
+    }
+
+    .service-premium-page--about .service-trust-bar__icon svg {
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    .service-premium-page--about .service-trust-bar__title {
+      font-size: 0.4375rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+    }
+
+    .service-premium-page--about .service-trust-bar__detail {
+      display: none;
+    }
+
+    .service-premium-page--about .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--about .about-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--about .about-section__title {
+      font-size: 1.125rem;
+    }
+
+    .service-premium-page--about .about-who__copy {
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .service-premium-page--about .about-mission-grid {
+      margin-top: 0.75rem;
+      gap: 0.5rem;
+    }
+
+    .service-premium-page--about .about-mission-card {
+      padding: 0.65rem 0.7rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--about .about-mission-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--about .about-mission-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--about .about-mission-card__title {
+      font-size: 0.75rem;
+    }
+
+    .service-premium-page--about .about-mission-card__detail {
+      font-size: 0.5625rem;
+      line-height: 1.35;
+    }
+
+    .service-premium-page--about .about-offer-grid,
+    .service-premium-page--about .about-why-grid,
+    .service-premium-page--about .about-values-grid {
+      margin-top: 0.75rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--about .about-offer-card,
+    .service-premium-page--about .about-why-card {
+      padding: 0.5rem 0.4rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--about .about-offer-card__icon,
+    .service-premium-page--about .about-why-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--about .about-offer-card__icon svg,
+    .service-premium-page--about .about-why-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--about .about-offer-card__title,
+    .service-premium-page--about .about-why-card__title {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--about .about-offer-card__detail,
+    .service-premium-page--about .about-why-card__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--about .about-value-card {
+      padding: 0.5rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--about .about-value-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--about .about-value-card__label {
+      font-size: 0.5625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--about .about-steps {
+      margin-top: 0.75rem;
+      gap: 0.5rem;
+    }
+
+    .service-premium-page--about .about-step__card {
+      padding: 0.65rem 0.55rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--about .about-step__badge {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--about .about-step__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--about .about-step__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--about .about-step__title {
+      font-size: 0.6875rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--about .about-step__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--about .about-cta {
+      padding-block: 1rem;
+    }
+
+    .service-premium-page--about .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--about .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--about .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--about .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--about .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--about .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--about .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--about .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--about .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--about .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--about .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--about .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--about .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  /* Contact mobile — same Flights/Hotels compact treatment */
+  @media (max-width: 639px) {
+    .service-premium-page--contact .hotels-hero--light .hotels-hero__badges {
+      margin-top: 0.875rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--contact .hotels-hero--light .hotels-hero__badge {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.375rem;
+      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .service-premium-page--contact .hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--contact .hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--contact .hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2d235f;
+    }
+
+    .service-premium-page--contact .hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #e57828;
+    }
+
+    .service-premium-page--contact .service-trust-bar {
+      padding-inline: 0.75rem;
+    }
+
+    .service-premium-page--contact .service-trust-bar__inner {
+      padding: 0.4rem 0.35rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--contact .service-trust-bar__grid--4 {
+      gap: 0.15rem 0.2rem;
+    }
+
+    .service-premium-page--contact .service-trust-bar__icon {
+      height: 1.375rem;
+      width: 1.375rem;
+      border-radius: 0.4rem;
+    }
+
+    .service-premium-page--contact .service-trust-bar__icon svg {
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    .service-premium-page--contact .service-trust-bar__title {
+      font-size: 0.4375rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: normal;
+    }
+
+    .service-premium-page--contact .service-trust-bar__detail {
+      display: none;
+    }
+
+    .service-premium-page--contact .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+
+    .service-premium-page--contact .about-section {
+      padding-block: 1.125rem;
+    }
+
+    .service-premium-page--contact .about-section__title {
+      font-size: 1.125rem;
+    }
+
+    .service-premium-page--contact .contact-split__lead {
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .service-premium-page--contact .contact-methods {
+      margin-top: 0.75rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--contact .contact-method-card {
+      gap: 0.5rem;
+      padding: 0.55rem 0.6rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--contact .contact-method-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--contact .contact-method-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--contact .contact-method-card__title {
+      font-size: 0.6875rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--contact .contact-method-card__detail {
+      font-size: 0.5625rem;
+      line-height: 1.3;
+    }
+
+    .service-premium-page--contact .contact-map {
+      margin-top: 0.75rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--contact .contact-form-panel {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 0.85rem;
+    }
+
+    .service-premium-page--contact .contact-form-panel__note {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--contact .contact-promise-grid {
+      margin-top: 0.75rem;
+      gap: 0.4rem;
+    }
+
+    .service-premium-page--contact .contact-promise-card {
+      gap: 0.4rem;
+      padding: 0.5rem 0.45rem;
+      border-radius: 0.75rem;
+    }
+
+    .service-premium-page--contact .contact-promise-card__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .service-premium-page--contact .contact-promise-card__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--contact .contact-promise-card__title {
+      font-size: 0.625rem;
+      line-height: 1.2;
+    }
+
+    .service-premium-page--contact .contact-promise-card__detail {
+      font-size: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .service-premium-page--contact .about-cta {
+      padding-block: 1rem;
+    }
+
+    .service-premium-page--contact .hotels-cta-banner.hotels-cta-banner--flights {
+      gap: 0.45rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.65rem;
+    }
+
+    .service-premium-page--contact .hotels-cta-banner--flights .hotels-cta-banner__icon svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    .service-premium-page--contact .hotels-cta-banner--flights .hotels-cta-banner__title {
+      font-size: 0.6875rem;
+    }
+
+    .service-premium-page--contact .hotels-cta-banner--flights .hotels-cta-banner__subtitle {
+      font-size: 0.5rem;
+    }
+
+    .service-premium-page--contact .hotels-cta-banner--flights .hotels-cta-banner__btn {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem 0.35rem 0.35rem;
+    }
+
+    .service-premium-page--contact .hotels-cta-banner--flights .hotels-cta-banner__btn-label {
+      font-size: 0.5625rem;
+    }
+
+    .service-premium-page--contact .hotels-trust-footer__item {
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .service-premium-page--contact .hotels-trust-footer__icon {
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 9999px;
+    }
+
+    .service-premium-page--contact .hotels-trust-footer__icon svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .service-premium-page--contact .hotels-trust-footer__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--contact .hotels-trust-footer__detail {
+      margin-top: 0.1rem;
+      font-size: 0.5625rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .service-premium-page--contact .hotels-trust-footer__inner {
+      gap: 0.75rem 0.5rem;
+      padding-block: 0.75rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .service-premium-page--contact .hotels-trust-footer {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+
   .service-premium-page--flights .hotels-hero--compact .hero-premium__inner,
   .service-premium-page--hotels .hotels-hero--compact .hero-premium__inner,
   .service-premium-page--visa .hotels-hero--compact .hero-premium__inner,
@@ -5994,51 +8113,62 @@
     }
   }
 
-  .service-premium-page--forex .service-trust-bar__title,
-  .service-premium-page--cabs .service-trust-bar__title {
+  .service-premium-page--forex .service-trust-bar__title {
     font-size: 0.5625rem;
-    font-weight: 700;
-    line-height: 1.2;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: #ffffff;
-    white-space: normal;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: normal;
   }
 
-  .service-premium-page--forex .service-trust-bar__detail,
-  .service-premium-page--cabs .service-trust-bar__detail {
-    font-size: 0.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #ffffff;
-    white-space: normal;
-    overflow-wrap: break-word;
+  .service-premium-page--forex .service-trust-bar__detail {
+    display: none;
   }
 
   @media (min-width: 640px) {
-    .service-premium-page--forex .service-trust-bar__title,
-    .service-premium-page--cabs .service-trust-bar__title {
-      font-size: 0.8125rem;
-      line-height: 1.25;
-    }
-
-    .service-premium-page--forex .service-trust-bar__detail,
-    .service-premium-page--cabs .service-trust-bar__detail {
+    .service-premium-page--forex .service-trust-bar__title {
       font-size: 0.6875rem;
-      line-height: 1.25;
+      letter-spacing: -0.01em;
     }
   }
 
   .service-premium-page--flights .service-trust-bar__title,
   .service-premium-page--hotels .service-trust-bar__title,
+  .service-premium-page--cabs .service-trust-bar__title,
   .service-premium-page--visa .service-trust-bar__title,
   .service-premium-page--insurance .service-trust-bar__title,
+  .service-premium-page--forex .service-trust-bar__title,
   .service-premium-page--about .service-trust-bar__title,
   .service-premium-page--contact .service-trust-bar__title {
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: normal;
+  }
+
+  .service-premium-page--flights .service-trust-bar__detail,
+  .service-premium-page--hotels .service-trust-bar__detail,
+  .service-premium-page--cabs .service-trust-bar__detail,
+  .service-premium-page--visa .service-trust-bar__detail,
+  .service-premium-page--insurance .service-trust-bar__detail,
+  .service-premium-page--forex .service-trust-bar__detail,
+  .service-premium-page--about .service-trust-bar__detail,
+  .service-premium-page--contact .service-trust-bar__detail {
+    display: none;
+  }
+
+  .service-premium-page--hotels .service-trust-bar__title {
     white-space: normal;
   }
 
   @media (min-width: 640px) {
     .service-premium-page--flights .service-trust-bar__title,
     .service-premium-page--hotels .service-trust-bar__title,
+    .service-premium-page--cabs .service-trust-bar__title,
     .service-premium-page--visa .service-trust-bar__title,
     .service-premium-page--insurance .service-trust-bar__title,
     .service-premium-page--about .service-trust-bar__title,
@@ -6070,14 +8200,10 @@
       font-size: 0.8125rem;
     }
 
-    .service-premium-page--forex .service-trust-bar__title,
-    .service-premium-page--cabs .service-trust-bar__title {
-      font-size: 0.875rem;
-    }
-
-    .service-premium-page--forex .service-trust-bar__detail,
-    .service-premium-page--cabs .service-trust-bar__detail {
+    .service-premium-page--forex .service-trust-bar__title {
       font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
   }
 
@@ -6145,8 +8271,68 @@
   }
 
   .service-premium-page--flights .hotels-trust-footer__inner {
-    padding-block: 1.5rem;
+    padding-block: 1rem;
   }
+
+  .service-premium-page--flights .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+  .service-premium-page--hotels .hotels-trust-footer__inner {
+    padding-block: 1rem;
+  }
+
+  .service-premium-page--hotels .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+
+  .service-premium-page--cabs .hotels-trust-footer__inner {
+    padding-block: 1rem;
+  }
+
+  .service-premium-page--cabs .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+
+  .service-premium-page--visa .hotels-trust-footer__inner {
+    padding-block: 1rem;
+  }
+
+  .service-premium-page--visa .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+
+  .service-premium-page--insurance .hotels-trust-footer__inner {
+    padding-block: 1rem;
+  }
+
+  .service-premium-page--insurance .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+
+  .service-premium-page--forex .hotels-trust-footer__inner {
+    padding-block: 1rem;
+  }
+
+  .service-premium-page--forex .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+
+  .service-premium-page--about .hotels-trust-footer__inner {
+    padding-block: 1rem;
+  }
+
+  .service-premium-page--about .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+
+  .service-premium-page--contact .hotels-trust-footer__inner {
+    padding-block: 1rem;
+  }
+
+  .service-premium-page--contact .hotels-trust-footer {
+    margin-bottom: 0;
+  }
+
 
   .hotels-why-grid {
     display: grid;
@@ -7558,7 +9744,14 @@
 
   .visa-services-cards {
     display: grid;
-    gap: 0.875rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .visa-services-cards {
+      gap: 0.875rem;
+    }
   }
 
   .visa-services-card {
@@ -10831,6 +13024,87 @@
     text-overflow: ellipsis;
   }
 
+  .service-premium-page--flights .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--hotels .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--visa .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--insurance .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--forex .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+  .service-premium-page--contact .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label {
+    color: #2d235f;
+  }
+
+  .service-premium-page--flights .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--hotels .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--visa .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--insurance .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--forex .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+  .service-premium-page--contact .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail {
+    font-weight: 600;
+    color: #e57828;
+  }
+
+  @media (max-width: 639px) {
+    .service-premium-page--flights .hotels-hero--compact.hotels-hero--light .hotels-hero__badge,
+    .service-premium-page--hotels .hotels-hero--compact.hotels-hero--light .hotels-hero__badge,
+    .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge,
+    .service-premium-page--visa .hotels-hero--compact.hotels-hero--light .hotels-hero__badge,
+    .service-premium-page--insurance .hotels-hero--compact.hotels-hero--light .hotels-hero__badge,
+    .service-premium-page--forex .hotels-hero--compact.hotels-hero--light .hotels-hero__badge,
+    .service-premium-page--contact .hotels-hero--compact.hotels-hero--light .hotels-hero__badge {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .service-premium-page--flights .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon,
+    .service-premium-page--hotels .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon,
+    .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon,
+    .service-premium-page--visa .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon,
+    .service-premium-page--insurance .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon,
+    .service-premium-page--forex .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon,
+    .service-premium-page--contact .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon {
+      height: 1.625rem;
+      width: 1.625rem;
+    }
+
+    .service-premium-page--flights .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon svg,
+    .service-premium-page--hotels .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon svg,
+    .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon svg,
+    .service-premium-page--visa .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon svg,
+    .service-premium-page--insurance .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon svg,
+    .service-premium-page--forex .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon svg,
+    .service-premium-page--contact .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-icon svg {
+      height: 0.8125rem;
+      width: 0.8125rem;
+    }
+
+    .service-premium-page--flights .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+    .service-premium-page--hotels .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+    .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+    .service-premium-page--visa .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+    .service-premium-page--insurance .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+    .service-premium-page--forex .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label,
+    .service-premium-page--contact .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-label {
+      font-size: 0.625rem;
+      color: #2d235f;
+    }
+
+    .service-premium-page--flights .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+    .service-premium-page--hotels .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+    .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+    .service-premium-page--visa .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+    .service-premium-page--insurance .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+    .service-premium-page--forex .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail,
+    .service-premium-page--contact .hotels-hero--compact.hotels-hero--light .hotels-hero__badge-detail {
+      font-size: 0.5rem;
+      font-weight: 600;
+      color: #e57828;
+    }
+  }
+
   /* Cabs: show full badge text (no ellipsis). */
   .service-premium-page--cabs .hotels-hero--compact.hotels-hero--light .hotels-hero__badge,
   .service-premium-page--cabs .hotels-hero--light .hotels-hero__badge {
@@ -11036,6 +13310,156 @@
     overflow-wrap: anywhere;
   }
 
+  .service-premium-page--flights .service-trust-bar__title {
+    font-size: 0.5625rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .service-premium-page--flights .service-trust-bar__detail {
+    display: none;
+  }
+
+  @media (max-width: 639px) {
+    .service-premium-page--flights .service-trust-bar__title {
+      font-size: 0.4375rem;
+      letter-spacing: -0.03em;
+    }
+
+    .service-premium-page--flights .service-trust-bar__inner {
+      padding: 0.35rem 0.25rem;
+    }
+
+    .service-premium-page--flights .service-trust-bar__grid--4 {
+      gap: 0.1rem 0.15rem;
+    }
+
+    .service-premium-page--flights .service-trust-bar__item {
+      padding-inline: 0;
+      overflow: visible;
+    }
+
+    .service-premium-page--flights .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .service-premium-page--flights .service-trust-bar__title {
+      font-size: 0.6875rem;
+      letter-spacing: -0.01em;
+    }
+  }
+  .service-premium-page--hotels .service-trust-bar__title,
+  .service-premium-page--cabs .service-trust-bar__title,
+  .service-premium-page--visa .service-trust-bar__title,
+  .service-premium-page--insurance .service-trust-bar__title,
+  .service-premium-page--forex .service-trust-bar__title,
+  .service-premium-page--about .service-trust-bar__title,
+  .service-premium-page--contact .service-trust-bar__title {
+    font-size: 0.5625rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .service-premium-page--hotels .service-trust-bar__detail,
+  .service-premium-page--cabs .service-trust-bar__detail,
+  .service-premium-page--visa .service-trust-bar__detail,
+  .service-premium-page--insurance .service-trust-bar__detail,
+  .service-premium-page--forex .service-trust-bar__detail,
+  .service-premium-page--about .service-trust-bar__detail,
+  .service-premium-page--contact .service-trust-bar__detail {
+    display: none;
+  }
+
+  @media (max-width: 639px) {
+    .service-premium-page--hotels .service-trust-bar__title,
+    .service-premium-page--cabs .service-trust-bar__title,
+    .service-premium-page--visa .service-trust-bar__title,
+    .service-premium-page--insurance .service-trust-bar__title,
+    .service-premium-page--about .service-trust-bar__title,
+    .service-premium-page--contact .service-trust-bar__title {
+      font-size: 0.4375rem;
+      letter-spacing: -0.03em;
+    }
+
+    .service-premium-page--forex .service-trust-bar__title {
+      font-size: 0.375rem !important;
+      letter-spacing: -0.03em;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__inner,
+    .service-premium-page--cabs .service-trust-bar__inner,
+    .service-premium-page--visa .service-trust-bar__inner,
+    .service-premium-page--insurance .service-trust-bar__inner,
+    .service-premium-page--forex .service-trust-bar__inner,
+    .service-premium-page--about .service-trust-bar__inner,
+    .service-premium-page--contact .service-trust-bar__inner {
+      padding: 0.35rem 0.25rem;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__grid--4,
+    .service-premium-page--cabs .service-trust-bar__grid--4,
+    .service-premium-page--visa .service-trust-bar__grid--4,
+    .service-premium-page--insurance .service-trust-bar__grid--4,
+    .service-premium-page--about .service-trust-bar__grid--4,
+    .service-premium-page--contact .service-trust-bar__grid--4 {
+      gap: 0.1rem 0.15rem;
+    }
+
+    .service-premium-page--forex .service-trust-bar__grid--5 {
+      gap: 0.1rem 0.12rem;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__item,
+    .service-premium-page--cabs .service-trust-bar__item,
+    .service-premium-page--visa .service-trust-bar__item,
+    .service-premium-page--insurance .service-trust-bar__item,
+    .service-premium-page--forex .service-trust-bar__item,
+    .service-premium-page--about .service-trust-bar__item,
+    .service-premium-page--contact .service-trust-bar__item {
+      padding-inline: 0;
+      overflow: visible;
+    }
+
+    .service-premium-page--hotels .service-trust-bar__text,
+    .service-premium-page--cabs .service-trust-bar__text,
+    .service-premium-page--visa .service-trust-bar__text,
+    .service-premium-page--insurance .service-trust-bar__text,
+    .service-premium-page--forex .service-trust-bar__text,
+    .service-premium-page--about .service-trust-bar__text,
+    .service-premium-page--contact .service-trust-bar__text {
+      overflow: visible;
+      max-width: none;
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .service-premium-page--hotels .service-trust-bar__title,
+    .service-premium-page--cabs .service-trust-bar__title,
+    .service-premium-page--visa .service-trust-bar__title,
+    .service-premium-page--insurance .service-trust-bar__title,
+    .service-premium-page--forex .service-trust-bar__title,
+    .service-premium-page--about .service-trust-bar__title,
+    .service-premium-page--contact .service-trust-bar__title {
+      font-size: 0.6875rem;
+      letter-spacing: -0.01em;
+    }
+  }
+
   .service-premium-page--flights .service-trust-bar__detail,
   .service-premium-page--hotels .service-trust-bar__detail,
   .service-premium-page--visa .service-trust-bar__detail,
@@ -11050,21 +13474,19 @@
     overflow-wrap: break-word;
   }
 
-  .service-premium-page--forex .service-trust-bar__title,
-  .service-premium-page--cabs .service-trust-bar__title {
-    font-size: 0.8125rem !important;
-    font-weight: 700 !important;
-    line-height: 1.25;
-    white-space: normal;
+  .service-premium-page--forex .service-trust-bar__title {
+    font-size: 0.5625rem !important;
+    font-weight: 600 !important;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    white-space: nowrap !important;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: normal;
   }
 
-  .service-premium-page--forex .service-trust-bar__detail,
-  .service-premium-page--cabs .service-trust-bar__detail {
-    font-size: 0.6875rem !important;
-    font-weight: 500 !important;
-    line-height: 1.25;
-    white-space: normal;
-    overflow-wrap: break-word;
+  .service-premium-page--forex .service-trust-bar__detail {
+    display: none !important;
   }
 
   .service-premium-page--flights .service-trust-bar__text,
@@ -11100,14 +13522,10 @@
       font-size: 0.875rem;
     }
 
-    .service-premium-page--forex .service-trust-bar__title,
-    .service-premium-page--cabs .service-trust-bar__title {
-      font-size: 0.875rem !important;
-    }
-
-    .service-premium-page--forex .service-trust-bar__detail,
-    .service-premium-page--cabs .service-trust-bar__detail {
+    .service-premium-page--forex .service-trust-bar__title {
       font-size: 0.75rem !important;
+      font-weight: 600 !important;
+      white-space: nowrap !important;
     }
 
     .service-premium-page--flights .service-trust-bar__icon,

@@ -90,11 +90,11 @@ export const Route = createFileRoute("/holiday-packages/")({
     buildPageSeo({
       path: "/holiday-packages",
       title: loaderData?.showInternational
-        ? "Holiday Packages — Domestic & International Tours | YatraNexus"
-        : "Holiday Packages India — Kashmir, Kerala, Goa & More | YatraNexus",
+        ? "YatraNexus — Holiday Packages, Domestic & International"
+        : "YatraNexus — Holiday Packages, Kashmir, Kerala & Goa",
       description: loaderData?.showInternational
-        ? "Browse hand-crafted holiday packages across Indian states and international destinations. Filter by region, theme or tour type with YatraNexus."
-        : "Browse hand-crafted India holiday packages — Kashmir, Kerala, Goa, Rajasthan, Himachal and more. Custom tours from Ahmedabad with YatraNexus.",
+        ? "YatraNexus Ventures LLP. Your Journey, Our Priority. Domestic & international holiday packages — handled by real travel experts on WhatsApp."
+        : "YatraNexus Ventures LLP. Your Journey, Our Priority. Kashmir, Kerala, Goa, Rajasthan, Himachal & more — handled by real travel experts on WhatsApp.",
       keywords:
         "holiday packages India, Kashmir tour package, Kerala honeymoon package, domestic tour packages Ahmedabad",
     }),
@@ -495,17 +495,13 @@ function HolidayPackagesHub() {
       </section>
 
       {/* CTA */}
-      <section>
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <div className="relative overflow-hidden rounded-3xl bg-brand-gradient px-6 py-12 text-center text-white shadow-glow sm:px-12 sm:py-16">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,white_0%,transparent_60%)] opacity-15"
-            />
-            <h2 className="relative font-display text-2xl font-extrabold tracking-tight sm:text-4xl">
+      <section className="holiday-hub-cta-section">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+          <div className="holiday-hub-cta">
+            <h2 className="holiday-hub-cta__title">
               Can't Find Your Dream Destination?
             </h2>
-            <p className="relative mx-auto mt-3 max-w-xl text-sm text-white/85 sm:text-base">
+            <p className="holiday-hub-cta__lead">
               Tell us where you'd like to go — our travel experts will build a custom itinerary for
               you, free of cost.
             </p>
@@ -513,9 +509,9 @@ function HolidayPackagesHub() {
               href={whatsappLink("Hi YatraNexus, I'd like a custom holiday itinerary.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative mt-7 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-[color:var(--brand-navy-deep)] shadow-soft transition hover:-translate-y-0.5"
+              className="holiday-hub-cta__btn"
             >
-              Request custom itinerary <ArrowRight className="h-4 w-4" />
+              Request custom itinerary <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
         </div>

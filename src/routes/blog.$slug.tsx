@@ -6,7 +6,14 @@ import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { SafeImage, hasImageSrc } from "@/components/site/SafeImage";
 import { fetchPublicBlogPostBySlug, fetchPublicBlogPosts } from "@/lib/public-cms";
-import { blogPostJsonLd, breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
+import {
+  blogPostJsonLd,
+  brandSeoDescription,
+  brandSeoTitle,
+  breadcrumbJsonLd,
+  buildPageSeo,
+  mergeSeoHead,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
@@ -29,11 +36,13 @@ export const Route = createFileRoute("/blog/$slug")({
     const post = loaderData?.post;
     if (!post) return { meta: [] };
     const path = `/blog/${post.slug}`;
-    const description = post.metaDescription ?? post.excerpt ?? post.title;
+    const description =
+      post.metaDescription ??
+      brandSeoDescription(post.excerpt?.trim() || post.title);
     return mergeSeoHead(
       buildPageSeo({
         path,
-        title: post.metaTitle ?? `${post.title} | YatraNexus Travel Blog`,
+        title: post.metaTitle ?? brandSeoTitle(post.title),
         description,
         image: post.image,
         type: "article",

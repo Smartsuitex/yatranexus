@@ -11,7 +11,7 @@ import {
   HOLIDAY_INTERNATIONAL_HERO,
   resolveHolidayHubHero,
 } from "@/lib/holiday-packages-page-data";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/holiday-packages/international/")({
   loader: async () => {
@@ -25,9 +25,10 @@ export const Route = createFileRoute("/holiday-packages/international/")({
   head: () =>
     buildPageSeo({
       path: "/holiday-packages/international",
-      title: "International Holiday Packages — Dubai, Bali, Europe | YatraNexus",
-      description:
-        "International holiday packages — Dubai, Bali, Thailand, Maldives, Singapore, Europe, Turkey and more. Book with YatraNexus Ahmedabad.",
+      title: brandSeoTitle("International Holidays, Dubai, Bali & Europe"),
+      description: brandSeoDescription(
+        "Dubai, Bali, Thailand, Maldives, Singapore, Europe & Turkey packages",
+      ),
       keywords: "international holiday packages, Dubai tour package, Bali honeymoon, Europe tour India",
     }),
   component: IntlIndex,

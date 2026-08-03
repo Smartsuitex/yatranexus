@@ -6,11 +6,13 @@ import { ServiceCtaBanner } from "@/components/site/service-premium/ServiceCtaBa
 import { ServicePageShell } from "@/components/site/service-premium/ServicePageShell";
 import { ServiceHeroSection } from "@/components/site/service-premium/ServiceHeroSection";
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
+import { ServiceTrustFooter } from "@/components/site/service-premium/ServiceTrustFooter";
 import { useServiceInquiry } from "@/components/site/service-premium/ServiceInquiryDialog";
 import {
   CABS_CTA,
   CABS_HERO,
   CABS_HERO_BADGES,
+  CABS_TRUST_FOOTER,
   CABS_TRUST_ROW,
   resolveCabCategories,
 } from "@/lib/cabs-page-data";
@@ -24,7 +26,16 @@ export function CabsLandingPage({ service }: Props) {
   const hero = resolveServiceHero("cabs", service.bannerUrl);
   const blocks = service.contentBlocks;
   const badges = [...CABS_HERO_BADGES];
-  const trustItems = [...CABS_TRUST_ROW];
+  const trustItems = CABS_TRUST_ROW.map((item) => {
+    const title = item.title?.trim() ?? "";
+    const detail = item.detail?.trim() ?? "";
+    const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+    return {
+      ...item,
+      title: oneLine || title,
+      detail: "",
+    };
+  });
   const categories = resolveCabCategories(blocks.catalogItems);
   const { openInquiry, dialog } = useServiceInquiry({
     defaultService: "cabs",
@@ -131,6 +142,8 @@ export function CabsLandingPage({ service }: Props) {
       </section>
 
       <ServiceCmsExtras service={service} className="hotels-section" />
+
+      <ServiceTrustFooter items={CABS_TRUST_FOOTER} ariaLabel="Inquiry process guarantees" />
 
       {dialog}
     </ServicePageShell>

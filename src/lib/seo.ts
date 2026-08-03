@@ -3,6 +3,27 @@ import { COMPANY } from "@/lib/site-data";
 export const DEFAULT_OG_IMAGE = "/images/hero/holiday-packages-hero-desktop.webp";
 export const DEFAULT_SITE_URL = "https://yatranexus.com";
 
+/** Homepage / default SERP-style title (matches Google listing pattern). */
+export const HOME_SEO_TITLE = "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs";
+
+/** Homepage / default SERP-style description. */
+export const HOME_SEO_DESCRIPTION =
+  "YatraNexus Ventures LLP. Your Journey, Our Priority. Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.";
+
+/** Brand-first title: `YatraNexus — Keywords`. */
+export function brandSeoTitle(keywords: string): string {
+  return `YatraNexus — ${keywords.replace(/\s+/g, " ").trim()}`;
+}
+
+/**
+ * Brand-first description:
+ * `YatraNexus Ventures LLP. Your Journey, Our Priority. {services} — handled by real travel experts on WhatsApp.`
+ */
+export function brandSeoDescription(servicesLine: string): string {
+  const services = servicesLine.replace(/\s+/g, " ").trim().replace(/[.\s]+$/, "");
+  return `YatraNexus Ventures LLP. Your Journey, Our Priority. ${services} — handled by real travel experts on WhatsApp.`;
+}
+
 export type PageSeoInput = {
   path: string;
   title: string;
@@ -82,8 +103,7 @@ export function organizationJsonLd(extras?: {
     url: getSiteUrl(),
     logo: absoluteImageUrl("/images/logo/yatranexus-full-logo.jpg"),
     image: absoluteImageUrl(DEFAULT_OG_IMAGE),
-    description:
-      "Ahmedabad travel agency for flights, hotels, holiday packages, cabs, visa, travel insurance and forex — Your Journey, Our Priority.",
+    description: HOME_SEO_DESCRIPTION,
     email,
     telephone: phone,
     address: {

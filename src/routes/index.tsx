@@ -221,10 +221,12 @@ export const Route = createFileRoute("/")({
     };
   },
   head: ({ loaderData }) => {
-    const title = loaderData?.seoTitle?.trim() || "YatraNexus";
+    const title =
+      loaderData?.seoTitle?.trim() ||
+      "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs";
     const description =
       loaderData?.seoDescription?.trim() ||
-      "Plan flights, hotels, holiday packages across India, cabs, visa, travel insurance and forex with YatraNexus Ventures LLP in Ahmedabad. Your Journey, Our Priority.";
+      "YatraNexus Ventures LLP. Your Journey, Our Priority. Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.";
     const firstSlideImage = loaderData?.heroSlides?.[0]?.image;
     const preload = heroPreloadLink(resolveHeroBackground(firstSlideImage));
     const seo = buildPageSeo({

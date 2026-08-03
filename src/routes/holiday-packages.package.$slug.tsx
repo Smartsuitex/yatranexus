@@ -16,6 +16,8 @@ import {
   packageMatchesDestination,
 } from "@/lib/public-cms";
 import {
+  brandSeoDescription,
+  brandSeoTitle,
   breadcrumbJsonLd,
   buildPageSeo,
   mergeSeoHead,
@@ -57,14 +59,18 @@ export const Route = createFileRoute("/holiday-packages/package/$slug")({
     const path = `/holiday-packages/package/${pkg.slug}`;
     const description =
       pkg.metaDescription ??
-      pkg.overview ??
-      `${pkg.nights} nights / ${pkg.days} days holiday package in ${pkg.destination}. Book with YatraNexus Ahmedabad.`;
+      brandSeoDescription(
+        pkg.overview?.trim() ||
+          `${pkg.nights}N/${pkg.days}D ${pkg.destination} holiday package`,
+      );
     return mergeSeoHead(
       buildPageSeo({
         path,
         title:
           pkg.metaTitle ??
-          `${pkg.title} — ${pkg.fromPrice} | Holiday Package | YatraNexus`,
+          brandSeoTitle(
+            pkg.fromPrice ? `${pkg.title}, from ${pkg.fromPrice}` : pkg.title,
+          ),
         description,
         image: pkg.image,
         type: "product",

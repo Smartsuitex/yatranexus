@@ -34,10 +34,10 @@ export const FLIGHTS_HERO: ServiceHeroCopy = {
 export const FLIGHTS_HERO_BADGES: ServiceIconItem[] = STANDARD_HERO_BADGES;
 
 export const FLIGHTS_TRUST_STATS: ServiceIconItem[] = [
-  { icon: Plane, title: "30+", detail: "Airlines" },
-  { icon: Globe2, title: "500+", detail: "Destinations" },
-  { icon: Award, title: "Best Price", detail: "Guaranteed" },
-  { icon: Lock, title: "Secure", detail: "Data & Privacy" },
+  { icon: Plane, title: "30+ Airlines", detail: "" },
+  { icon: Globe2, title: "500+ Destinations", detail: "" },
+  { icon: Award, title: "Best Price Guaranteed", detail: "" },
+  { icon: Lock, title: "Secure Data & Privacy", detail: "" },
 ];
 
 export const FLIGHTS_POPULAR_DESTINATIONS: FlightPopularDestination[] = [
@@ -167,8 +167,8 @@ export const FLIGHTS_CTA = {
 } as const;
 
 export const FLIGHTS_TRUST_FOOTER: ServiceIconItem[] = [
-  { icon: Ticket, title: "No Booking On Website", detail: "We only take inquiry" },
+  { icon: Ticket, title: "No Website Booking", detail: "We only take inquiry" },
   { icon: ShieldCheck, title: "Best Options Shared", detail: "As per your requirement" },
-  { icon: Clock, title: "Quick & Easy Process", detail: "Get response within 30 mins" },
-  { icon: ShieldCheck, title: "100% Safe & Secure", detail: "Your data is always protected" },
+  { icon: Clock, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: ShieldCheck, title: "100% Safe & Secure", detail: "Data always protected" },
 ];

@@ -40,10 +40,10 @@ export const HOTELS_HERO_BADGES: ServiceIconItem[] = [
 ];
 
 export const HOTELS_TRUST_STATS: ServiceIconItem[] = [
-  { icon: Tag, title: "Best Deals", detail: "On 10,000+ Hotels" },
-  { icon: MapPin, title: "500+", detail: "Destinations" },
-  { icon: BadgeCheck, title: "Secure", detail: "Inquiry Process" },
-  { icon: Lock, title: "Safe & Easy", detail: "Data Protected" },
+  { icon: Tag, title: "Best Deals On 10,000+ Hotels", detail: "" },
+  { icon: MapPin, title: "500+ Destinations", detail: "" },
+  { icon: BadgeCheck, title: "Secure Inquiry Process", detail: "" },
+  { icon: Lock, title: "Safe & Easy Data Protected", detail: "" },
 ];
 
 export type HotelPopularDestination = {
@@ -172,10 +172,10 @@ export const HOTELS_WHY_BOOK: HotelsWhyItem[] = [
 ];
 
 export const HOTELS_TRUST_FOOTER: HotelsPageIconItem[] = [
-  { icon: ShieldCheck, title: "No Booking On Website", detail: "We only take inquiry" },
+  { icon: ShieldCheck, title: "No Website Booking", detail: "We only take inquiry" },
   { icon: Tag, title: "Best Options Shared", detail: "As per your requirement" },
-  { icon: Clock, title: "Quick & Easy Process", detail: "Get response within 30 mins" },
-  { icon: Lock, title: "100% Safe & Secure", detail: "Your data is always protected" },
+  { icon: Clock, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: Lock, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
 export const HOTELS_CTA = {

@@ -10,7 +10,6 @@ import {
   Headphones,
   MessageCircle,
   Radar,
-  Search,
   ShieldCheck,
   Stamp,
   Target,
@@ -35,10 +34,10 @@ export const VISA_HERO_BADGES: ServiceIconItem[] = [
 
 /** Floating feature card under premium visa hero. */
 export const VISA_TRUST_RIBBON: ServiceIconItem[] = [
-  { icon: Users, title: "Expert Assistance", detail: "Guidance at every step" },
-  { icon: Award, title: "High Success", detail: "Better approval ratio" },
-  { icon: Target, title: "Quick Process", detail: "Timely & efficient" },
-  { icon: ShieldCheck, title: "Secure & Reliable", detail: "100% safe handling" },
+  { icon: Users, title: "Expert Assistance", detail: "" },
+  { icon: Award, title: "High Success Rate", detail: "" },
+  { icon: Target, title: "Quick Process", detail: "" },
+  { icon: ShieldCheck, title: "Secure & Reliable", detail: "" },
 ];
 
 export const VISA_TRUST_STATS = VISA_TRUST_RIBBON;
@@ -260,10 +259,10 @@ export const VISA_CTA = {
 } as const;
 
 export const VISA_TRUST_FOOTER: ServiceIconItem[] = [
-  { icon: ShieldCheck, title: "100% Genuine Advice", detail: "Honest & reliable guidance" },
-  { icon: FileCheck, title: "Document Checklist", detail: "Proper verification & review" },
-  { icon: Search, title: "Application Tracking", detail: "Real-time status updates" },
-  { icon: Briefcase, title: "Support Until Approval", detail: "We're with you all the way" },
+  { icon: ShieldCheck, title: "No Website Booking", detail: "We only take inquiry" },
+  { icon: FileCheck, title: "Best Options Shared", detail: "As per your requirement" },
+  { icon: Clock, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: Briefcase, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
 export const VISA_TRUST_ICONS = {

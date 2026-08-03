@@ -5,7 +5,7 @@ import { InquiryForm } from "@/components/site/InquiryForm";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
 import { fetchPublicFaqs } from "@/lib/public-cms";
-import { buildPageSeo, faqPageJsonLd, mergeSeoHead } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo, faqPageJsonLd, mergeSeoHead } from "@/lib/seo";
 import {
   Accordion,
   AccordionContent,
@@ -22,9 +22,10 @@ export const Route = createFileRoute("/faq")({
     mergeSeoHead(
       buildPageSeo({
         path: "/faq",
-        title: "FAQ — Travel Booking Questions | YatraNexus",
-        description:
-          "Answers to common questions about booking holiday packages, visas, payments and corporate travel with YatraNexus in Ahmedabad.",
+        title: brandSeoTitle("FAQ, Bookings, Visa & Holidays"),
+        description: brandSeoDescription(
+          "Answers on holiday packages, visas, payments & corporate travel",
+        ),
         keywords: "YatraNexus FAQ, holiday booking questions, visa FAQ India",
       }),
       {

@@ -9,7 +9,7 @@ import {
   fetchPublicDestinationBySlug,
   resolveShowInternational,
 } from "@/lib/public-cms";
-import { breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/international/$country")({
@@ -35,8 +35,10 @@ export const Route = createFileRoute("/holiday-packages/international/$country")
     return mergeSeoHead(
       buildPageSeo({
         path,
-        title: `${dest.name} Holiday Packages | YatraNexus`,
-        description: `${dest.name} packages: ${dest.blurb}. Book international holidays with YatraNexus.`,
+        title: brandSeoTitle(`${dest.name} Holiday Packages & Tours`),
+        description: brandSeoDescription(
+          dest.blurb?.trim() || `${dest.name} international holiday packages`,
+        ),
         image: dest.image,
         keywords: `${dest.name} holiday packages, ${dest.name} tour from India`,
       }),

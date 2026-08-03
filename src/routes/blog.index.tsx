@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/site/SectionHeading";
 import { useSiteConfig } from "@/contexts/site-config";
 import { DEFAULT_PAGE_CONTENT } from "@/lib/page-content";
 import { fetchPublicBlogPosts } from "@/lib/public-cms";
-import { buildPageSeo } from "@/lib/seo";
+import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/")({
   loader: async () => {
@@ -17,9 +17,10 @@ export const Route = createFileRoute("/blog/")({
   head: () =>
     buildPageSeo({
       path: "/blog",
-      title: "Travel Blog — Tips, Visa Guides & Destinations | YatraNexus",
-      description:
-        "Travel tips, visa guides and destination ideas from the YatraNexus team — practical advice for trips across India and beyond.",
+      title: brandSeoTitle("Travel Blog, Visa Guides & Destinations"),
+      description: brandSeoDescription(
+        "Travel tips, visa guides & destination ideas for trips across India",
+      ),
       keywords: "travel blog India, visa guide, destination tips, YatraNexus blog",
     }),
   component: BlogIndexPage,

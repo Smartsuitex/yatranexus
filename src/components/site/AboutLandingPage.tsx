@@ -13,6 +13,7 @@ import {
   ABOUT_HERO,
   ABOUT_HOW_IT_WORKS,
   ABOUT_MISSION_VISION,
+  ABOUT_TRUST_FOOTER,
   ABOUT_TRUST_STATS,
   ABOUT_VALUES,
   ABOUT_WHO_WE_ARE,
@@ -21,6 +22,7 @@ import {
   resolveAboutHero,
   splitAboutParagraphs,
 } from "@/lib/about-page-data";
+import { ServiceTrustFooter } from "@/components/site/service-premium/ServiceTrustFooter";
 import type { PublicHomepageSettings } from "@/lib/public-cms";
 
 type Props = {
@@ -90,6 +92,17 @@ export function AboutLandingPage({ homepage }: Props) {
         })
       : ABOUT_VALUES;
 
+  const trustItems = ABOUT_TRUST_STATS.map((item) => {
+    const title = item.title?.trim() ?? "";
+    const detail = item.detail?.trim() ?? "";
+    const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+    return {
+      ...item,
+      title: oneLine || title,
+      detail: "",
+    };
+  });
+
   return (
     <ServicePageShell modifier="about">
       <ServiceHeroSection
@@ -99,7 +112,7 @@ export function AboutLandingPage({ homepage }: Props) {
         titleFirst={heroTitleFirst}
         titleAccent={heroTitleAccent}
         subtitle={heroSubtitle}
-        trustItems={ABOUT_TRUST_STATS}
+        trustItems={trustItems}
         trustAriaLabel="Why travellers choose YatraNexus"
         trustColumns={4}
         heroVariant="light"
@@ -308,6 +321,8 @@ export function AboutLandingPage({ homepage }: Props) {
           />
         </div>
       </section>
+
+      <ServiceTrustFooter items={ABOUT_TRUST_FOOTER} ariaLabel="Inquiry process guarantees" />
     </ServicePageShell>
   );
 }

@@ -29,7 +29,16 @@ type Props = { service: PublicService };
 export function InsuranceLandingPage({ service }: Props) {
   const hero = resolveServiceHero("insurance", service.bannerUrl);
   const blocks = service.contentBlocks;
-  const trustStats = [...INSURANCE_TRUST_STATS];
+  const trustStats = INSURANCE_TRUST_STATS.map((item) => {
+    const title = item.title?.trim() ?? "";
+    const detail = item.detail?.trim() ?? "";
+    const oneLine = [title, detail].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+    return {
+      ...item,
+      title: oneLine || title,
+      detail: "",
+    };
+  });
   const badges = [...INSURANCE_HERO_BADGES];
   const trustFooter = resolveCmsFeatureItems(blocks.trustFooter, INSURANCE_TRUST_FOOTER, 1);
   const coverageItems = [...INSURANCE_COVERAGE_ITEMS];
@@ -183,7 +192,7 @@ export function InsuranceLandingPage({ service }: Props) {
       <ServiceTrustFooter
         items={trustFooter}
         ariaLabel="Insurance guarantees"
-        columns={5}
+        columns={4}
       />
 
       {dialog}

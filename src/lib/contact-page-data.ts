@@ -18,10 +18,17 @@ export const CONTACT_HERO_BADGES: ServiceIconItem[] = [
 ];
 
 export const CONTACT_TRUST_STATS: ServiceIconItem[] = [
-  { icon: Phone, title: "Call Us", detail: "Anytime" },
-  { icon: MessageCircle, title: "WhatsApp", detail: "Quick Replies" },
-  { icon: Mail, title: "Email", detail: "Detailed Plans" },
-  { icon: MapPin, title: "Visit", detail: "Our Office" },
+  { icon: Phone, title: "Call Us Anytime", detail: "" },
+  { icon: MessageCircle, title: "WhatsApp Quick Replies", detail: "" },
+  { icon: Mail, title: "Email Detailed Plans", detail: "" },
+  { icon: MapPin, title: "Visit Our Office", detail: "" },
+];
+
+export const CONTACT_TRUST_FOOTER: ServiceIconItem[] = [
+  { icon: ShieldCheck, title: "No Website Booking", detail: "We only take inquiry" },
+  { icon: MessageCircle, title: "Best Options Shared", detail: "As per your requirement" },
+  { icon: Clock, title: "Quick & Easy Process", detail: "Reply within 30 mins" },
+  { icon: Headphones, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
 /** Prefer CMS banner; fall back to local Contact hero. Reject Unsplash stock. */
