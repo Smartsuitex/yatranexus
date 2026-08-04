@@ -143,9 +143,9 @@ export function HotelsLandingPage({ service }: Props) {
           <ServiceSectionHeading
             id="hotels-why-heading"
             title={
-              <>
+              <span className="hotels-why-heading">
                 Why book hotels with <span className="text-brand-gradient">Yatra Nexus</span>?
-              </>
+              </span>
             }
           />
           <div className={`flights-why-grid flights-why-grid--count-${whyBookItems.length}`}>

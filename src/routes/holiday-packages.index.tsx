@@ -2,9 +2,8 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Search, ArrowRight } from "lucide-react";
 import { DestinationCard } from "@/components/site/DestinationCard";
+import { FeaturedPackageCard } from "@/components/site/FeaturedPackageCard";
 import { HolidayPageHero } from "@/components/site/HolidayPageHero";
-import { OverlayImageCard } from "@/components/site/OverlayImageCard";
-import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
 import { SafeImage } from "@/components/site/SafeImage";
 import {
   HOLIDAY_HUB_HERO,
@@ -461,21 +460,9 @@ function HolidayPackagesHub() {
             ) : null}
           </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          <div className="holiday-featured-packages-row mt-12">
             {displayedPackages.map((p) => (
-              <OverlayImageCard
-                key={p.slug}
-                to="/holiday-packages/package/$slug"
-                params={{ slug: p.slug }}
-                image={p.image}
-                aspect="wide"
-              >
-                <p className="home-dest-card__tagline">
-                  {p.destination} · {p.nights}N / {p.days}D
-                </p>
-                <h3 className="home-dest-card__name">{p.title}</h3>
-                <PackagePriceLabel amount={p.fromPrice} />
-              </OverlayImageCard>
+              <FeaturedPackageCard key={p.slug} pkg={p} />
             ))}
             {displayedPackages.length === 0 ? (
               <div className="col-span-full rounded-2xl border border-dashed border-border bg-white p-8 text-center text-sm text-muted-foreground">

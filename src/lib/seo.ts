@@ -3,12 +3,13 @@ import { COMPANY } from "@/lib/site-data";
 export const DEFAULT_OG_IMAGE = "/images/hero/holiday-packages-hero-desktop.webp";
 export const DEFAULT_SITE_URL = "https://yatranexus.com";
 
-/** Homepage / default SERP-style title (matches Google listing pattern). */
-export const HOME_SEO_TITLE = "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs";
+/** Homepage / default SERP-style title. */
+export const HOME_SEO_TITLE =
+  "YatraNexus | Tour Packages, Flights, Hotels & Cabs India";
 
 /** Homepage / default SERP-style description. */
 export const HOME_SEO_DESCRIPTION =
-  "YatraNexus Ventures LLP. Your Journey, Our Priority. Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.";
+  "Book affordable tour packages, flights, hotels, cabs & corporate travel with YatraNexus. Explore India with trusted travel experts.";
 
 /** Brand-first title: `YatraNexus — Keywords`. */
 export function brandSeoTitle(keywords: string): string {

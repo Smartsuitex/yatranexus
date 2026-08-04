@@ -1,7 +1,7 @@
 import { resolveHomeHeroTagline } from "@/lib/homepage-admin";
 import { toHeroSearchDestinations, toHeroSearchPackages } from "@/lib/hero-search";
 import { heroPreloadLink, resolveHeroBackground } from "@/lib/site-images";
-import { buildPageSeo } from "@/lib/seo";
+import { buildPageSeo, HOME_SEO_DESCRIPTION, HOME_SEO_TITLE } from "@/lib/seo";
 import { lazy, Suspense, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
@@ -221,12 +221,9 @@ export const Route = createFileRoute("/")({
     };
   },
   head: ({ loaderData }) => {
-    const title =
-      loaderData?.seoTitle?.trim() ||
-      "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs";
+    const title = loaderData?.seoTitle?.trim() || HOME_SEO_TITLE;
     const description =
-      loaderData?.seoDescription?.trim() ||
-      "YatraNexus Ventures LLP. Your Journey, Our Priority. Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.";
+      loaderData?.seoDescription?.trim() || HOME_SEO_DESCRIPTION;
     const firstSlideImage = loaderData?.heroSlides?.[0]?.image;
     const preload = heroPreloadLink(resolveHeroBackground(firstSlideImage));
     const seo = buildPageSeo({

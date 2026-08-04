@@ -187,10 +187,9 @@ export function FlightsLandingPage({ service }: Props) {
           <ServiceSectionHeading
             id="flights-why-heading"
             title={
-              <>
-                Why book flights with{" "}
-                <span className="text-brand-gradient">Yatra Nexus</span>?
-              </>
+              <span className="flights-why-heading">
+                Why book flights with <span className="text-brand-gradient">Yatra Nexus</span>?
+              </span>
             }
           />
           <div className={`flights-why-grid flights-why-grid--count-${whyBookItems.length}`}>

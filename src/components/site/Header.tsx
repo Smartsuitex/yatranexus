@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
 import { useSiteConfig } from "@/contexts/site-config";
@@ -18,6 +19,9 @@ export function Header() {
   const site = useSiteConfig();
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const barRef = useRef<HTMLDivElement>(null);
+  const [barHeight, setBarHeight] = useState(60);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const serviceLinks = site.navLinks.filter((l) => l.to !== "/corporate");
 
@@ -47,45 +51,59 @@ export function Header() {
   }
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     closeMenu();
     // Close when navigating between pages.
     // eslint-disable-next-line react-hooks/exhaustive-deps -- pathname is the trigger
   }, [pathname]);
 
   useEffect(() => {
+    const el = barRef.current;
+    if (!el) return;
+
+    const update = () => setBarHeight(Math.round(el.getBoundingClientRect().height));
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
 
-    const scrollY = window.scrollY;
-    const { body } = document;
-    const prev = {
-      overflow: body.style.overflow,
-      position: body.style.position,
-      top: body.style.top,
-      width: body.style.width,
-      paddingRight: body.style.paddingRight,
-    };
-    const scrollbarGap = window.innerWidth - document.documentElement.clientWidth;
+    // Do NOT set overflow:hidden / position:fixed on body — that jumps the page
+    // to the top when the menu opens from the footer (or any scrolled position).
+    // Freeze background scroll with event prevention instead.
+    const menuRoot = document.getElementById("site-mobile-nav-root");
 
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.width = "100%";
-    if (scrollbarGap > 0) {
-      body.style.paddingRight = `${scrollbarGap}px`;
+    function isInsideMenu(target: EventTarget | null) {
+      return target instanceof Node && !!menuRoot?.contains(target);
+    }
+
+    function onTouchMove(event: TouchEvent) {
+      if (!isInsideMenu(event.target)) event.preventDefault();
+    }
+
+    function onWheel(event: WheelEvent) {
+      if (!isInsideMenu(event.target)) event.preventDefault();
     }
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") closeMenu();
     }
+
+    document.documentElement.classList.add("nav-menu-open");
+    document.addEventListener("touchmove", onTouchMove, { passive: false });
+    document.addEventListener("wheel", onWheel, { passive: false });
     document.addEventListener("keydown", onKeyDown);
 
     return () => {
-      body.style.overflow = prev.overflow;
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.width = prev.width;
-      body.style.paddingRight = prev.paddingRight;
-      window.scrollTo(0, scrollY);
+      document.documentElement.classList.remove("nav-menu-open");
+      document.removeEventListener("touchmove", onTouchMove);
+      document.removeEventListener("wheel", onWheel);
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
@@ -173,9 +191,116 @@ export function Header() {
     [headerLinks],
   );
 
+  const mobileMenu =
+    open && mounted
+      ? createPortal(
+          <div id="site-mobile-nav-root" className="contents lg:hidden">
+            <button
+              type="button"
+              aria-label="Close menu"
+              className="fixed inset-0 z-[55] bg-black/40"
+              onClick={closeMenu}
+            />
+            {/* Keep a fixed header strip so the X stays usable over the overlay */}
+            <div
+              className="fixed inset-x-0 top-0 z-[60] border-b border-border/60 bg-background/95 backdrop-blur-md"
+              style={{ height: barHeight }}
+            >
+              <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-3 px-4 lg:px-8">
+                <div className="min-w-0 max-w-[calc(100%-3.25rem)] shrink">
+                  <Logo />
+                </div>
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md p-2.5 text-foreground"
+                  onClick={closeMenu}
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            <div
+              className="site-mobile-nav fixed inset-x-0 z-[60] overflow-y-auto overscroll-contain border-t border-border/60 bg-background shadow-soft"
+              style={{
+                top: barHeight,
+                maxHeight: `calc(100dvh - ${barHeight}px)`,
+              }}
+            >
+              <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+                {beforeServices.map((item) => (
+                  <div
+                    key={`m-${item.label}-${item.to ?? item.href}`}
+                    className="flex min-h-11 items-center py-3"
+                  >
+                    <NavItem item={item} onClick={closeMenu} />
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setServicesOpen((v) => !v)}
+                  aria-expanded={servicesOpen}
+                  className="flex min-h-11 items-center justify-between py-3 text-sm font-medium text-foreground/80"
+                >
+                  Services
+                  <ChevronDown
+                    className={`h-4 w-4 transition ${servicesOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {servicesOpen ? (
+                  <div className="mb-2 ml-3 flex flex-col border-l border-border/60 pl-3">
+                    <Link
+                      to="/services"
+                      onClick={closeMenu}
+                      className="py-2 text-sm font-medium text-primary"
+                    >
+                      All services
+                    </Link>
+                    {serviceLinks.map((svc) => {
+                      const route = publicNavLinkRoute(svc);
+                      return (
+                        <Link
+                          key={svc.to}
+                          {...route}
+                          onClick={closeMenu}
+                          className="min-h-10 py-2.5 text-sm text-foreground/70 hover:text-primary"
+                        >
+                          {svc.title}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                ) : null}
+                {afterServices.map((item) => (
+                  <div
+                    key={`m-${item.label}-${item.to ?? item.href}`}
+                    className="flex min-h-11 items-center py-3"
+                  >
+                    <NavItem item={item} onClick={closeMenu} />
+                  </div>
+                ))}
+                <Link
+                  to="/contact"
+                  hash="inquiry"
+                  search={{ destination: "", service: "" }}
+                  onClick={closeMenu}
+                  className="mt-2 rounded-full bg-brand-gradient px-5 py-3 text-center text-sm font-semibold text-white"
+                >
+                  Plan My Trip
+                </Link>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
-      <div className="relative z-[60] mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:px-8">
+      <div
+        ref={barRef}
+        className="relative z-[60] mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:px-8"
+      >
         <div className="min-w-0 max-w-[calc(100%-3.25rem)] shrink">
           <Logo />
         </div>
@@ -192,6 +317,7 @@ export function Header() {
           <Link
             to="/contact"
             hash="inquiry"
+            search={{ destination: "", service: "" }}
             className="rounded-full bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:shadow-glow"
           >
             Plan My Trip
@@ -208,79 +334,7 @@ export function Header() {
         </button>
       </div>
 
-      {open ? (
-        <>
-          <button
-            type="button"
-            aria-label="Close menu"
-            className="fixed inset-0 z-[55] bg-black/40 lg:hidden"
-            onClick={closeMenu}
-          />
-          <div className="relative z-[60] max-h-[calc(100dvh-3.5rem)] overflow-y-auto overflow-touch border-t border-border/60 bg-background lg:hidden">
-            <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-              {beforeServices.map((item) => (
-                <div
-                  key={`m-${item.label}-${item.to ?? item.href}`}
-                  className="flex min-h-11 items-center py-3"
-                >
-                  <NavItem item={item} onClick={closeMenu} />
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => setServicesOpen((v) => !v)}
-                aria-expanded={servicesOpen}
-                className="flex min-h-11 items-center justify-between py-3 text-sm font-medium text-foreground/80"
-              >
-                Services
-                <ChevronDown
-                  className={`h-4 w-4 transition ${servicesOpen ? "rotate-180" : ""}`}
-                />
-              </button>
-              {servicesOpen ? (
-                <div className="mb-2 ml-3 flex flex-col border-l border-border/60 pl-3">
-                  <Link
-                    to="/services"
-                    onClick={closeMenu}
-                    className="py-2 text-sm font-medium text-primary"
-                  >
-                    All services
-                  </Link>
-                  {serviceLinks.map((svc) => {
-                    const route = publicNavLinkRoute(svc);
-                    return (
-                      <Link
-                        key={svc.to}
-                        {...route}
-                        onClick={closeMenu}
-                        className="min-h-10 py-2.5 text-sm text-foreground/70 hover:text-primary"
-                      >
-                        {svc.title}
-                      </Link>
-                    );
-                  })}
-                </div>
-              ) : null}
-              {afterServices.map((item) => (
-                <div
-                  key={`m-${item.label}-${item.to ?? item.href}`}
-                  className="flex min-h-11 items-center py-3"
-                >
-                  <NavItem item={item} onClick={closeMenu} />
-                </div>
-              ))}
-              <Link
-                to="/contact"
-                hash="inquiry"
-                onClick={closeMenu}
-                className="mt-2 rounded-full bg-brand-gradient px-5 py-3 text-center text-sm font-semibold text-white"
-              >
-                Plan My Trip
-              </Link>
-            </div>
-          </div>
-        </>
-      ) : null}
+      {mobileMenu}
     </header>
   );
 }

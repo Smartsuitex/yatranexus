@@ -128,6 +128,10 @@
     scroll-behavior: smooth;
     overflow-x: clip;
   }
+  html.nav-menu-open {
+    /* Class flag only — do not set overflow:hidden here (jumps scroll to top). */
+    overscroll-behavior: none;
+  }
   body {
     background: var(--brand-page-bg);
     color: var(--color-foreground);
@@ -136,6 +140,9 @@
     overflow-x: clip;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+  }
+  html.nav-menu-open body {
+    overscroll-behavior: none;
   }
   h1,
   h2,
@@ -2469,6 +2476,30 @@
     .home-featured-package-card__price-block .package-price__amount {
       font-size: 1rem;
     }
+  }
+
+  /* Holiday hub: same featured package cards, wider grid for more items */
+  .holiday-featured-packages-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .holiday-featured-packages-row {
+      gap: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .holiday-featured-packages-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  .holiday-featured-packages-row > .home-featured-package-card {
+    min-width: 0;
   }
 
   .home-domestic-destinations__header {
@@ -5882,6 +5913,16 @@
     padding-block: 2rem;
   }
 
+  .service-premium-page--flights .flights-why-section .hotels-section__title {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .service-premium-page--flights .flights-why-section .flights-why-heading {
+    white-space: nowrap;
+    font-size: clamp(0.95rem, 3.6vw, 2.25rem);
+  }
+
   @media (min-width: 640px) {
     .service-premium-page--flights .flights-why-section {
       padding-block: 2.5rem;
@@ -5925,6 +5966,16 @@
 
   .service-premium-page--hotels .flights-why-section {
     padding-block: 2rem;
+  }
+
+  .service-premium-page--hotels .flights-why-section .hotels-section__title {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .service-premium-page--hotels .flights-why-section .hotels-why-heading {
+    white-space: nowrap;
+    font-size: clamp(0.95rem, 3.6vw, 2.25rem);
   }
 
   @media (min-width: 640px) {

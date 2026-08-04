@@ -271,10 +271,12 @@ export const DEFAULT_SITE_SETTINGS: PublicSiteSettings = {
   showInternational: SHOW_INTERNATIONAL,
   whatsappPreset:
     DEFAULT_PAGE_CONTENT.site?.whatsappPreset ?? "Hi YatraNexus, I'd like to plan a trip.",
-  seoTitle: DEFAULT_PAGE_CONTENT.site?.seoTitle ?? "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs",
+  seoTitle:
+    DEFAULT_PAGE_CONTENT.site?.seoTitle ??
+    "YatraNexus | Tour Packages, Flights, Hotels & Cabs India",
   seoDescription:
     DEFAULT_PAGE_CONTENT.site?.seoDescription ??
-    "YatraNexus Ventures LLP. Your Journey, Our Priority. Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.",
+    "Book affordable tour packages, flights, hotels, cabs & corporate travel with YatraNexus. Explore India with trusted travel experts.",
   commonPackageExclusions: DEFAULT_PAGE_CONTENT.site?.commonPackageExclusions ?? [],
 };
 

@@ -21,6 +21,8 @@ import { SiteConfigContext, useSiteConfig } from "@/contexts/site-config";
 import { fetchPublicHomepageSettings, fetchPublicNavLinks, fetchPublicServices, fetchPublicSiteSettings } from "@/lib/public-cms";
 import {
   buildPageSeo,
+  HOME_SEO_DESCRIPTION,
+  HOME_SEO_TITLE,
   mergeSeoHead,
   organizationJsonLd,
   websiteJsonLd,
@@ -112,12 +114,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     };
   },
   head: ({ loaderData }) => {
-    const title =
-      loaderData?.siteSettings.seoTitle ??
-      "YatraNexus — Flights, Hotels, Holidays, Visa & Cabs";
+    const title = loaderData?.siteSettings.seoTitle ?? HOME_SEO_TITLE;
     const description =
-      loaderData?.siteSettings.seoDescription ??
-      "YatraNexus Ventures LLP. Your Journey, Our Priority. Flights, hotels, holidays, cab, visa, insurance, & forex — handled by real travel experts on WhatsApp.";
+      loaderData?.siteSettings.seoDescription ?? HOME_SEO_DESCRIPTION;
     const seo = mergeSeoHead(
       buildPageSeo({
         path: "/",
