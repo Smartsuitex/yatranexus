@@ -22,6 +22,7 @@ import {
   whatsappLink,
 } from "@/lib/site-data";
 import {
+  destinationStartingPrices,
   fetchPublicDestinations,
   fetchPublicHomepageSettings,
   fetchPublicPackages,
@@ -31,6 +32,7 @@ import {
   type PublicDestination,
   type PublicPackage,
 } from "@/lib/public-cms";
+import { useSiteConfig } from "@/contexts/site-config";
 
 export const Route = createFileRoute("/holiday-packages/")({
   staleTime: 0,
@@ -113,12 +115,28 @@ function HolidayPackagesHub() {
     holidayThemes,
     hubHero,
   } = Route.useLoaderData();
+  const site = useSiteConfig();
   const navigate = useNavigate();
   const { destination: destinationSearch } = Route.useSearch();
   const [query, setQuery] = useState(destinationSearch ?? "");
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [domesticRegion, setDomesticRegion] = useState<string>(ALL);
   const [intlRegion, setIntlRegion] = useState<string>(ALL);
+
+  const destinationPrices = useMemo(
+    () =>
+      destinationStartingPrices(
+        allPackages,
+        [...domesticStates, ...internationalDestinations],
+        site.pageContent.homepage?.destinationPrices,
+      ),
+    [
+      allPackages,
+      domesticStates,
+      internationalDestinations,
+      site.pageContent.homepage?.destinationPrices,
+    ],
+  );
 
   useEffect(() => {
     if (destinationSearch) setQuery(destinationSearch);
@@ -226,12 +244,12 @@ function HolidayPackagesHub() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search destinations — Goa, Kerala…"
-              className="min-w-0 flex-1 bg-transparent px-1 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2 sm:py-1.5"
+              className="min-w-0 flex-1 bg-transparent px-1 py-2.5 text-base text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2 sm:py-1.5 sm:text-sm"
             />
           </div>
           <button
             type="submit"
-            className="home-hero-search-btn w-full shrink-0 rounded-xl bg-[color:var(--brand-orange)] px-3.5 py-2.5 text-xs font-semibold text-white sm:w-auto sm:rounded-full sm:px-5 sm:py-2.5"
+            className="home-hero-search-btn inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-xl bg-[color:var(--brand-orange)] px-3.5 py-3 text-sm font-semibold text-white sm:w-auto sm:rounded-full sm:px-5 sm:py-2.5"
           >
             Search
           </button>
@@ -359,6 +377,7 @@ function HolidayPackagesHub() {
                 d={d}
                 to="/holiday-packages/domestic/$state"
                 params={{ state: d.slug }}
+                fromPrice={destinationPrices[d.slug]}
               />
             ))}
             {filteredDomestic.length === 0 && <EmptyFilterMessage />}
@@ -422,6 +441,7 @@ function HolidayPackagesHub() {
                         d={d}
                         to="/holiday-packages/international/$country"
                         params={{ country: d.slug }}
+                        fromPrice={destinationPrices[d.slug]}
                       />
                     ))}
                   </div>

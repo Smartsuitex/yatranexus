@@ -405,6 +405,46 @@ export function parsePrice(value: string): number {
   return Number(value.replace(/[^\d.]/g, "")) || 0;
 }
 
+/** Lowest package price label, or null when none are priced. */
+export function lowestPackagePriceLabel(packages: PublicPackage[]): string | null {
+  let best: { n: number; label: string } | null = null;
+  for (const pkg of packages) {
+    const label = pkg.fromPrice?.trim() || "";
+    const n = parsePrice(label);
+    if (!label || n <= 0) continue;
+    if (!best || n < best.n) best = { n, label };
+  }
+  return best?.label ?? null;
+}
+
+/** Format a stored price for display (ensure ₹ prefix). */
+export function formatHolidayPrice(amount: string): string {
+  const trimmed = amount.trim();
+  if (!trimmed) return "";
+  if (/[₹Rs]/i.test(trimmed)) return trimmed.replace(/^rs\.?\s*/i, "₹ ");
+  return `₹ ${trimmed}`;
+}
+
+/**
+ * Starting-from price per destination slug.
+ * Prefers lowest matching package price; falls back to CMS destinationPrices.
+ */
+export function destinationStartingPrices(
+  packages: PublicPackage[],
+  destinations: Array<Pick<PublicDestination, "name" | "slug">>,
+  cmsPrices?: Record<string, string> | null,
+): Record<string, string> {
+  const map: Record<string, string> = {};
+  for (const dest of destinations) {
+    const related = packages.filter((pkg) => packageMatchesDestination(pkg, dest));
+    const fromPackages = lowestPackagePriceLabel(related);
+    const fromCms = cmsPrices?.[dest.slug]?.trim() || "";
+    const label = fromPackages || fromCms;
+    if (label) map[dest.slug] = formatHolidayPrice(label);
+  }
+  return map;
+}
+
 function hideInternationalContent(
   packages: PublicPackage[],
   showInternational: boolean,

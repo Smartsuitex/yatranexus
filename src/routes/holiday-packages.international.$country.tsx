@@ -3,10 +3,13 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { HolidayDestinationSections } from "@/components/site/HolidayDestinationSections";
 import { HolidayPageHero } from "@/components/site/HolidayPageHero";
 import { InquirySection } from "@/components/site/InquirySection";
+import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
 import { resolveDestinationHero } from "@/lib/holiday-packages-page-data";
 import {
   fetchPackagesForDestination,
   fetchPublicDestinationBySlug,
+  formatHolidayPrice,
+  lowestPackagePriceLabel,
   resolveShowInternational,
 } from "@/lib/public-cms";
 import { brandSeoDescription, brandSeoTitle, breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
@@ -70,6 +73,7 @@ export const Route = createFileRoute("/holiday-packages/international/$country")
 function CountryPage() {
   const { dest, relatedPackages } = Route.useLoaderData();
   const hero = resolveDestinationHero(dest.image);
+  const startingFrom = lowestPackagePriceLabel(relatedPackages);
 
   return (
     <div className="holiday-packages-page">
@@ -88,7 +92,18 @@ function CountryPage() {
         subtitle={dest.blurb}
         imagePrimary={hero.primary}
         imageFallback={hero.fallback}
-      />
+      >
+        {startingFrom ? (
+          <p className="holiday-hero-starting-price mt-4">
+            <PackagePriceLabel
+              amount={formatHolidayPrice(startingFrom)}
+              prefix="starting"
+              perPerson={false}
+              variant="inline"
+            />
+          </p>
+        ) : null}
+      </HolidayPageHero>
       <HolidayDestinationSections dest={dest} relatedPackages={relatedPackages} />
       <InquirySection
         heading={`Plan Your ${toTitleCase(dest.name)} Trip`}

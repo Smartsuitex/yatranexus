@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { fetchPublicDestinations } from "@/lib/public-cms";
+import { useMemo } from "react";
+import { fetchPublicDestinations, fetchPublicPackages, destinationStartingPrices } from "@/lib/public-cms";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { DestinationCard } from "@/components/site/DestinationCard";
 import { HolidayPageHero } from "@/components/site/HolidayPageHero";
@@ -15,8 +16,11 @@ import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/holiday-packages/domestic/")({
   loader: async () => {
-    const destinations = await fetchPublicDestinations("domestic");
-    return { destinations };
+    const [destinations, packages] = await Promise.all([
+      fetchPublicDestinations("domestic"),
+      fetchPublicPackages(),
+    ]);
+    return { destinations, packages };
   },
   head: () =>
     buildPageSeo({
@@ -31,10 +35,19 @@ export const Route = createFileRoute("/holiday-packages/domestic/")({
 });
 
 function DomesticIndex() {
-  const { destinations } = Route.useLoaderData();
+  const { destinations, packages } = Route.useLoaderData();
   const site = useSiteConfig();
   const cmsHero = site.pageContent.holidayDomestic ?? DEFAULT_PAGE_CONTENT.holidayDomestic ?? {};
   const hero = resolveHolidayHubHero(cmsHero.bannerUrl);
+  const destinationPrices = useMemo(
+    () =>
+      destinationStartingPrices(
+        packages,
+        destinations,
+        site.pageContent.homepage?.destinationPrices,
+      ),
+    [packages, destinations, site.pageContent.homepage?.destinationPrices],
+  );
 
   return (
     <div className="holiday-packages-page">
@@ -72,6 +85,7 @@ function DomesticIndex() {
                 d={d}
                 to="/holiday-packages/domestic/$state"
                 params={{ state: d.slug }}
+                fromPrice={destinationPrices[d.slug]}
               />
             ))}
           </div>

@@ -166,7 +166,7 @@ function PackagePage() {
           titleFirst={pkg.title}
           subtitle={
             <>
-              <PackagePriceLabel amount={pkg.fromPrice} prefix="from" variant="inline" /> — fully
+              <PackagePriceLabel amount={pkg.fromPrice} prefix="starting" variant="inline" /> — fully
               customisable with our travel experts.
             </>
           }

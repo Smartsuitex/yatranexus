@@ -11,7 +11,7 @@ type FooterLinkListProps = {
 
 function FooterNavLink({ item }: { item: FooterNavItem }) {
   const className =
-    "inline-block text-[13px] leading-snug transition-colors duration-200 hover:text-[#F47C20]";
+    "inline-flex min-h-11 items-center text-[13px] leading-snug transition-colors duration-200 hover:text-[#F47C20]";
   const style = { color: `${FOOTER_COLORS.purple}D9` };
 
   if (item.href) {

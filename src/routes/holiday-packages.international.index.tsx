@@ -1,5 +1,11 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { fetchPublicDestinations, resolveShowInternational } from "@/lib/public-cms";
+import { useMemo } from "react";
+import {
+  destinationStartingPrices,
+  fetchPublicDestinations,
+  fetchPublicPackages,
+  resolveShowInternational,
+} from "@/lib/public-cms";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { DestinationCard } from "@/components/site/DestinationCard";
 import { HolidayPageHero } from "@/components/site/HolidayPageHero";
@@ -19,8 +25,11 @@ export const Route = createFileRoute("/holiday-packages/international/")({
     if (!showInternational) {
       throw redirect({ to: "/holiday-packages/domestic" });
     }
-    const destinations = await fetchPublicDestinations("international");
-    return { destinations };
+    const [destinations, packages] = await Promise.all([
+      fetchPublicDestinations("international"),
+      fetchPublicPackages(),
+    ]);
+    return { destinations, packages };
   },
   head: () =>
     buildPageSeo({
@@ -35,11 +44,20 @@ export const Route = createFileRoute("/holiday-packages/international/")({
 });
 
 function IntlIndex() {
-  const { destinations } = Route.useLoaderData();
+  const { destinations, packages } = Route.useLoaderData();
   const site = useSiteConfig();
   const cmsHero =
     site.pageContent.holidayInternational ?? DEFAULT_PAGE_CONTENT.holidayInternational ?? {};
   const hero = resolveHolidayHubHero(cmsHero.bannerUrl);
+  const destinationPrices = useMemo(
+    () =>
+      destinationStartingPrices(
+        packages,
+        destinations,
+        site.pageContent.homepage?.destinationPrices,
+      ),
+    [packages, destinations, site.pageContent.homepage?.destinationPrices],
+  );
 
   return (
     <div className="holiday-packages-page">
@@ -77,6 +95,7 @@ function IntlIndex() {
                 d={d}
                 to="/holiday-packages/international/$country"
                 params={{ country: d.slug }}
+                fromPrice={destinationPrices[d.slug]}
               />
             ))}
           </div>

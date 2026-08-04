@@ -55,7 +55,7 @@ export function FeaturedPackageCard({ pkg }: { pkg: PublicPackage }) {
         <h3 className="home-featured-package-card__title">{pkg.title}</h3>
         <div className="home-featured-package-card__footer">
           <div className="home-featured-package-card__price-block">
-            <span className="home-featured-package-card__price-label">Starting from</span>
+            <span className="home-featured-package-card__price-label">Starting From</span>
             <PackagePriceLabel
               amount={formatPackagePrice(pkg.fromPrice)}
               prefix="none"

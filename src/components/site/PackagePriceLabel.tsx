@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   amount: string;
-  /** "starting" → "Starting from ", "from" → "From ", "none" → amount only */
+  /** "starting" → "Starting From ", "from" → "From ", "none" → amount only */
   prefix?: "starting" | "from" | "none";
   perPerson?: boolean;
   discountPrice?: string;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const PREFIX_TEXT = {
-  starting: "Starting from ",
+  starting: "Starting From ",
   from: "From ",
   none: "",
 } as const;

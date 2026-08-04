@@ -306,12 +306,12 @@ export function HomepageHero({
                 value={destination}
                 onChange={(event) => onDestinationChange?.(event.target.value)}
                 placeholder="Search destinations — Goa, Kerala…"
-                className="min-w-0 flex-1 bg-transparent px-1 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2 sm:py-1.5"
+                className="min-w-0 flex-1 bg-transparent px-1 py-2.5 text-base text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-2 sm:py-1.5 sm:text-sm"
               />
             </div>
             <button
               type="submit"
-              className="home-hero-search-btn w-full shrink-0 rounded-xl bg-[color:var(--brand-orange)] px-3.5 py-2.5 text-xs font-semibold text-white sm:w-auto sm:rounded-full sm:px-5 sm:py-2.5"
+              className="home-hero-search-btn inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-xl bg-[color:var(--brand-orange)] px-3.5 py-3 text-sm font-semibold text-white sm:w-auto sm:rounded-full sm:px-5 sm:py-2.5"
             >
               Search
             </button>
@@ -392,7 +392,7 @@ export function HomepageHero({
                 </div>
               </div>
               {slides.length > 1 ? (
-                <div className="flex max-w-[9rem] flex-wrap justify-end gap-1.5 sm:max-w-none">
+                <div className="flex max-w-[11rem] flex-wrap justify-end gap-0.5 sm:max-w-none sm:gap-1.5">
                   {slides.map((_, index) => (
                     <button
                       key={index}
@@ -400,12 +400,16 @@ export function HomepageHero({
                       onClick={() => setSlide(index)}
                       aria-label={`Show slide ${index + 1}`}
                       aria-current={index === slide}
-                      className={`h-1.5 rounded-full transition-all ${
-                        index === slide
-                          ? "w-6 bg-[color:var(--brand-orange-glow)]"
-                          : "w-1.5 bg-white/60 hover:bg-white"
-                      }`}
-                    />
+                      className="inline-flex min-h-11 min-w-8 items-center justify-center"
+                    >
+                      <span
+                        className={`block h-2.5 rounded-full transition-all ${
+                          index === slide
+                            ? "w-7 bg-[color:var(--brand-orange-glow)]"
+                            : "w-2.5 bg-white/60"
+                        }`}
+                      />
+                    </button>
                   ))}
                 </div>
               ) : null}
