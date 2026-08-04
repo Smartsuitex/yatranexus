@@ -1,9 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { FeaturedPackageCard } from "@/components/site/FeaturedPackageCard";
 import { HolidayPageHero } from "@/components/site/HolidayPageHero";
 import { InquirySection } from "@/components/site/InquirySection";
-import { OverlayImageCard } from "@/components/site/OverlayImageCard";
-import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
 import { resolveDestinationHero } from "@/lib/holiday-packages-page-data";
 import {
@@ -95,29 +94,17 @@ function TourTypePage() {
           <ServiceSectionHeading
             id="tour-type-packages-heading"
             title={
-              <>
+              <span className="holiday-dest-heading">
                 {toTitleCase(tour.name)}{" "}
                 <span className="text-brand-gradient">Holiday Plans</span>
-              </>
+              </span>
             }
             subtitle="Browse matching packages — every itinerary can be tailored to your group and budget."
           />
           {relatedPackages.length > 0 ? (
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+            <div className="holiday-featured-packages-row mt-8">
               {relatedPackages.map((pkg) => (
-                <OverlayImageCard
-                  key={pkg.slug}
-                  to="/holiday-packages/package/$slug"
-                  params={{ slug: pkg.slug }}
-                  image={pkg.image}
-                  aspect="wide"
-                >
-                  <p className="home-dest-card__tagline">
-                    {pkg.nights}N / {pkg.days}D · {pkg.destination}
-                  </p>
-                  <h3 className="home-dest-card__name">{pkg.title}</h3>
-                  <PackagePriceLabel amount={pkg.fromPrice} />
-                </OverlayImageCard>
+                <FeaturedPackageCard key={pkg.slug} pkg={pkg} />
               ))}
             </div>
           ) : (

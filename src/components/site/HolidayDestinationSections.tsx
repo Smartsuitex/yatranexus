@@ -1,6 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
-import { OverlayImageCard } from "@/components/site/OverlayImageCard";
-import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
+import { FeaturedPackageCard } from "@/components/site/FeaturedPackageCard";
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
 import type { PublicPackage } from "@/lib/public-cms";
 import { toTitleCase } from "@/lib/utils";
@@ -26,10 +25,10 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
           <ServiceSectionHeading
             id="holiday-highlights-heading"
             title={
-              <>
+              <span className="holiday-dest-heading">
                 {toTitleCase("Top experiences in")}{" "}
                 <span className="text-brand-gradient">{destName}</span>
-              </>
+              </span>
             }
             subtitle={dest.blurb}
           />
@@ -52,29 +51,17 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
           <ServiceSectionHeading
             id="holiday-packages-heading"
             title={
-              <>
+              <span className="holiday-dest-heading">
                 {toTitleCase("All packages in")}{" "}
                 <span className="text-brand-gradient">{destName}</span>
-              </>
+              </span>
             }
             subtitle="Browse curated itineraries — every package can be customised to your dates and budget."
           />
           {relatedPackages.length > 0 ? (
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+            <div className="holiday-featured-packages-row mt-8">
               {relatedPackages.map((p) => (
-                <OverlayImageCard
-                  key={p.slug}
-                  to="/holiday-packages/package/$slug"
-                  params={{ slug: p.slug }}
-                  image={p.image}
-                  aspect="wide"
-                >
-                  <p className="home-dest-card__tagline">
-                    {p.nights}N / {p.days}D
-                  </p>
-                  <h3 className="home-dest-card__name">{p.title}</h3>
-                  <PackagePriceLabel amount={p.fromPrice} />
-                </OverlayImageCard>
+                <FeaturedPackageCard key={p.slug} pkg={p} />
               ))}
             </div>
           ) : (

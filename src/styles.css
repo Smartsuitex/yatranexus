@@ -11741,6 +11741,17 @@
     }
   }
 
+  /* Destination holiday pages: keep section titles on one line */
+  .about-section .hotels-section__title:has(.holiday-dest-heading) {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .about-section .holiday-dest-heading {
+    white-space: nowrap;
+    font-size: clamp(0.78rem, 3.1vw, 2.25rem);
+  }
+
   .about-section--alt {
     background: var(--brand-page-bg);
   }
