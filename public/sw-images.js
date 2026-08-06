@@ -1,6 +1,6 @@
 /* YatraNexus — cache CMS images in the browser (Cache Storage), not cookies.
    Cookies cannot hold images and would slow every request. */
-const CACHE_NAME = "yn-images-v1";
+const CACHE_NAME = "yn-images-v2";
 const MAX_ENTRIES = 120;
 
 function isCacheable(url) {
@@ -56,14 +56,20 @@ self.addEventListener("fetch", (event) => {
 
       try {
         const res = await fetch(req);
-        if (res.ok && (res.type === "basic" || res.type === "cors")) {
-          await cache.put(req, res.clone());
-          await trimCache(cache);
+        // Never cache errors / opaque failures — avoids SW noise and sticky 404s.
+        if (res.ok && res.type === "basic") {
+          try {
+            await cache.put(req, res.clone());
+            await trimCache(cache);
+          } catch {
+            // Ignore Cache.put failures (quota / network race).
+          }
         }
         return res;
       } catch (err) {
         if (cached) return cached;
-        throw err;
+        // Return a soft failure instead of an uncaught rejection.
+        return new Response("", { status: 504, statusText: "Image offline" });
       }
     })(),
   );
