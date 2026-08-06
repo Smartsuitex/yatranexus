@@ -1,4 +1,4 @@
-import type { Inquiry } from "@/integrations/supabase/types";
+import type { Inquiry } from "@/lib/db-types";
 
 /** Normalize phone for comparison (last 10 digits). */
 export function normalizeInquiryPhone(phone: string): string {

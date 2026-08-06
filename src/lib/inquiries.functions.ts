@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { getServerSupabase } from "@/lib/supabase-server";
+import { submitInquiryRecord } from "@/lib/inquiry-submit";
 import { normalizeInquiryPhone } from "@/lib/inquiry-dedupe";
 
 const InquirySchema = z.object({
@@ -20,15 +20,6 @@ const InquirySchema = z.object({
   recaptcha_token: z.string().optional().or(z.literal("")),
   existing_inquiry_id: z.string().uuid().optional().or(z.literal("")),
 });
-
-type SubmitInquiryResult = {
-  ok: boolean;
-  alreadySubmitted?: boolean;
-  inquiryId?: string;
-  updated?: boolean;
-  emailSent?: boolean;
-  emailError?: string;
-};
 
 /** In-memory rate limit: max submissions per key within window. */
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
@@ -77,7 +68,6 @@ export const submitInquiry = createServerFn({ method: "POST" })
     const hasSiteKey = Boolean(process.env.VITE_RECAPTCHA_SITE_KEY);
     const captchaConfigured = hasSecret && hasSiteKey;
 
-    // Fail closed in production when captcha is expected or partially configured.
     if (isProduction() && (hasSecret || hasSiteKey) && !captchaConfigured) {
       throw new Error("Inquiry form is temporarily unavailable. Please contact us on WhatsApp.");
     }
@@ -92,83 +82,28 @@ export const submitInquiry = createServerFn({ method: "POST" })
       }
     }
 
-    const supabase = getServerSupabase();
-
-    const rpcArgs = {
-      p_service_type: data.service_type,
-      p_name: data.name.trim(),
-      p_phone: data.phone.trim(),
-      p_email: data.email || null,
-      p_subject: data.subject || null,
-      p_destination: data.destination || null,
-      p_travel_date: data.travel_date || null,
-      p_travelers: data.travelers ?? null,
-      p_message: data.message || null,
-      p_package_name: data.package_name || null,
-      p_source_page: data.source_page || null,
-      p_selected_inclusions:
+    const result = await submitInquiryRecord({
+      service_type: data.service_type,
+      name: data.name.trim(),
+      phone: data.phone.trim(),
+      email: data.email || null,
+      subject: data.subject || null,
+      destination: data.destination || null,
+      travel_date: data.travel_date || null,
+      travelers: data.travelers ?? null,
+      message: data.message || null,
+      package_name: data.package_name || null,
+      source_page: data.source_page || null,
+      selected_inclusions:
         data.selected_inclusions && data.selected_inclusions.length > 0
           ? data.selected_inclusions
           : null,
-      p_selected_exclusions:
+      selected_exclusions:
         data.selected_exclusions && data.selected_exclusions.length > 0
           ? data.selected_exclusions
           : null,
-      p_existing_inquiry_id: data.existing_inquiry_id || null,
-    };
-
-    const { data: rpcResult, error: rpcError } = await supabase.rpc(
-      "submit_inquiry",
-      rpcArgs as never,
-    );
-
-    let result: SubmitInquiryResult | null = null;
-
-    if (!rpcError && rpcResult && typeof rpcResult === "object") {
-      result = rpcResult as SubmitInquiryResult;
-    } else if (rpcError) {
-      console.warn(
-        "[inquiries] RPC submit_inquiry unavailable, using insert fallback:",
-        rpcError.message,
-      );
-    }
-
-    if (!result?.ok) {
-      const payload = {
-        service_type: data.service_type,
-        name: data.name.trim(),
-        phone: data.phone.trim(),
-        email: data.email || null,
-        subject: data.subject || null,
-        destination: data.destination || null,
-        travel_date: data.travel_date || null,
-        travelers: data.travelers ?? null,
-        message: data.message || null,
-        package_name: data.package_name || null,
-        source_page: data.source_page || null,
-        selected_inclusions: rpcArgs.p_selected_inclusions,
-        selected_exclusions: rpcArgs.p_selected_exclusions,
-        phone_normalized: normalizeInquiryPhone(data.phone),
-      };
-
-      const { data: inserted, error } = await supabase
-        .from("inquiries")
-        .insert(payload)
-        .select("id")
-        .single();
-
-      if (error) {
-        console.error("[inquiries] insert failed:", error.message);
-        throw new Error("Could not save inquiry. Please try again in a moment.");
-      }
-
-      result = {
-        ok: true,
-        alreadySubmitted: false,
-        inquiryId: inserted?.id,
-        updated: false,
-      };
-    }
+      existing_inquiry_id: data.existing_inquiry_id || null,
+    });
 
     let emailSent = false;
     let emailError: string | undefined;

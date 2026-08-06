@@ -13,7 +13,7 @@ import {
   type EmailSettings,
   type EmailTemplateVars,
 } from "@/lib/email-config";
-import { getServerSupabase, getServerSupabaseService } from "@/lib/supabase-server";
+import { getEmailSettingsWithSecrets } from "@/lib/db-queries/email-settings";
 
 type InquiryEmailPayload = {
   name: string;
@@ -251,20 +251,16 @@ function hasEmailCredentials(config: EmailSettings): boolean {
 }
 
 export async function loadEmailSettings(): Promise<EmailSettings> {
-  const service = getServerSupabaseService();
-  if (!service) {
-    console.warn(
-      "[email] SUPABASE_SERVICE_ROLE_KEY is missing — DB SMTP/Resend secrets may be unavailable. Falling back to env credentials when present.",
-    );
-  }
-  const client = service ?? getServerSupabase();
-  const { data, error } = await client.from("email_settings").select("*").eq("id", 1).maybeSingle();
-
-  if (error || !data) {
+  try {
+    const data = await getEmailSettingsWithSecrets();
+    if (!data) {
+      return applyEnvEmailSecrets(envFallbackConfig());
+    }
+    return applyEnvEmailSecrets(mergeEmailSettings(data as EmailSettings));
+  } catch (err) {
+    console.warn("[email] Could not load email settings from MySQL:", err);
     return applyEnvEmailSecrets(envFallbackConfig());
   }
-
-  return applyEnvEmailSecrets(mergeEmailSettings(data as EmailSettings));
 }
 
 function resolveFrom(config: EmailSettings): string {
@@ -488,7 +484,7 @@ export async function sendInquiryEmails(payload: InquiryEmailPayload): Promise<{
 
   if (!hasEmailCredentials(config)) {
     const error =
-      "Email credentials are not configured. Set Resend/SMTP in Admin → Email settings (and SUPABASE_SERVICE_ROLE_KEY on the server).";
+      "Email credentials are not configured. Set Resend/SMTP in Admin → Email settings.";
     console.error("[email]", error);
     return { adminSent: false, customerSent: false, error };
   }
@@ -548,4 +544,32 @@ export async function sendInquiryEmails(payload: InquiryEmailPayload): Promise<{
   }
 
   return { adminSent, customerSent, error };
+}
+
+export async function sendPasswordResetEmail(input: {
+  to: string;
+  resetUrl: string;
+  name?: string;
+}): Promise<boolean> {
+  const config = await loadEmailSettings();
+  if (!hasEmailCredentials(config)) {
+    console.warn("[email] password reset skipped — no email credentials configured.");
+    return false;
+  }
+
+  const company = config.from_name ?? "YatraNexus";
+  const greeting = input.name ? `Hi ${escapeHtml(input.name)},` : "Hi,";
+  const html = `<p>${greeting}</p>
+<p>We received a request to reset your YatraNexus admin password.</p>
+<p><a href="${escapeHtml(input.resetUrl)}" style="color:#e85d04;font-weight:600">Reset your password</a></p>
+<p>This link expires in 1 hour. If you did not request this, you can ignore this email.</p>`;
+
+  const result = await sendConfiguredEmail({
+    to: input.to,
+    subject: "Reset your YatraNexus admin password",
+    html,
+    config,
+    company,
+  });
+  return result.ok;
 }

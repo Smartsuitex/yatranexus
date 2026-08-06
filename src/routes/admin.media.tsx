@@ -78,7 +78,7 @@ function AdminMediaPage() {
     <div className="space-y-6">
       <AdminPageHeader
         title="Media library"
-        description="Browse, upload, copy, and reuse images stored in Supabase."
+        description="Browse, upload, copy, and reuse images in public/images/."
       />
 
       {dbError ? <AdminErrorBanner message={dbError} /> : null}

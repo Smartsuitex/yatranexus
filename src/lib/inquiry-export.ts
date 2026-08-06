@@ -1,4 +1,4 @@
-import type { Inquiry } from "@/integrations/supabase/types";
+import type { Inquiry } from "@/lib/db-types";
 import { INQUIRY_STATUS_LABELS } from "@/lib/admin-api";
 
 function csvEscape(value: unknown): string {

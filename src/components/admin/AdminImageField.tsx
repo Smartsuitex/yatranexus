@@ -37,7 +37,7 @@ export function AdminImageField({ label, hint, value, onChange, folder, required
   return (
     <AdminField
       label={label}
-      hint={hint ?? "Upload a file or paste an image URL (Supabase Storage, CDN, or /images/...)."}
+      hint={hint ?? "Upload a file or paste an image URL (/images/... or external CDN)."}
     >
       <div className="space-y-3">
         {value.trim() ? (

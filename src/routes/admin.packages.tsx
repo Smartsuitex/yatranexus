@@ -313,7 +313,7 @@ function AdminPackagesPage() {
 
       {dbError && (
         <AdminErrorBanner
-          message={`${dbError}. Run the Phase 2 migration (20260626140000_phase2_cms_schema.sql) in Supabase SQL Editor.`}
+          message={`${dbError}. Ensure MySQL is running and run: npm run apply:mysql-schema && npm run migrate:mysql`}
         />
       )}
 

@@ -104,7 +104,7 @@ function AdminHomepagePage() {
       const { skippedHeroInterval } = await saveHomepageSettings(homepageFormToPayload(form));
       if (skippedHeroInterval) {
         toast.warning(
-          "Homepage saved, but hero slide interval needs a database update. Run migration 20260704180000_homepage_hero_interval.sql in Supabase SQL Editor.",
+          "Homepage saved, but hero slide interval could not be updated. Check MySQL schema (homepage_settings.hero_interval_ms).",
           { duration: 8000 },
         );
       } else {

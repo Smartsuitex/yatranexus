@@ -1,36 +1,34 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { resetAdminPassword } from "@/lib/admin-api";
 
 export const Route = createFileRoute("/admin/reset-password")({
   head: () => ({ meta: [{ title: "Reset password | YatraNexus Admin" }] }),
+  validateSearch: (search: Record<string, unknown>) => ({
+    token: typeof search.token === "string" ? search.token : "",
+  }),
   component: AdminResetPasswordPage,
 });
 
 function AdminResetPasswordPage() {
   const navigate = useNavigate();
+  const { token } = Route.useSearch();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const { data: subscription } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
-        setReady(true);
-      }
-    });
-
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+    if (token) setReady(true);
+  }, [token]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!token) {
+      toast.error("Missing reset token.");
+      return;
+    }
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters.");
       return;
@@ -42,10 +40,8 @@ function AdminResetPasswordPage() {
 
     setLoading(true);
     try {
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) throw error;
+      await resetAdminPassword(token, password);
       toast.success("Password updated. Sign in with your new password.");
-      await supabase.auth.signOut();
       navigate({ to: "/admin/login" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not update password.");

@@ -1,15 +1,15 @@
-import { createClient } from "@supabase/supabase-js";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import type { Database } from "@/integrations/supabase/types";
 import { mergeEmailSettings, type EmailSettings } from "@/lib/email-config";
 import { loadEmailSettings, sendWelcomeEmail, testEmailConfiguration } from "@/lib/email";
 import { verifyAdminAccessToken } from "@/lib/admin-auth";
-import { getServerSupabaseService } from "@/lib/supabase-server";
+import {
+  getEmailSettingsWithSecrets,
+  saveEmailSettings,
+} from "@/lib/db-queries/email-settings";
 
 const EmailProviderSchema = z.enum(["resend", "smtp"]);
 
-/** Admin form may send null for empty optional fields; Zod .default() only covers undefined. */
 const nullishString = (max: number) =>
   z.preprocess(
     (value) => (value == null ? "" : value),
@@ -91,46 +91,15 @@ function toEmailSettings(input: z.infer<typeof EmailSettingsInputSchema>): Parti
 }
 
 async function markEmailTestResult(ok: boolean, error?: string) {
-  const service = getServerSupabaseService();
-  if (!service) return;
-  await service
-    .from("email_settings")
-    .upsert({
-      id: 1,
-      is_authenticated: ok,
-      last_tested_at: new Date().toISOString(),
-      last_test_error: ok ? null : (error ?? "Test failed"),
-      updated_at: new Date().toISOString(),
-    })
-    .select()
-    .maybeSingle();
+  await saveEmailSettings({
+    is_authenticated: ok,
+    last_tested_at: new Date().toISOString(),
+    last_test_error: ok ? null : (error ?? "Test failed"),
+  });
 }
 
-async function loadStoredEmailSecrets(accessToken?: string): Promise<Partial<EmailSettings>> {
-  const service = getServerSupabaseService();
-  if (service) {
-    const { data } = await service.from("email_settings").select("*").eq("id", 1).maybeSingle();
-    return (data as EmailSettings | null) ?? {};
-  }
-
-  if (!accessToken) return {};
-
-  const url =
-    process.env.SUPABASE_URL ||
-    process.env.VITE_SUPABASE_URL ||
-    (typeof import.meta !== "undefined" ? import.meta.env?.VITE_SUPABASE_URL : undefined);
-  const key =
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-    (typeof import.meta !== "undefined" ? import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY : undefined);
-
-  if (!url || !key) return {};
-
-  const authed = createClient<Database>(url, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-    global: { headers: { Authorization: `Bearer ${accessToken}` } },
-  });
-  const { data } = await authed.from("email_settings").select("*").eq("id", 1).maybeSingle();
+async function loadStoredEmailSecrets(): Promise<Partial<EmailSettings>> {
+  const data = await getEmailSettingsWithSecrets();
   return (data as EmailSettings | null) ?? {};
 }
 
@@ -147,7 +116,7 @@ export const testEmailSettings = createServerFn({ method: "POST" })
       is_enabled: true,
     });
 
-    const existing = await loadStoredEmailSecrets(data.access_token || undefined);
+    const existing = await loadStoredEmailSecrets();
     if (!config.resend_api_key && existing.resend_api_key) {
       config.resend_api_key = existing.resend_api_key;
     }

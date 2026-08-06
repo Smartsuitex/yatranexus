@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
-import { fetchIsAdmin } from "@/lib/admin-auth";
+import { getAdminSession } from "@/lib/admin-api";
+
+type AdminSessionState = {
+  userId: string;
+  email: string;
+  fullName: string | null;
+  role: "admin";
+} | null;
 
 export function useAdminAuth() {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<AdminSessionState>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -12,38 +17,31 @@ export function useAdminAuth() {
   useEffect(() => {
     let mounted = true;
 
-    async function resolveSession(nextSession: Session | null) {
-      if (!mounted) return;
-      setSession(nextSession);
-      if (nextSession?.user?.id) {
-        setIsAdmin(await fetchIsAdmin(nextSession.user.id));
-      } else {
-        setIsAdmin(false);
-      }
-      setLoading(false);
-    }
-
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (!mounted) return;
-      if (error) {
-        setAuthError(error.message);
+    async function resolveSession() {
+      try {
+        const nextSession = await getAdminSession();
+        if (!mounted) return;
+        setSession(nextSession);
+        setIsAdmin(Boolean(nextSession?.role === "admin"));
+        setAuthError(null);
+      } catch (err) {
+        if (!mounted) return;
+        setAuthError(err instanceof Error ? err.message : "Could not load session.");
         setSession(null);
         setIsAdmin(false);
-        setLoading(false);
-        return;
+      } finally {
+        if (mounted) setLoading(false);
       }
-      void resolveSession(data.session);
-    });
+    }
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      void resolveSession(nextSession);
-    });
+    void resolveSession();
+    const interval = window.setInterval(() => {
+      void resolveSession();
+    }, 60_000);
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
+      window.clearInterval(interval);
     };
   }, []);
 

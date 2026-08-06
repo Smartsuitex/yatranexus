@@ -1,0 +1,1067 @@
+{
+  "exportedAt": "2026-08-06T07:15:52.373431+00:00",
+  "project": "fgrsjqkboltbwatfhcnm",
+  "summary": {
+    "supabaseUploads": 158,
+    "uniqueStoragePaths": 150,
+    "unsplash": 19,
+    "localPath": 0,
+    "other": 0,
+    "byTable": {
+      "packages": 115,
+      "destinations": 22,
+      "services": 8,
+      "testimonials": 1,
+      "homepage_settings": 12
+    },
+    "byFolder": {
+      "packages": 113,
+      "destinations": 16,
+      "homepage": 12,
+      "services": 7,
+      "corporate": 1,
+      "testimonials": 1
+    }
+  },
+  "storagePaths": [
+    "corporate/1785235233610-chatgpt-image-jul-28-2026-04-10-18-pm.png",
+    "destinations/1785070446444-chatgpt-image-jul-26-2026-06-23-17-pm.png",
+    "destinations/1785070937389-chatgpt-image-jul-26-2026-06-31-49-pm.png",
+    "destinations/1785072826818-chatgpt-image-jul-26-2026-07-02-58-pm.png",
+    "destinations/1785076174298-chatgpt-image-jul-26-2026-07-58-56-pm.png",
+    "destinations/1785082743044-chatgpt-image-jul-26-2026-09-48-41-pm.png",
+    "destinations/1785084021382-chatgpt-image-jul-26-2026-10-10-05-pm.png",
+    "destinations/1785229874367-chatgpt-image-jul-28-2026-02-41-05-pm.png",
+    "destinations/1785231734478-chatgpt-image-jul-28-2026-03-11-50-pm.png",
+    "destinations/1785232894003-chatgpt-image-jul-28-2026-03-31-20-pm.png",
+    "destinations/1785233140043-chatgpt-image-jul-28-2026-03-35-20-pm.png",
+    "destinations/1785233303513-chatgpt-image-jul-28-2026-03-38-09-pm.png",
+    "destinations/1785233615247-chatgpt-image-jul-28-2026-03-43-21-pm.png",
+    "destinations/1785233907595-chatgpt-image-jul-28-2026-03-48-15-pm.png",
+    "destinations/1785234006605-chatgpt-image-jul-28-2026-03-49-55-pm.png",
+    "destinations/1785234089018-chatgpt-image-jul-28-2026-03-51-14-pm.png",
+    "destinations/1785234187015-chatgpt-image-jul-28-2026-03-52-52-pm.png",
+    "homepage/hero/1784902068215-chatgpt-image-jul-24-2026-07-36-30-pm.png",
+    "homepage/hero/1784902412987-chatgpt-image-jul-24-2026-07-43-20-pm.png",
+    "homepage/hero/1784902536646-chatgpt-image-jul-24-2026-07-45-07-pm.png",
+    "homepage/hero/1784903133700-chatgpt-image-jul-24-2026-07-55-24-pm.png",
+    "homepage/hero/1784903457399-chatgpt-image-jul-24-2026-08-00-47-pm.png",
+    "homepage/hero/1784903752562-chatgpt-image-jul-24-2026-08-05-36-pm.png",
+    "homepage/hero/1784903877682-chatgpt-image-jul-24-2026-08-07-42-pm.png",
+    "homepage/tour-types/1784901599136-home-page-adventure.png",
+    "homepage/tour-types/1784901621195-home-page-family.png",
+    "homepage/tour-types/1784901628750-home-page-honeymoon.png",
+    "homepage/tour-types/1784901637351-home-page-leisure.png",
+    "homepage/tour-types/1784901862534-chatgpt-image-jul-24-2026-07-34-08-pm.png",
+    "packages/1783010199186-kerala-backwater.png",
+    "packages/1783014303395-ooty-coonoor-madurai-heritage-escape.png",
+    "packages/1783014612498-chennai-kanchipuram-mahabalipuram-heritage-tour.png",
+    "packages/1783014809244-ooty-madurai-family-getaway.png",
+    "packages/1783015869423-complete-tamil-nadu-grand-tour.png",
+    "packages/1783016518060-munnar-tea-hills-escape.png",
+    "packages/1783234856838-munnar-thekkady-alleppey-honeymoon-tour.png",
+    "packages/1783235048343-kerala-family-holiday.png",
+    "packages/1783235322051-kerala-backwaters-beaches-tour.png",
+    "packages/1783235505397-wayanad-nature-adventure-tour.png",
+    "packages/1785069204318-chatgpt-image-jul-26-2026-06-03-12-pm.png",
+    "packages/1785069285084-chatgpt-image-jul-26-2026-06-04-31-pm.png",
+    "packages/1785069858831-chatgpt-image-jul-26-2026-06-14-05-pm.png",
+    "packages/1785070083236-chatgpt-image-jul-26-2026-06-17-43-pm.png",
+    "packages/1785070099420-chatgpt-image-jul-26-2026-06-12-40-pm.png",
+    "packages/1785070263891-chatgpt-image-jul-26-2026-06-20-51-pm.png",
+    "packages/1785071135163-chatgpt-image-jul-26-2026-06-35-24-pm.png",
+    "packages/1785071252456-chatgpt-image-jul-26-2026-06-37-20-pm.png",
+    "packages/1785071393288-chatgpt-image-jul-26-2026-06-39-41-pm.png",
+    "packages/1785071544509-chatgpt-image-jul-26-2026-06-42-09-pm.png",
+    "packages/1785071672727-chatgpt-image-jul-26-2026-06-44-21-pm.png",
+    "packages/1785071786773-chatgpt-image-jul-26-2026-06-46-13-pm.png",
+    "packages/1785071868884-chatgpt-image-jul-26-2026-06-47-36-pm.png",
+    "packages/1785071971709-chatgpt-image-jul-26-2026-06-49-19-pm.png",
+    "packages/1785072392123-chatgpt-image-jul-26-2026-06-56-20-pm.png",
+    "packages/1785072518683-chatgpt-image-jul-26-2026-06-58-22-pm.png",
+    "packages/1785072643395-chatgpt-image-jul-26-2026-07-00-31-pm.png",
+    "packages/1785073272593-chatgpt-image-jul-26-2026-07-11-01-pm.png",
+    "packages/1785073442874-chatgpt-image-jul-26-2026-07-13-49-pm.png",
+    "packages/1785073547653-chatgpt-image-jul-26-2026-07-15-36-pm.png",
+    "packages/1785073657419-chatgpt-image-jul-26-2026-07-17-25-pm.png",
+    "packages/1785073778555-chatgpt-image-jul-26-2026-07-19-26-pm.png",
+    "packages/1785073916881-chatgpt-image-jul-26-2026-07-21-45-pm.png",
+    "packages/1785074521978-chatgpt-image-jul-26-2026-07-31-32-pm.png",
+    "packages/1785074647459-chatgpt-image-jul-26-2026-07-33-37-pm.png",
+    "packages/1785074718939-chatgpt-image-jul-26-2026-07-35-01-pm.png",
+    "packages/1785074843028-chatgpt-image-jul-26-2026-07-36-54-pm.png",
+    "packages/1785074916533-chatgpt-image-jul-26-2026-07-38-20-pm.png",
+    "packages/1785075015418-chatgpt-image-jul-26-2026-07-40-03-pm.png",
+    "packages/1785075180180-chatgpt-image-jul-26-2026-07-42-43-pm.png",
+    "packages/1785075413761-chatgpt-image-jul-26-2026-07-46-36-pm.png",
+    "packages/1785075526210-chatgpt-image-jul-26-2026-07-48-36-pm.png",
+    "packages/1785075680457-chatgpt-image-jul-26-2026-07-51-03-pm.png",
+    "packages/1785076639363-chatgpt-image-jul-26-2026-08-07-10-pm.png",
+    "packages/1785076863216-chatgpt-image-jul-26-2026-08-09-15-pm.png",
+    "packages/1785076988202-chatgpt-image-jul-26-2026-08-12-54-pm.png",
+    "packages/1785078033905-chatgpt-image-jul-26-2026-08-30-00-pm.png",
+    "packages/1785078197785-chatgpt-image-jul-26-2026-08-09-15-pm.png",
+    "packages/1785078374193-chatgpt-image-jul-26-2026-08-35-54-pm.png",
+    "packages/1785078486424-chatgpt-image-jul-26-2026-08-37-54-pm.png",
+    "packages/1785078600399-chatgpt-image-jul-26-2026-08-39-37-pm.png",
+    "packages/1785078683458-chatgpt-image-jul-26-2026-08-40-43-pm.png",
+    "packages/1785078756493-chatgpt-image-jul-26-2026-08-42-23-pm.png",
+    "packages/1785078864041-chatgpt-image-jul-26-2026-08-44-09-pm.png",
+    "packages/1785079315707-chatgpt-image-jul-26-2026-08-51-44-pm.png",
+    "packages/1785079484881-chatgpt-image-jul-26-2026-08-54-32-pm.png",
+    "packages/1785079617396-chatgpt-image-jul-26-2026-08-56-40-pm.png",
+    "packages/1785079728188-chatgpt-image-jul-26-2026-08-58-37-pm.png",
+    "packages/1785080262838-chatgpt-image-jul-26-2026-09-07-30-pm.png",
+    "packages/1785080513322-chatgpt-image-jul-26-2026-09-11-39-pm.png",
+    "packages/1785080731894-chatgpt-image-jul-26-2026-09-15-18-pm.png",
+    "packages/1785080880246-chatgpt-image-jul-26-2026-09-17-48-pm.png",
+    "packages/1785081012184-chatgpt-image-jul-26-2026-09-19-59-pm.png",
+    "packages/1785081202869-chatgpt-image-jul-26-2026-09-23-06-pm.png",
+    "packages/1785081283599-chatgpt-image-jul-26-2026-09-24-23-pm.png",
+    "packages/1785081681929-chatgpt-image-jul-26-2026-09-31-10-pm.png",
+    "packages/1785081885164-chatgpt-image-jul-26-2026-09-34-32-pm.png",
+    "packages/1785082084507-chatgpt-image-jul-26-2026-09-37-52-pm.png",
+    "packages/1785083437492-chatgpt-image-jul-26-2026-10-00-25-pm.png",
+    "packages/1785083613658-chatgpt-image-jul-26-2026-10-03-18-pm.png",
+    "packages/1785083731572-chatgpt-image-jul-26-2026-10-05-16-pm.png",
+    "packages/1785084342363-chatgpt-image-jul-26-2026-10-15-22-pm.png",
+    "packages/1785084506410-chatgpt-image-jul-26-2026-10-18-07-pm.png",
+    "packages/1785084642100-chatgpt-image-jul-26-2026-10-20-11-pm.png",
+    "packages/1785085391884-chatgpt-image-jul-26-2026-10-32-54-pm.png",
+    "packages/1785085533459-chatgpt-image-jul-26-2026-10-34-40-pm.png",
+    "packages/1785085575120-chatgpt-image-jul-26-2026-10-36-01-pm.png",
+    "packages/1785085902569-chatgpt-image-jul-26-2026-10-40-41-pm.png",
+    "packages/1785086029511-chatgpt-image-jul-26-2026-10-43-35-pm.png",
+    "packages/1785086227480-chatgpt-image-jul-26-2026-10-46-52-pm.png",
+    "packages/1785086332239-chatgpt-image-jul-26-2026-10-48-41-pm.png",
+    "packages/1785086467888-chatgpt-image-jul-26-2026-10-50-55-pm.png",
+    "packages/1785086605530-chatgpt-image-jul-26-2026-10-53-11-pm.png",
+    "packages/1785087042683-chatgpt-image-jul-26-2026-11-00-25-pm.png",
+    "packages/1785087133360-chatgpt-image-jul-26-2026-11-01-56-pm.png",
+    "packages/1785087225080-chatgpt-image-jul-26-2026-11-03-33-pm.png",
+    "packages/1785087351214-chatgpt-image-jul-26-2026-11-05-38-pm.png",
+    "packages/1785087493556-chatgpt-image-jul-26-2026-11-07-54-pm.png",
+    "packages/1785087618901-chatgpt-image-jul-26-2026-11-10-02-pm.png",
+    "packages/1785087726416-chatgpt-image-jul-26-2026-11-11-54-pm.png",
+    "packages/1785165841222-chatgpt-image-jul-27-2026-08-53-02-pm.png",
+    "packages/1785166094433-chatgpt-image-jul-27-2026-08-58-01-pm.png",
+    "packages/1785228122731-chatgpt-image-jul-28-2026-02-11-45-pm.png",
+    "packages/1785228269476-chatgpt-image-jul-28-2026-02-14-18-pm.png",
+    "packages/1785228358608-chatgpt-image-jul-28-2026-02-15-46-pm.png",
+    "packages/1785228437477-chatgpt-image-jul-28-2026-02-17-05-pm.png",
+    "packages/1785228616852-chatgpt-image-jul-28-2026-02-20-03-pm.png",
+    "packages/1785228713216-chatgpt-image-jul-28-2026-02-21-42-pm.png",
+    "packages/1785228897891-chatgpt-image-jul-28-2026-02-24-42-pm.png",
+    "packages/1785228976558-chatgpt-image-jul-28-2026-02-26-06-pm.png",
+    "packages/1785229058658-chatgpt-image-jul-28-2026-02-27-24-pm.png",
+    "packages/1785229136965-chatgpt-image-jul-28-2026-02-28-46-pm.png",
+    "packages/1785229209021-chatgpt-image-jul-28-2026-02-29-57-pm.png",
+    "packages/1785229301164-chatgpt-image-jul-28-2026-02-31-27-pm.png",
+    "packages/1785231087398-chatgpt-image-jul-28-2026-03-01-13-pm.png",
+    "packages/1785231173854-chatgpt-image-jul-28-2026-03-02-40-pm.png",
+    "packages/1785231287895-chatgpt-image-jul-28-2026-03-04-36-pm.png",
+    "packages/1785231384120-chatgpt-image-jul-28-2026-03-06-12-pm.png",
+    "packages/1785231478465-chatgpt-image-jul-28-2026-03-07-46-pm.png",
+    "packages/1785231597914-chatgpt-image-jul-28-2026-03-09-43-pm.png",
+    "packages/1785232297387-chatgpt-image-jul-28-2026-03-21-19-pm.png",
+    "packages/1785232369285-chatgpt-image-jul-28-2026-03-22-36-pm.png",
+    "packages/1785232468079-chatgpt-image-jul-28-2026-03-24-16-pm.png",
+    "services/1785235823057-chatgpt-image-jul-28-2026-04-20-11-pm.png",
+    "services/1785236101817-chatgpt-image-jul-28-2026-04-24-49-pm.png",
+    "services/1785238837616-chatgpt-image-jul-28-2026-05-10-25-pm.png",
+    "services/1785238972925-chatgpt-image-jul-28-2026-05-12-37-pm.png",
+    "services/1785239079400-chatgpt-image-jul-28-2026-05-14-23-pm.png",
+    "services/1785239377582-chatgpt-image-jul-28-2026-05-19-20-pm.png",
+    "services/1785240805317-chatgpt-image-jul-28-2026-05-43-12-pm.png",
+    "testimonials/1783052464133-kerala-family-holiday.png"
+  ],
+  "unsplashUrls": [
+    {
+      "table": "packages",
+      "label": "dubai-city-desert-5d4n",
+      "url": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=70"
+    },
+    {
+      "table": "packages",
+      "label": "bali-island-escape-6d5n",
+      "url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=70"
+    },
+    {
+      "table": "destinations",
+      "label": "dubai",
+      "url": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "destinations",
+      "label": "bali",
+      "url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "destinations",
+      "label": "thailand",
+      "url": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "destinations",
+      "label": "maldives",
+      "url": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Dal Lake, Kashmir",
+      "url": "https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Kerala Backwaters",
+      "url": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Rajasthan Forts",
+      "url": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Goa Sunsets",
+      "url": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Maldives Lagoon",
+      "url": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Bali Rice Terraces",
+      "url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Dubai Skyline",
+      "url": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Thailand Islands",
+      "url": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "gallery_images",
+      "label": "Swiss Alps",
+      "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=70"
+    },
+    {
+      "table": "testimonials",
+      "label": "Jatin Trivedi",
+      "url": "https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "table": "blog_posts",
+      "label": "goa-monsoon-getaway-guide",
+      "url": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=70"
+    },
+    {
+      "table": "blog_posts",
+      "label": "kerala-houseboat-planning-tips",
+      "url": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=70"
+    },
+    {
+      "table": "blog_posts",
+      "label": "schengen-visa-checklist-2026",
+      "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=70"
+    }
+  ],
+  "allSupabaseUploads": [
+    {
+      "table": "packages",
+      "label": "kerala-backwater-honeymoon-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783010199186-kerala-backwater.png"
+    },
+    {
+      "table": "packages",
+      "label": "kashmir-kashmir-highlights-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785075180180-chatgpt-image-jul-26-2026-07-42-43-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "kashmir-kashmir-family-tour-package-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785075413761-chatgpt-image-jul-26-2026-07-46-36-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "kashmir-kashmir-honeymoon-package-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785075526210-chatgpt-image-jul-26-2026-07-48-36-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "kashmir-vaishno-devi-with-kashmir-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785069204318-chatgpt-image-jul-26-2026-06-03-12-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "kashmir-amritsar-jammu-kashmir-tour-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785069285084-chatgpt-image-jul-26-2026-06-04-31-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "kashmir-premium-kashmir-honeymoon-with-vaishno-devi-9d8n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785075680457-chatgpt-image-jul-26-2026-07-51-03-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "tamil-nadu-chennai-mahabalipuram-pondicherry-coastal-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785165841222-chatgpt-image-jul-27-2026-08-53-02-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "tamil-nadu-madurai-rameswaram-kanyakumari-pilgrimage-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785166094433-chatgpt-image-jul-27-2026-08-58-01-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "tamil-nadu-ooty-coonoor-madurai-heritage-escape-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783014303395-ooty-coonoor-madurai-heritage-escape.png"
+    },
+    {
+      "table": "packages",
+      "label": "tamil-nadu-chennai-kanchipuram-mahabalipuram-heritage-tour-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783014612498-chennai-kanchipuram-mahabalipuram-heritage-tour.png"
+    },
+    {
+      "table": "packages",
+      "label": "tamil-nadu-ooty-madurai-family-getaway-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783014809244-ooty-madurai-family-getaway.png"
+    },
+    {
+      "table": "packages",
+      "label": "tamil-nadu-complete-tamil-nadu-grand-tour-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783015869423-complete-tamil-nadu-grand-tour.png"
+    },
+    {
+      "table": "packages",
+      "label": "kerala-munnar-tea-hills-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783016518060-munnar-tea-hills-escape.png"
+    },
+    {
+      "table": "packages",
+      "label": "kerala-munnar-thekkady-alleppey-honeymoon-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783234856838-munnar-thekkady-alleppey-honeymoon-tour.png"
+    },
+    {
+      "table": "packages",
+      "label": "kerala-kerala-family-holiday-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783235048343-kerala-family-holiday.png"
+    },
+    {
+      "table": "packages",
+      "label": "kerala-kerala-backwaters-beaches-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783235322051-kerala-backwaters-beaches-tour.png"
+    },
+    {
+      "table": "packages",
+      "label": "kerala-wayanad-nature-adventure-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1783235505397-wayanad-nature-adventure-tour.png"
+    },
+    {
+      "table": "packages",
+      "label": "kerala-complete-kerala-kanyakumari-grand-tour-9d8n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785076639363-chatgpt-image-jul-26-2026-08-07-10-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "kaziranga-wildlife-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785081681929-chatgpt-image-jul-26-2026-09-31-10-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "guwahati-kaziranga-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785081885164-chatgpt-image-jul-26-2026-09-34-32-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "complete-assam-explorer-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785082084507-chatgpt-image-jul-26-2026-09-37-52-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "shillong-cherrapunji-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785084342363-chatgpt-image-jul-26-2026-10-15-22-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "meghalaya-nature-adventure-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785084506410-chatgpt-image-jul-26-2026-10-18-07-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "complete-meghalaya-explorer-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785084642100-chatgpt-image-jul-26-2026-10-20-11-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gangtok-delight-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785083613658-chatgpt-image-jul-26-2026-10-03-18-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gangtok-sikkim-adventure-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785083437492-chatgpt-image-jul-26-2026-10-00-25-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "complete-sikkim-explorer-featured-package-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785083731572-chatgpt-image-jul-26-2026-10-05-16-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "tawang-escape-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785085391884-chatgpt-image-jul-26-2026-10-32-54-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "dirang-bomdila-tawang-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785085533459-chatgpt-image-jul-26-2026-10-34-40-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "complete-arunachal-explorer-featured-package-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785085575120-chatgpt-image-jul-26-2026-10-36-01-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "northeast-seven-sisters-highlights-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785232297387-chatgpt-image-jul-28-2026-03-21-19-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "northeast-eastern-himalaya-explorer-8d7n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785232369285-chatgpt-image-jul-28-2026-03-22-36-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "northeast-complete-north-east-grand-tour-featured-package-11d10n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785232468079-chatgpt-image-jul-28-2026-03-24-16-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "madhya-pradesh-ujjain-spiritual-tour-package-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785079315707-chatgpt-image-jul-26-2026-08-51-44-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "madhya-pradesh-ujjain-omkareshwar-tour-package-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785079484881-chatgpt-image-jul-26-2026-08-54-32-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "madhya-pradesh-bandhavgarh-jabalpur-tour-package-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785079617396-chatgpt-image-jul-26-2026-08-56-40-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "madhya-pradesh-bandhavgarh-kanha-wildlife-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785079728188-chatgpt-image-jul-26-2026-08-58-37-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "ladakh-leh-nubra-valley-pangong-lake-tour-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785076863216-chatgpt-image-jul-26-2026-08-09-15-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "ladakh-complete-ladakh-adventure-tour-8d7n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785076988202-chatgpt-image-jul-26-2026-08-12-54-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "ladakh-srinagar-kargil-leh-road-trip-8d7n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078033905-chatgpt-image-jul-26-2026-08-30-00-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "ladakh-delhi-manali-leh-expedition-10d9n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078197785-chatgpt-image-jul-26-2026-08-09-15-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "himachal-shimla-manali-tour-package-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785073916881-chatgpt-image-jul-26-2026-07-21-45-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "himachal-himachal-family-tour-package-8d7n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785069858831-chatgpt-image-jul-26-2026-06-14-05-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "himachal-himachal-honeymoon-package-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785070083236-chatgpt-image-jul-26-2026-06-17-43-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "himachal-dharamshala-dalhousie-tour-package-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785070099420-chatgpt-image-jul-26-2026-06-12-40-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "himachal-complete-himachal-tour-package-10d9n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785070263891-chatgpt-image-jul-26-2026-06-20-51-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "himachal-spiti-valley-circuit-tour-9d8n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785070446444-chatgpt-image-jul-26-2026-06-23-17-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gujarat-divine-dwarka-somnath-pilgrimage-tour-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785072826818-chatgpt-image-jul-26-2026-07-02-58-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gujarat-dwarka-somnath-gir-wildlife-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785073272593-chatgpt-image-jul-26-2026-07-11-01-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gujarat-gujarat-coastal-heritage-diu-beach-escape-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785073442874-chatgpt-image-jul-26-2026-07-13-49-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gujarat-white-rann-of-kutch-cultural-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785073547653-chatgpt-image-jul-26-2026-07-15-36-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gujarat-statue-of-unity-kevadia-experience-2d1n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785073657419-chatgpt-image-jul-26-2026-07-17-25-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "gujarat-complete-gujarat-grand-discovery-tour-9d8n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785073778555-chatgpt-image-jul-26-2026-07-19-26-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttar-pradesh-kashi-vishwanath-spiritual-tour-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785231087398-chatgpt-image-jul-28-2026-03-01-13-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttar-pradesh-ayodhya-kashi-divine-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785231173854-chatgpt-image-jul-28-2026-03-02-40-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttar-pradesh-prayagraj-varanasi-ayodhya-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785231287895-chatgpt-image-jul-28-2026-03-04-36-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttar-pradesh-agra-mathura-vrindavan-heritage-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785231384120-chatgpt-image-jul-28-2026-03-06-12-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttar-pradesh-dudhwa-wildlife-lucknow-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785231478465-chatgpt-image-jul-28-2026-03-07-46-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttar-pradesh-complete-uttar-pradesh-grand-tour-9d8n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785231597914-chatgpt-image-jul-28-2026-03-09-43-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "goa-south-goa-serenity-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071786773-chatgpt-image-jul-26-2026-06-46-13-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "goa-north-goa-fun-adventure-tour-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071868884-chatgpt-image-jul-26-2026-06-47-36-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "goa-complete-goa-explorer-package-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071971709-chatgpt-image-jul-26-2026-06-49-19-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "goa-romantic-goa-honeymoon-package-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785072392123-chatgpt-image-jul-26-2026-06-56-20-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "goa-goa-family-holiday-package-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785072518683-chatgpt-image-jul-26-2026-06-58-22-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "goa-luxury-goa-beach-resort-escape-premium-package-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785072643395-chatgpt-image-jul-26-2026-07-00-31-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "andaman-andaman-island-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785070937389-chatgpt-image-jul-26-2026-06-31-49-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "andaman-andaman-honeymoon-special-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071135163-chatgpt-image-jul-26-2026-06-35-24-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "andaman-andaman-family-vacation-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071252456-chatgpt-image-jul-26-2026-06-37-20-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "andaman-andaman-adventure-scuba-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071393288-chatgpt-image-jul-26-2026-06-39-41-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "andaman-havelock-neil-island-explorer-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071544509-chatgpt-image-jul-26-2026-06-42-09-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "andaman-complete-andaman-grand-tour-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071672727-chatgpt-image-jul-26-2026-06-44-21-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "lakshadweep-lakshadweep-island-escape-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078374193-chatgpt-image-jul-26-2026-08-35-54-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "lakshadweep-lakshadweep-honeymoon-retreat-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078486424-chatgpt-image-jul-26-2026-08-37-54-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "lakshadweep-lakshadweep-family-vacation-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078600399-chatgpt-image-jul-26-2026-08-39-37-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "lakshadweep-lakshadweep-adventure-scuba-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078683458-chatgpt-image-jul-26-2026-08-40-43-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "lakshadweep-agatti-bangaram-island-explorer-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078756493-chatgpt-image-jul-26-2026-08-42-23-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "lakshadweep-complete-lakshadweep-grand-tour-7d6n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078864041-chatgpt-image-jul-26-2026-08-44-09-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "karnataka-bangalore-mysore-coorg-heritage-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785074521978-chatgpt-image-jul-26-2026-07-31-32-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "karnataka-coorg-chikmagalur-coffee-trail-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785074647459-chatgpt-image-jul-26-2026-07-33-37-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "karnataka-bangalore-hampi-heritage-expedition-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785074718939-chatgpt-image-jul-26-2026-07-35-01-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "karnataka-mysore-coorg-kabini-wildlife-tour-trending-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785074843028-chatgpt-image-jul-26-2026-07-36-54-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "karnataka-coastal-karnataka-escape-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785074916533-chatgpt-image-jul-26-2026-07-38-20-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "karnataka-grand-karnataka-tour-8d7n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785075015418-chatgpt-image-jul-26-2026-07-40-03-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "maharashtra-mumbai-city-tour-package-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785080262838-chatgpt-image-jul-26-2026-09-07-30-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "maharashtra-lonavala-khandala-weekend-tour-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785080513322-chatgpt-image-jul-26-2026-09-11-39-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "maharashtra-mahabaleshwar-panchgani-hill-station-tour-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785080731894-chatgpt-image-jul-26-2026-09-15-18-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "maharashtra-shirdi-shani-shingnapur-spiritual-tour-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785080880246-chatgpt-image-jul-26-2026-09-17-48-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "maharashtra-tadoba-wildlife-safari-tour-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785081012184-chatgpt-image-jul-26-2026-09-19-59-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "maharashtra-best-of-maharashtra-tour-9d8n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785081202869-chatgpt-image-jul-26-2026-09-23-06-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "maharashtra-matheran-hill-station-tour-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785081283599-chatgpt-image-jul-26-2026-09-24-23-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "odisha-golden-triangle-of-odisha-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785085902569-chatgpt-image-jul-26-2026-10-40-41-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "odisha-jagannath-puri-spiritual-tour-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785086029511-chatgpt-image-jul-26-2026-10-43-35-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "odisha-chilika-lake-coastal-escape-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785086227480-chatgpt-image-jul-26-2026-10-46-52-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "odisha-bhubaneswar-puri-gopalpur-beach-holiday-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785086332239-chatgpt-image-jul-26-2026-10-48-41-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "odisha-odisha-wildlife-nature-expedition-trending-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785086467888-chatgpt-image-jul-26-2026-10-50-55-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "odisha-complete-odisha-explorer-premium-8d7n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785086605530-chatgpt-image-jul-26-2026-10-53-11-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "rajasthan-jaipur-heritage-tour-package-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785087133360-chatgpt-image-jul-26-2026-11-01-56-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "rajasthan-jaisalmer-desert-experience-package-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785087225080-chatgpt-image-jul-26-2026-11-03-33-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "rajasthan-udaipur-nathdwara-weekend-tour-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785087351214-chatgpt-image-jul-26-2026-11-05-38-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "rajasthan-jodhpur-jaisalmer-desert-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785087493556-chatgpt-image-jul-26-2026-11-07-54-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "rajasthan-best-of-rajasthan-tour-10d9n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785087618901-chatgpt-image-jul-26-2026-11-10-02-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "rajasthan-jawai-leopard-safari-escape-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785087726416-chatgpt-image-jul-26-2026-11-11-54-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttarakhand-haridwar-rishikesh-spiritual-tour-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228897891-chatgpt-image-jul-28-2026-02-24-42-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttarakhand-mussoorie-hill-station-tour-3d2n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228976558-chatgpt-image-jul-28-2026-02-26-06-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttarakhand-nainital-jim-corbett-tour-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785229058658-chatgpt-image-jul-28-2026-02-27-24-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttarakhand-nainital-honeymoon-package-4d3n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785229136965-chatgpt-image-jul-28-2026-02-28-46-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttarakhand-char-dham-yatra-package-10d9n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785229209021-chatgpt-image-jul-28-2026-02-29-57-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "uttarakhand-complete-uttarakhand-tour-package-9d8n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785229301164-chatgpt-image-jul-28-2026-02-31-27-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "west-bengal-darjeeling-himalayan-escape-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228122731-chatgpt-image-jul-28-2026-02-11-45-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "west-bengal-dooars-wildlife-tea-garden-tour-6d5n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228269476-chatgpt-image-jul-28-2026-02-14-18-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "west-bengal-kolkata-digha-coastal-holiday-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228358608-chatgpt-image-jul-28-2026-02-15-46-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "west-bengal-kolkata-shantiniketan-cultural-journey-5d4n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228437477-chatgpt-image-jul-28-2026-02-17-05-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "west-bengal-complete-north-bengal-explorer-8d7n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228616852-chatgpt-image-jul-28-2026-02-20-03-pm.png"
+    },
+    {
+      "table": "packages",
+      "label": "west-bengal-grand-west-bengal-explorer-premium-10d9n",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228713216-chatgpt-image-jul-28-2026-02-21-42-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "kashmir",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785076174298-chatgpt-image-jul-26-2026-07-58-56-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "himachal",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785233907595-chatgpt-image-jul-28-2026-03-48-15-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "kerala",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784903877682-chatgpt-image-jul-24-2026-08-07-42-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "rajasthan",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785087042683-chatgpt-image-jul-26-2026-11-00-25-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "Goa",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071868884-chatgpt-image-jul-26-2026-06-47-36-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "uttarakhand",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785229874367-chatgpt-image-jul-28-2026-02-41-05-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "ladakh",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785234006605-chatgpt-image-jul-28-2026-03-49-55-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "sikkim",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785084021382-chatgpt-image-jul-26-2026-10-10-05-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "meghalaya",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785233140043-chatgpt-image-jul-28-2026-03-35-20-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "andaman",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785071672727-chatgpt-image-jul-26-2026-06-44-21-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "tamil-nadu",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785233303513-chatgpt-image-jul-28-2026-03-38-09-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "karnataka",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785234089018-chatgpt-image-jul-28-2026-03-51-14-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "maharashtra",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785080262838-chatgpt-image-jul-26-2026-09-07-30-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "madhya-pradesh",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785234187015-chatgpt-image-jul-28-2026-03-52-52-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "gujarat",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785233615247-chatgpt-image-jul-28-2026-03-43-21-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "assam",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785082743044-chatgpt-image-jul-26-2026-09-48-41-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "arunachal-pradesh",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785085391884-chatgpt-image-jul-26-2026-10-32-54-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "west-bengal",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785228437477-chatgpt-image-jul-28-2026-02-17-05-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "odisha",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785086029511-chatgpt-image-jul-26-2026-10-43-35-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "uttarpradesh",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785231734478-chatgpt-image-jul-28-2026-03-11-50-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "lakshadweep",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/packages/1785078864041-chatgpt-image-jul-26-2026-08-44-09-pm.png"
+    },
+    {
+      "table": "destinations",
+      "label": "northeast",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/destinations/1785232894003-chatgpt-image-jul-28-2026-03-31-20-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "flights",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/services/1785238837616-chatgpt-image-jul-28-2026-05-10-25-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "hotels",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/services/1785238972925-chatgpt-image-jul-28-2026-05-12-37-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "cabs",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/services/1785239079400-chatgpt-image-jul-28-2026-05-14-23-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "packages",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/services/1785240805317-chatgpt-image-jul-28-2026-05-43-12-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "visa",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/services/1785239377582-chatgpt-image-jul-28-2026-05-19-20-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "insurance",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/services/1785235823057-chatgpt-image-jul-28-2026-04-20-11-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "forex",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/services/1785236101817-chatgpt-image-jul-28-2026-04-24-49-pm.png"
+    },
+    {
+      "table": "services",
+      "label": "corporate",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/corporate/1785235233610-chatgpt-image-jul-28-2026-04-10-18-pm.png"
+    },
+    {
+      "table": "testimonials",
+      "label": "Ketuman Kashyap",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/testimonials/1783052464133-kerala-family-holiday.png"
+    },
+    {
+      "table": "homepage_settings.hero_slides",
+      "label": "hero → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784902536646-chatgpt-image-jul-24-2026-07-45-07-pm.png"
+    },
+    {
+      "table": "homepage_settings.hero_slides",
+      "label": "hero → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784903752562-chatgpt-image-jul-24-2026-08-05-36-pm.png"
+    },
+    {
+      "table": "homepage_settings.hero_slides",
+      "label": "hero → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784903877682-chatgpt-image-jul-24-2026-08-07-42-pm.png"
+    },
+    {
+      "table": "homepage_settings.hero_slides",
+      "label": "hero → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784902412987-chatgpt-image-jul-24-2026-07-43-20-pm.png"
+    },
+    {
+      "table": "homepage_settings.hero_slides",
+      "label": "hero → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784903457399-chatgpt-image-jul-24-2026-08-00-47-pm.png"
+    },
+    {
+      "table": "homepage_settings.hero_slides",
+      "label": "hero → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784903133700-chatgpt-image-jul-24-2026-07-55-24-pm.png"
+    },
+    {
+      "table": "homepage_settings.tour_types",
+      "label": "tour_types → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/tour-types/1784901599136-home-page-adventure.png"
+    },
+    {
+      "table": "homepage_settings.tour_types",
+      "label": "tour_types → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/tour-types/1784901621195-home-page-family.png"
+    },
+    {
+      "table": "homepage_settings.tour_types",
+      "label": "tour_types → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/tour-types/1784901628750-home-page-honeymoon.png"
+    },
+    {
+      "table": "homepage_settings.tour_types",
+      "label": "tour_types → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/tour-types/1784901637351-home-page-leisure.png"
+    },
+    {
+      "table": "homepage_settings.tour_types",
+      "label": "tour_types → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/tour-types/1784901862534-chatgpt-image-jul-24-2026-07-34-08-pm.png"
+    },
+    {
+      "table": "homepage_settings.tour_types",
+      "label": "tour_types → image",
+      "url": "https://fgrsjqkboltbwatfhcnm.supabase.co/storage/v1/object/public/cms-images/homepage/hero/1784902068215-chatgpt-image-jul-24-2026-07-36-30-pm.png"
+    }
+  ]
+}

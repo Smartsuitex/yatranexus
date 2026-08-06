@@ -104,7 +104,7 @@ export function AdminShell() {
         <header className="shrink-0 border-b border-border bg-background px-6 py-4">
           <p className="text-sm text-muted-foreground">
             Signed in as{" "}
-            <span className="font-medium text-foreground">{session.user.email}</span>
+            <span className="font-medium text-foreground">{session.email}</span>
           </p>
         </header>
         <main className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain p-6">

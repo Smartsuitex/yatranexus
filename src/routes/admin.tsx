@@ -13,7 +13,10 @@ export const Route = createFileRoute("/admin")({
 
 function AdminRoot() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isAuthPage = pathname === "/admin/login" || pathname === "/admin/forgot-password";
+  const isAuthPage =
+    pathname === "/admin/login" ||
+    pathname === "/admin/forgot-password" ||
+    pathname === "/admin/reset-password";
 
   if (isAuthPage) {
     return (

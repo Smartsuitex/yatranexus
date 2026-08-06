@@ -31,7 +31,8 @@ function AdminLoginPage() {
     try {
       await signInAdmin(email.trim(), password);
       toast.success("Welcome back!");
-      navigate({ to: "/admin" });
+      // Full navigation ensures the session cookie is picked up before admin loads
+      window.location.assign("/admin");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Invalid email or password");
     } finally {

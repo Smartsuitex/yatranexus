@@ -1,4 +1,14 @@
-import type { Database } from "@/integrations/supabase/types";
+import type {
+  BlogPostRow as BlogRow,
+  DestinationRow,
+  FaqRow,
+  GalleryRow,
+  HomepageRow,
+  PackageRow,
+  ServiceRow,
+  SiteSettingsRow,
+  TestimonialRow,
+} from "@/lib/db-types";
 import {
   BLOG_POSTS,
   COMPANY,
@@ -31,27 +41,7 @@ import {
 import { toTitleCase } from "@/lib/utils";
 import { resolvePackageImage } from "@/lib/package-images";
 import { sanitizePublicImageUrl } from "@/lib/holiday-packages-page-data";
-import { getServerSupabase } from "@/lib/supabase-server";
-
-type PackageRow = Database["public"]["Tables"]["packages"]["Row"];
-type BlogRow = Database["public"]["Tables"]["blog_posts"]["Row"];
-type FaqRow = Database["public"]["Tables"]["faqs"]["Row"];
-type GalleryRow = Database["public"]["Tables"]["gallery_images"]["Row"];
-type TestimonialRow = Database["public"]["Tables"]["testimonials"]["Row"];
-type SiteSettingsRow = Database["public"]["Tables"]["site_settings"]["Row"];
-type HomepageRow = Database["public"]["Tables"]["homepage_settings"]["Row"];
-type ServiceRow = Database["public"]["Tables"]["services"]["Row"] & {
-  content_blocks?: unknown;
-};
-
-type HomepageRowExtended = HomepageRow & {
-  how_it_works?: unknown;
-  corporate_features?: unknown;
-  tour_types?: unknown;
-  holiday_themes?: unknown;
-};
-
-type DestinationRow = Database["public"]["Tables"]["destinations"]["Row"];
+type HomepageRowExtended = HomepageRow;
 
 export type PublicPackage = Package & {
   id?: string;
@@ -552,15 +542,10 @@ export function filterPackages(
 export async function fetchPublicPackages(filters?: PackageFilters): Promise<PublicPackage[]> {
   const showInternational = await resolveShowInternational();
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("packages")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order")
-      .order("title");
+    const { listActivePackages } = await import("@/lib/db-queries/packages");
+    const data = await listActivePackages();
 
-    if (error || !data?.length) {
+    if (!data?.length) {
       return filterPackages(PACKAGES.map(mapStaticPackage), filters, showInternational);
     }
     return filterPackages(
@@ -671,15 +656,10 @@ export async function fetchPublicPackageBySlug(slug: string): Promise<PublicPack
   const resolvedSlug = PACKAGE_SLUG_ALIASES[slug] ?? slug;
   const showInternational = await resolveShowInternational();
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("packages")
-      .select("*")
-      .eq("slug", resolvedSlug)
-      .eq("is_active", true)
-      .maybeSingle();
+    const { getPackageBySlug } = await import("@/lib/db-queries/packages");
+    const data = await getPackageBySlug(resolvedSlug);
 
-    if (error || !data) {
+    if (!data) {
       const fallback = PACKAGES.find((p) => p.slug === resolvedSlug);
       const pkg = fallback ? mapStaticPackage(fallback) : null;
       return pkg && !showInternational && pkg.scope === "international" ? null : pkg;
@@ -695,14 +675,10 @@ export async function fetchPublicPackageBySlug(slug: string): Promise<PublicPack
 
 export async function fetchPublicBlogPosts(): Promise<PublicBlogPost[]> {
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("blog_posts")
-      .select("*")
-      .eq("is_published", true)
-      .order("published_at", { ascending: false });
+    const { listPublishedBlogPosts } = await import("@/lib/db-queries/blog");
+    const data = await listPublishedBlogPosts();
 
-    if (error || !data?.length) {
+    if (!data?.length) {
       return BLOG_POSTS.map((p) => ({
         slug: p.slug,
         title: p.title,
@@ -736,14 +712,10 @@ export async function fetchPublicBlogPostBySlug(slug: string): Promise<PublicBlo
 
 export async function fetchPublicFaqs(): Promise<PublicFaq[]> {
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("faqs")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order");
+    const { listActiveFaqs } = await import("@/lib/db-queries/faqs");
+    const data = await listActiveFaqs();
 
-    if (error || !data?.length) {
+    if (!data?.length) {
       return FAQS.map((f) => ({ q: f.q, a: f.a }));
     }
     return data.map((row: FaqRow) => ({
@@ -767,14 +739,10 @@ function filterGalleryImages(
 export async function fetchPublicGallery(): Promise<PublicGalleryImage[]> {
   const showInternational = await resolveShowInternational();
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("gallery_images")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order");
+    const { listActiveGalleryImages } = await import("@/lib/db-queries/gallery");
+    const data = await listActiveGalleryImages();
 
-    if (error || !data?.length) {
+    if (!data?.length) {
       return filterGalleryImages(
         GALLERY_IMAGES.map((g) => ({
           id: g.id,
@@ -809,15 +777,10 @@ export async function fetchPublicGallery(): Promise<PublicGalleryImage[]> {
 
 export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("testimonials")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true })
-      .order("name", { ascending: true });
+    const { listActiveTestimonials } = await import("@/lib/db-queries/testimonials");
+    const data = await listActiveTestimonials();
 
-    if (error || !data?.length) {
+    if (!data?.length) {
       return TESTIMONIALS.map((t, i) => ({
         id: `static-${i}`,
         name: t.name,
@@ -854,10 +817,10 @@ export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
 
 export async function fetchPublicSiteSettings(): Promise<PublicSiteSettings> {
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase.from("site_settings").select("*").eq("id", 1).maybeSingle();
+    const { getSiteSettings } = await import("@/lib/db-queries/site-settings");
+    const data = await getSiteSettings();
 
-    if (error || !data) return DEFAULT_SITE_SETTINGS;
+    if (!data) return DEFAULT_SITE_SETTINGS;
 
     const row = data as SiteSettingsRow & {
       legal_name?: string | null;
@@ -985,14 +948,10 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
 
   try {
     const showInternational = await resolveShowInternational();
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("homepage_settings")
-      .select("*")
-      .eq("id", 1)
-      .maybeSingle();
+    const { getHomepageSettings } = await import("@/lib/db-queries/homepage");
+    const data = await getHomepageSettings();
 
-    if (error || !data) return emptyFallback(showInternational);
+    if (!data) return emptyFallback(showInternational);
 
     const row = data as HomepageRowExtended;
     const whyRaw = Array.isArray(row.why_choose_us) ? row.why_choose_us : [];
@@ -1165,22 +1124,21 @@ export async function fetchPublicDestinations(
 ): Promise<PublicDestination[]> {
   const showInternational = await resolveShowInternational();
   try {
-    const supabase = getServerSupabase();
-    let query = supabase.from("destinations").select("*").eq("is_active", true).order("sort_order");
-
+    const { listActiveDestinations } = await import("@/lib/db-queries/destinations");
+    let data: DestinationRow[];
     if (scope && scope !== "all") {
-      query = query.eq("scope", scope);
+      data = await listActiveDestinations(scope);
     } else if (!showInternational) {
-      query = query.eq("scope", "domestic");
+      data = await listActiveDestinations("domestic");
+    } else {
+      data = await listActiveDestinations();
     }
 
-    const { data, error } = await query;
-
-    if (error || !data?.length) {
+    if (!data?.length) {
       return staticDestinations(scope ?? "all", showInternational);
     }
 
-    const rows = data as DestinationRow[];
+    const rows = data;
     const mapped = rows.map((row) =>
       enrichDestinationFromStatic(mapDbDestination(row), row.scope),
     );
@@ -1201,16 +1159,10 @@ export async function fetchPublicDestinationBySlug(
   if (!showInternational && scope === "international") return null;
 
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("destinations")
-      .select("*")
-      .eq("slug", slug)
-      .eq("scope", scope)
-      .eq("is_active", true)
-      .maybeSingle();
+    const { getDestinationBySlug } = await import("@/lib/db-queries/destinations");
+    const data = await getDestinationBySlug(slug, scope);
 
-    if (error || !data) {
+    if (!data) {
       const list = scope === "domestic" ? DOMESTIC_STATES : INTERNATIONAL_COUNTRIES;
       return list.find((d) => d.slug === slug) ?? null;
     }
@@ -1369,15 +1321,11 @@ function staticServices(): PublicService[] {
 
 export async function fetchPublicServices(): Promise<PublicService[]> {
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("services")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order");
+    const { listActiveServices } = await import("@/lib/db-queries/services");
+    const data = await listActiveServices();
 
-    if (error || !data?.length) return staticServices();
-    return (data as ServiceRow[]).map(mapDbService);
+    if (!data?.length) return staticServices();
+    return data.map(mapDbService);
   } catch {
     return staticServices();
   }
@@ -1385,15 +1333,10 @@ export async function fetchPublicServices(): Promise<PublicService[]> {
 
 export async function fetchPublicServiceBySlug(slug: string): Promise<PublicService | null> {
   try {
-    const supabase = getServerSupabase();
-    const { data, error } = await supabase
-      .from("services")
-      .select("*")
-      .eq("is_active", true)
-      .eq("slug", slug)
-      .maybeSingle();
+    const { getServiceBySlug } = await import("@/lib/db-queries/services");
+    const data = await getServiceBySlug(slug);
 
-    if (!error && data) return mapDbService(data as ServiceRow);
+    if (data) return mapDbService(data);
   } catch {
     // fall through to static data
   }

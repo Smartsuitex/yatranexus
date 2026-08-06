@@ -1,4 +1,4 @@
-import type { InquiryStatus } from "@/integrations/supabase/types";
+import type { InquiryStatus } from "@/lib/db-types";
 import { INQUIRY_STATUS_COLORS, INQUIRY_STATUS_LABELS } from "@/lib/admin-api";
 import { cn } from "@/lib/utils";
 

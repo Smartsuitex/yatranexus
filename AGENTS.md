@@ -7,11 +7,15 @@ TanStack Start travel site for YatraNexus Ventures LLP.
 - `src/routes/` — file-based routes
 - `src/components/site/` — site-specific UI
 - `src/components/ui/` — shadcn/ui primitives
-- `src/lib/` — shared utilities and server functions
-- `src/integrations/supabase/` — Supabase client and auth
+- `src/lib/` — shared utilities, MySQL db layer, and server functions
+- `src/lib/db-queries/` — MySQL CMS queries
+- `database/schema.mysql.sql` — MySQL schema
 
 ## Commands
 
-- `bun run dev` — start dev server
-- `bun run build` — production build
+- `npm run dev` — start dev server (requires local MySQL + `.env` DATABASE_URL)
+- `npm run build` — production build
+- `npm run apply:mysql-schema` — create tables
+- `npm run migrate:mysql` — import CMS from snapshot
+- `npm run setup-admin-user` — create admin login
 - `bun run lint` — ESLint

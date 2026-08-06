@@ -1,5 +1,4 @@
 import type { HomepageRow } from "@/lib/admin-cms-api";
-import type { Database } from "@/integrations/supabase/types";
 
 export type HeroSlideForm = {
   name: string;
@@ -218,7 +217,7 @@ function cleanIconFeatures(items: IconFeatureForm[]) {
 
 export function homepageFormToPayload(
   form: HomepageFormState,
-): Database["public"]["Tables"]["homepage_settings"]["Update"] {
+): Partial<HomepageRow> {
   const seconds = Math.max(1, Math.min(120, Number(form.heroIntervalSeconds) || DEFAULT_HERO_INTERVAL_SECONDS));
   return {
     hero_slides: form.heroSlides

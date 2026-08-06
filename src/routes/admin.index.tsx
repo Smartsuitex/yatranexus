@@ -19,7 +19,7 @@ import { InquiryStatusBadge } from "@/components/admin/InquiryStatusBadge";
 import { fetchDashboardStats, fetchRecentInquiries } from "@/lib/admin-api";
 import { formatInquiryRef, groupInquiriesByCustomer } from "@/lib/inquiry-dedupe";
 import { useAdminAuth } from "@/hooks/use-admin-auth";
-import type { Inquiry } from "@/integrations/supabase/types";
+import type { Inquiry } from "@/lib/db-types";
 import type { LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
@@ -94,10 +94,10 @@ function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   const displayName = useMemo(() => {
-    const email = session?.user.email ?? "";
+    const email = session?.email ?? "";
     const local = email.split("@")[0] ?? "Admin";
     return local.charAt(0).toUpperCase() + local.slice(1);
-  }, [session?.user.email]);
+  }, [session?.email]);
 
   const recentGroups = useMemo(() => groupInquiriesByCustomer(recent).slice(0, 6), [recent]);
 

@@ -20,7 +20,7 @@ import {
 
 } from "@/lib/admin-api";
 
-import type { Inquiry, InquiryStatus } from "@/integrations/supabase/types";
+import type { Inquiry, InquiryStatus } from "@/lib/db-types";
 
 import { downloadCsv, downloadInquiriesPdf, inquiriesToCsv } from "@/lib/inquiry-export";
 
