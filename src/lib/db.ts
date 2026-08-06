@@ -8,9 +8,52 @@ export type DbConfig = {
   database: string;
 };
 
-export function parseDatabaseUrl(url: string): DbConfig {
-  const parsed = new URL(url);
-  const database = parsed.pathname.replace(/^\//, "");
+export function parseDatabaseUrl(raw: string): DbConfig {
+  let url = String(raw ?? "").trim();
+  // Hostinger / panel paste quirks
+  if (
+    (url.startsWith('"') && url.endsWith('"')) ||
+    (url.startsWith("'") && url.endsWith("'"))
+  ) {
+    url = url.slice(1, -1).trim();
+  }
+
+  if (!url) {
+    throw new Error("DATABASE_URL is empty.");
+  }
+
+  // Prefer mysql://user:pass@host:port/db — supports raw @ in password
+  // by taking the last @ before host (URL() throws "Invalid URL" otherwise).
+  const mysqlMatch = url.match(
+    /^mysql:\/\/([^:/?#]+):(.+)@([^:/?#]+)(?::(\d+))?\/([^?#]+)/i,
+  );
+  if (mysqlMatch) {
+    const [, user, password, hostRaw, portRaw, databaseRaw] = mysqlMatch;
+    const host =
+      hostRaw === "localhost" || hostRaw === "::1" ? "127.0.0.1" : hostRaw;
+    const database = databaseRaw.replace(/[?#].*$/, "").replace(/\/+$/, "");
+    if (!database) {
+      throw new Error("DATABASE_URL must include a database name.");
+    }
+    return {
+      host,
+      port: portRaw ? Number(portRaw) : 3306,
+      user: decodeURIComponent(user),
+      password: decodeURIComponent(password),
+      database: decodeURIComponent(database),
+    };
+  }
+
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    throw new Error(
+      `DATABASE_URL is invalid. Use: mysql://USER:PASSWORD@127.0.0.1:3306/DBNAME (encode @ in password as %40). Got: ${url.slice(0, 40)}…`,
+    );
+  }
+
+  const database = parsed.pathname.replace(/^\//, "").replace(/\/+$/, "");
   if (!database) {
     throw new Error("DATABASE_URL must include a database name.");
   }
@@ -25,14 +68,38 @@ export function parseDatabaseUrl(url: string): DbConfig {
     port: parsed.port ? Number(parsed.port) : 3306,
     user: decodeURIComponent(parsed.username),
     password: decodeURIComponent(parsed.password),
-    database,
+    database: decodeURIComponent(database),
   };
 }
 
+function normalizeHost(host: string): string {
+  const h = host.trim();
+  return h === "localhost" || h === "::1" ? "127.0.0.1" : h;
+}
+
+/**
+ * Prefer discrete DB_* vars on Hostinger (some panels reject mysql:// as
+ * "Invalid URL"). Fall back to DATABASE_URL for local / standard setups.
+ */
 export function getDbConfig(): DbConfig {
+  const user = process.env.DB_USER?.trim();
+  const password = process.env.DB_PASSWORD ?? "";
+  const database = process.env.DB_NAME?.trim() || process.env.DB_DATABASE?.trim();
+  if (user && database) {
+    return {
+      host: normalizeHost(process.env.DB_HOST?.trim() || "127.0.0.1"),
+      port: Number(process.env.DB_PORT || 3306) || 3306,
+      user,
+      password,
+      database,
+    };
+  }
+
   const url = process.env.DATABASE_URL;
   if (!url) {
-    throw new Error("DATABASE_URL is not configured.");
+    throw new Error(
+      "Database is not configured. Set DB_HOST/DB_USER/DB_PASSWORD/DB_NAME (preferred on Hostinger) or DATABASE_URL.",
+    );
   }
   return parseDatabaseUrl(url);
 }
