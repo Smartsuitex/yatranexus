@@ -17,6 +17,14 @@ export function parseDatabaseUrl(raw: string): DbConfig {
   ) {
     url = url.slice(1, -1).trim();
   }
+  // Pasted whole ".env line" into the value field: DATABASE_URL=mysql://...
+  url = url.replace(/^DATABASE_URL\s*=\s*/i, "").trim();
+  if (
+    (url.startsWith('"') && url.endsWith('"')) ||
+    (url.startsWith("'") && url.endsWith("'"))
+  ) {
+    url = url.slice(1, -1).trim();
+  }
 
   if (!url) {
     throw new Error("DATABASE_URL is empty.");
