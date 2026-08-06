@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type ImgHTMLAttributes,
@@ -12,6 +12,30 @@ import { cn } from "@/lib/utils";
 /** True when `src` is a non-empty URL (avoids React empty-string `src` warning). */
 export function hasImageSrc(src: string | null | undefined): src is string {
   return Boolean(src?.trim());
+}
+
+/** Encode path segments so filenames with spaces load reliably. */
+export function encodeImageSrc(src: string): string {
+  const trimmed = src.trim();
+  if (!trimmed || trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
+    return trimmed;
+  }
+  try {
+    if (/^https?:\/\//i.test(trimmed)) {
+      const u = new URL(trimmed);
+      u.pathname = u.pathname
+        .split("/")
+        .map((seg) => encodeURIComponent(decodeURIComponent(seg)))
+        .join("/");
+      return u.toString();
+    }
+  } catch {
+    /* fall through */
+  }
+  return trimmed
+    .split("/")
+    .map((seg, i) => (i === 0 && seg === "" ? "" : encodeURIComponent(decodeURIComponent(seg))))
+    .join("/");
 }
 
 type SafeImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
@@ -28,6 +52,9 @@ type SafeImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
  * an animated skeleton is shown (used across holiday-packages cards/heroes).
  * LCP heroes (`fetchPriority="high"` / `loading="eager"`) skip the skeleton
  * so the browser can paint the image immediately.
+ *
+ * Cached images often skip `onLoad` after client navigations — we detect
+ * `img.complete` after mount so returning to Home does not stay blank.
  */
 export function SafeImage({
   src,
@@ -41,24 +68,35 @@ export function SafeImage({
   fetchPriority,
   ...rest
 }: SafeImageProps) {
-  const resolved = typeof src === "string" ? src.trim() : "";
+  const resolved = typeof src === "string" ? encodeImageSrc(src) : "";
   const imgRef = useRef<HTMLImageElement>(null);
   const isLcp =
     fetchPriority === "high" || loading === "eager" || showSkeleton === false;
   const [loaded, setLoaded] = useState(isLcp);
   const [failed, setFailed] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setFailed(false);
     if (isLcp) {
       setLoaded(true);
       return;
     }
     setLoaded(false);
-    const img = imgRef.current;
-    if (img?.complete && img.naturalWidth > 0) {
-      setLoaded(true);
-    }
+    const markIfReady = () => {
+      const img = imgRef.current;
+      if (img?.complete && img.naturalWidth > 0) {
+        setLoaded(true);
+        return true;
+      }
+      return false;
+    };
+    if (markIfReady()) return;
+    // Ref may not be attached on first pass; retry next frame + short timeout.
+    const raf = requestAnimationFrame(() => {
+      if (markIfReady()) return;
+      window.setTimeout(markIfReady, 50);
+    });
+    return () => cancelAnimationFrame(raf);
   }, [resolved, isLcp]);
 
   if (!resolved || failed) {
@@ -93,6 +131,7 @@ export function SafeImage({
         alt={alt}
         loading={loading}
         fetchPriority={fetchPriority}
+        decoding="async"
         className={cn(className, showPlaceholder && "safe-image--loading")}
         onLoad={(event: SyntheticEvent<HTMLImageElement>) => {
           setLoaded(true);

@@ -92,6 +92,7 @@ const GOOGLE_FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&family=Epilogue:wght@400;500;600;700&display=swap";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staleTime: 5 * 60 * 1000,
   loader: async () => {
     const [siteSettings, navLinks, services, homepage] = await Promise.all([
       fetchPublicSiteSettings(),

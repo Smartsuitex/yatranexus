@@ -35,7 +35,7 @@ import {
 import { useSiteConfig } from "@/contexts/site-config";
 
 export const Route = createFileRoute("/holiday-packages/")({
-  staleTime: 0,
+  staleTime: 5 * 60 * 1000,
   validateSearch: (search: Record<string, unknown>): { destination?: string } => ({
     destination:
       typeof search.destination === "string" && search.destination.trim()

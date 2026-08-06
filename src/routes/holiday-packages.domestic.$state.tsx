@@ -15,7 +15,7 @@ import { brandSeoDescription, brandSeoTitle, breadcrumbJsonLd, buildPageSeo, mer
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/domestic/$state")({
-  staleTime: 0,
+  staleTime: 5 * 60 * 1000,
   loader: async ({ params }) => {
     const dest = await fetchPublicDestinationBySlug(params.state, "domestic");
     if (!dest) throw notFound();

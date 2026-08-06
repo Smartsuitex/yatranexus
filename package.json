@@ -20,6 +20,8 @@
     "test:mysql": "node scripts/test-mysql-connection.mjs",
     "apply:mysql-schema": "node scripts/apply-mysql-schema.mjs",
     "apply:mysql-indexes": "node scripts/apply-mysql-indexes.mjs",
+    "remap:missing-images": "node scripts/remap-missing-images-mysql.mjs --apply",
+    "remap:missing-images:hostinger": "node scripts/remap-missing-images-mysql.mjs --apply --hostinger",
     "export:hostinger-import": "node scripts/export-hostinger-import.mjs",
     "cleanup:storage": "node scripts/cleanup-unused-storage.mjs",
     "cleanup:storage:delete": "node scripts/cleanup-unused-storage.mjs --delete",

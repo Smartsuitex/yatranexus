@@ -74,7 +74,7 @@ function buildHomeServices(
 }
 
 export const Route = createFileRoute("/")({
-  staleTime: 0,
+  staleTime: 5 * 60 * 1000,
   loader: async () => {
     const [packages, testimonials, homepage, services, destinations, marqueeDestinations, showInternational, siteSettings] =
       await Promise.all([

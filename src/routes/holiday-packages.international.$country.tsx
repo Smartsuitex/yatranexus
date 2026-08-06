@@ -16,7 +16,7 @@ import { brandSeoDescription, brandSeoTitle, breadcrumbJsonLd, buildPageSeo, mer
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/international/$country")({
-  staleTime: 0,
+  staleTime: 5 * 60 * 1000,
   loader: async ({ params }) => {
     const showInternational = await resolveShowInternational();
     if (!showInternational) {

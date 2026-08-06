@@ -20,7 +20,7 @@ import { TOUR_TYPES } from "@/lib/site-data";
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/tour/$type")({
-  staleTime: 0,
+  staleTime: 5 * 60 * 1000,
   loader: async ({ params }) => {
     const slug = params.type.trim().toLowerCase();
     const homepage = await fetchPublicHomepageSettings();

@@ -27,7 +27,7 @@ import { PACKAGE_SLUG_ALIASES } from "@/lib/site-data";
 import { toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/package/$slug")({
-  staleTime: 0,
+  staleTime: 5 * 60 * 1000,
   loader: async ({ params }) => {
     const aliasTarget = PACKAGE_SLUG_ALIASES[params.slug];
     if (aliasTarget && aliasTarget !== params.slug) {

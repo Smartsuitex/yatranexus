@@ -19,7 +19,8 @@ import {
   type HeroSearchPackage,
 } from "@/lib/hero-search";
 import { MAX_HERO_SLIDES, DEFAULT_HOME_HERO_TAGLINE } from "@/lib/homepage-admin";
-import { resolveHeroBackground } from "@/lib/site-images";
+import { resolveHeroBackground, preferWebpImage } from "@/lib/site-images";
+import { encodeImageSrc } from "@/components/site/SafeImage";
 import { homeServiceLinkRoute, type HomeServiceLink } from "@/lib/nav-links";
 import { SERVICES } from "@/lib/site-data";
 
@@ -163,7 +164,7 @@ export function HomepageHero({
 
   function imageSrc(src: string) {
     if (!src || failedImages[src]) return "";
-    return src;
+    return encodeImageSrc(preferWebpImage(src));
   }
 
   return (
