@@ -17,6 +17,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { WhatsAppFab } from "@/components/site/WhatsAppFab";
 import { BackToTop } from "@/components/site/BackToTop";
+import { ImageCacheRegistrar } from "@/components/site/ImageCacheRegistrar";
 import { SiteConfigContext, useSiteConfig } from "@/contexts/site-config";
 import { fetchPublicHomepageSettings, fetchPublicNavLinks, fetchPublicServices, fetchPublicSiteSettings } from "@/lib/public-cms";
 import {
@@ -224,6 +225,7 @@ function RootComponent() {
         )}
         {!isAdminRoute && (
           <>
+            <ImageCacheRegistrar />
             <WhatsAppFab />
             <BackToTop />
           </>

@@ -1,0 +1,5 @@
+# Long-lived browser cache for CMS images (Hostinger Apache).
+# Unique filenames — safe to cache for 1 year.
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

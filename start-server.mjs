@@ -85,6 +85,7 @@ function cacheControlForPath(pathname, ext) {
   if (pathname.startsWith("/assets/")) {
     return "public, max-age=31536000, immutable";
   }
+  // CMS images use unique filenames — safe to cache long in the browser.
   if (
     pathname.startsWith("/images/") ||
     pathname.startsWith("/fonts/") ||
@@ -99,7 +100,7 @@ function cacheControlForPath(pathname, ext) {
     ext === ".svg" ||
     ext === ".ico"
   ) {
-    return "public, max-age=2592000, stale-while-revalidate=86400";
+    return "public, max-age=31536000, immutable, stale-while-revalidate=86400";
   }
   return null;
 }
@@ -123,9 +124,18 @@ function tryServeStatic(req, res) {
   const acceptsGzip = String(req.headers["accept-encoding"] ?? "").includes("gzip");
   const shouldGzip = acceptsGzip && COMPRESSIBLE.has(ext) && stats.size > 1024;
 
+  const etag = `W/"${stats.size.toString(16)}-${Math.floor(stats.mtimeMs).toString(16)}"`;
+  if (req.headers["if-none-match"] === etag) {
+    res.statusCode = 304;
+    res.end();
+    return true;
+  }
+
   res.statusCode = 200;
   res.setHeader("Content-Type", contentType);
   res.setHeader("Vary", "Accept-Encoding");
+  res.setHeader("ETag", etag);
+  res.setHeader("Last-Modified", stats.mtime.toUTCString());
 
   const cache = cacheControlForPath(pathname, ext);
   if (cache) res.setHeader("Cache-Control", cache);

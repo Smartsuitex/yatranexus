@@ -19,6 +19,7 @@
     "migrate:mysql:dry-run": "node scripts/migrate-supabase-to-mysql.mjs",
     "test:mysql": "node scripts/test-mysql-connection.mjs",
     "apply:mysql-schema": "node scripts/apply-mysql-schema.mjs",
+    "apply:mysql-indexes": "node scripts/apply-mysql-indexes.mjs",
     "export:hostinger-import": "node scripts/export-hostinger-import.mjs",
     "cleanup:storage": "node scripts/cleanup-unused-storage.mjs",
     "cleanup:storage:delete": "node scripts/cleanup-unused-storage.mjs --delete",
