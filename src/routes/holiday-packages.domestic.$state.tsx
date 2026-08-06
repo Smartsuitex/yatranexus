@@ -10,6 +10,7 @@ import {
   fetchPublicDestinationBySlug,
   formatHolidayPrice,
   lowestPackagePriceLabel,
+  toPublicPackageCard,
 } from "@/lib/public-cms";
 import { brandSeoDescription, brandSeoTitle, breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 import { toTitleCase } from "@/lib/utils";
@@ -19,11 +20,13 @@ export const Route = createFileRoute("/holiday-packages/domestic/$state")({
   loader: async ({ params }) => {
     const dest = await fetchPublicDestinationBySlug(params.state, "domestic");
     if (!dest) throw notFound();
-    const relatedPackages = await fetchPackagesForDestination({
-      name: dest.name,
-      slug: dest.slug,
-      scope: "domestic",
-    });
+    const relatedPackages = (
+      await fetchPackagesForDestination({
+        name: dest.name,
+        slug: dest.slug,
+        scope: "domestic",
+      })
+    ).map(toPublicPackageCard);
     return { dest, relatedPackages };
   },
   head: ({ loaderData }) => {

@@ -11,6 +11,7 @@ import {
   formatHolidayPrice,
   lowestPackagePriceLabel,
   resolveShowInternational,
+  toPublicPackageCard,
 } from "@/lib/public-cms";
 import { brandSeoDescription, brandSeoTitle, breadcrumbJsonLd, buildPageSeo, mergeSeoHead } from "@/lib/seo";
 import { toTitleCase } from "@/lib/utils";
@@ -24,11 +25,13 @@ export const Route = createFileRoute("/holiday-packages/international/$country")
     }
     const dest = await fetchPublicDestinationBySlug(params.country, "international");
     if (!dest) throw notFound();
-    const relatedPackages = await fetchPackagesForDestination({
-      name: dest.name.split(",")[0] ?? dest.name,
-      slug: dest.slug,
-      scope: "international",
-    });
+    const relatedPackages = (
+      await fetchPackagesForDestination({
+        name: dest.name.split(",")[0] ?? dest.name,
+        slug: dest.slug,
+        scope: "international",
+      })
+    ).map(toPublicPackageCard);
     return { dest, relatedPackages };
   },
   head: ({ loaderData }) => {

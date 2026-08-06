@@ -27,8 +27,9 @@ import {
   fetchPublicHomepageSettings,
   fetchPublicPackages,
   fetchPublicServiceBySlug,
+  fetchPublicSiteSettings,
   filterPackagesByHolidayTheme,
-  resolveShowInternational,
+  toPublicPackageCard,
   type PublicDestination,
   type PublicPackage,
 } from "@/lib/public-cms";
@@ -43,15 +44,21 @@ export const Route = createFileRoute("/holiday-packages/")({
         : undefined,
   }),
   loader: async () => {
-    const showInternational = await resolveShowInternational();
-    const [packages, domesticStates, internationalDestinations, homepage, packagesService] =
-      await Promise.all([
-        fetchPublicPackages(),
-        fetchPublicDestinations("domestic"),
-        showInternational ? fetchPublicDestinations("international") : Promise.resolve([]),
-        fetchPublicHomepageSettings(),
-        fetchPublicServiceBySlug("packages"),
-      ]);
+    const siteSettings = await fetchPublicSiteSettings();
+    const showInternational = siteSettings.showInternational;
+
+    const [packagesRaw, allDestinations, homepage, packagesService] = await Promise.all([
+      fetchPublicPackages(),
+      fetchPublicDestinations(showInternational ? "all" : "domestic"),
+      fetchPublicHomepageSettings(),
+      fetchPublicServiceBySlug("packages"),
+    ]);
+
+    const packages = packagesRaw.map(toPublicPackageCard);
+    const domesticStates = allDestinations.filter((d) => d.scope !== "international");
+    const internationalDestinations = showInternational
+      ? allDestinations.filter((d) => d.scope === "international")
+      : [];
 
     const featuredSlugs = homepage.featuredPackageSlugs;
     const featuredPackages =

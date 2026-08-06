@@ -8,6 +8,7 @@ import { resolveDestinationHero } from "@/lib/holiday-packages-page-data";
 import {
   fetchPackagesForTourType,
   fetchPublicHomepageSettings,
+  toPublicPackageCard,
 } from "@/lib/public-cms";
 import {
   brandSeoDescription,
@@ -28,7 +29,7 @@ export const Route = createFileRoute("/holiday-packages/tour/$type")({
     const tour = catalog.find((t) => t.slug.trim().toLowerCase() === slug);
     if (!tour) throw notFound();
 
-    const relatedPackages = await fetchPackagesForTourType(tour);
+    const relatedPackages = (await fetchPackagesForTourType(tour)).map(toPublicPackageCard);
     return { tour, relatedPackages };
   },
   head: ({ loaderData }) => {

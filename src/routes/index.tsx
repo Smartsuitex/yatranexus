@@ -24,7 +24,7 @@ import {
   fetchPublicServices,
   fetchPublicSiteSettings,
   fetchPublicTestimonials,
-  resolveShowInternational,
+  toPublicPackageCard,
   type PublicDestination,
   type PublicService,
 } from "@/lib/public-cms";
@@ -76,22 +76,21 @@ function buildHomeServices(
 export const Route = createFileRoute("/")({
   staleTime: 5 * 60 * 1000,
   loader: async () => {
-    const [packages, testimonials, homepage, services, destinations, marqueeDestinations, showInternational, siteSettings] =
-      await Promise.all([
+    const siteSettings = await fetchPublicSiteSettings();
+    const showInternational = siteSettings.showInternational;
+
+    const [packages, testimonials, homepage, services, allDestinations] = await Promise.all([
       fetchPublicPackages(),
       fetchPublicTestimonials(),
       fetchPublicHomepageSettings(),
       fetchPublicServices(),
-      fetchPublicDestinations("domestic"),
-      fetchPublicDestinations("all"),
-      resolveShowInternational(),
-      fetchPublicSiteSettings(),
+      fetchPublicDestinations(showInternational ? "all" : "domestic"),
     ]);
 
+    const destinations = allDestinations.filter((d) => d.scope !== "international");
+    const marqueeDestinations = allDestinations;
     const internationalDestinations = showInternational
-      ? marqueeDestinations.filter(
-          (d) => !destinations.some((domestic) => domestic.slug === d.slug),
-        )
+      ? allDestinations.filter((d) => d.scope === "international")
       : [];
     const searchPackages = toHeroSearchPackages(packages);
     const searchDestinations = toHeroSearchDestinations(
@@ -107,6 +106,7 @@ export const Route = createFileRoute("/")({
     if (featuredPackages.length === 0) {
       featuredPackages = packages.slice(0, 10);
     }
+    featuredPackages = featuredPackages.map(toPublicPackageCard);
 
     const baseWhyChooseUs =
       homepage.whyChooseUs.length > 0 ? homepage.whyChooseUs : WHY_CHOOSE_US;

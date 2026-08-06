@@ -41,6 +41,7 @@ import {
 import { toTitleCase } from "@/lib/utils";
 import { resolvePackageImage } from "@/lib/package-images";
 import { sanitizePublicImageUrl } from "@/lib/holiday-packages-page-data";
+import { cachedPublic } from "@/lib/public-cms-cache";
 type HomepageRowExtended = HomepageRow;
 
 export type PublicPackage = Package & {
@@ -219,7 +220,10 @@ export type PublicService = {
   contentBlocks: PublicServiceContentBlocks;
 };
 
-export type PublicDestination = Destination;
+export type PublicDestination = Destination & {
+  /** Present on CMS/DB rows; used to split domestic vs international without a second query. */
+  scope?: "domestic" | "international";
+};
 
 export type PublicNavLink = {
   to: string;
@@ -367,8 +371,55 @@ function normalizePackageKey(title: string, destination: string): string {
  * Enrich CMS packages with static text extras only.
  * Do not inject hardcoded Unsplash seed packages when the DB already has rows.
  */
-function withStaticPackageExtras(fromDb: PublicPackage[]): PublicPackage[] {
-  return fromDb.map(enrichPackageFromStatic);
+function withStaticPackageListExtras(fromDb: PublicPackage[]): PublicPackage[] {
+  return fromDb.map((pkg) => {
+    const seed = PACKAGES.find((p) => p.slug === pkg.slug);
+    if (!seed) {
+      return { ...pkg, itinerary: [], exclusions: [] };
+    }
+    return {
+      ...pkg,
+      overview: pkg.overview?.trim() ? pkg.overview : seed.overview ?? pkg.overview,
+      highlights:
+        pkg.highlights && pkg.highlights.length > 0
+          ? pkg.highlights
+          : seed.highlights?.length
+            ? seed.highlights
+            : pkg.highlights,
+      inclusions:
+        pkg.inclusions && pkg.inclusions.length > 0
+          ? pkg.inclusions
+          : seed.inclusions?.length
+            ? seed.inclusions
+            : pkg.inclusions,
+      itinerary: [],
+      exclusions: [],
+    };
+  });
+}
+
+/** Strip heavy fields before dehydrating list/home loader data. */
+export function toPublicPackageCard(pkg: PublicPackage): PublicPackage {
+  return {
+    id: pkg.id,
+    slug: pkg.slug,
+    title: pkg.title,
+    destination: pkg.destination,
+    scope: pkg.scope,
+    nights: pkg.nights,
+    days: pkg.days,
+    fromPrice: pkg.fromPrice,
+    discountPrice: pkg.discountPrice,
+    image: pkg.image,
+    isFeatured: pkg.isFeatured,
+    overview: pkg.overview,
+    highlights: (pkg.highlights ?? []).slice(0, 6),
+    inclusions: [],
+    exclusions: [],
+    itinerary: [],
+    metaTitle: pkg.metaTitle,
+    metaDescription: pkg.metaDescription,
+  };
 }
 
 function mapDbBlog(row: BlogRow): PublicBlogPost {
@@ -540,22 +591,25 @@ export function filterPackages(
 }
 
 export async function fetchPublicPackages(filters?: PackageFilters): Promise<PublicPackage[]> {
-  const showInternational = await resolveShowInternational();
-  try {
-    const { listActivePackages } = await import("@/lib/db-queries/packages");
-    const data = await listActivePackages();
+  const cacheKey = `packages:${filters ? JSON.stringify(filters) : "all"}`;
+  return cachedPublic(cacheKey, async () => {
+    const showInternational = await resolveShowInternational();
+    try {
+      const { listActivePackagesSummary } = await import("@/lib/db-queries/packages");
+      const data = await listActivePackagesSummary();
 
-    if (!data?.length) {
+      if (!data?.length) {
+        return filterPackages(PACKAGES.map(mapStaticPackage), filters, showInternational);
+      }
+      return filterPackages(
+        withStaticPackageListExtras(data.map(mapDbPackage)),
+        filters,
+        showInternational,
+      );
+    } catch {
       return filterPackages(PACKAGES.map(mapStaticPackage), filters, showInternational);
     }
-    return filterPackages(
-      withStaticPackageExtras(data.map(mapDbPackage)),
-      filters,
-      showInternational,
-    );
-  } catch {
-    return filterPackages(PACKAGES.map(mapStaticPackage), filters, showInternational);
-  }
+  });
 }
 
 /** Match packages to a tour type by title/slug keywords (family, honeymoon, etc.). */
@@ -776,11 +830,35 @@ export async function fetchPublicGallery(): Promise<PublicGalleryImage[]> {
 }
 
 export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
-  try {
-    const { listActiveTestimonials } = await import("@/lib/db-queries/testimonials");
-    const data = await listActiveTestimonials();
+  return cachedPublic("testimonials", async () => {
+    try {
+      const { listActiveTestimonials } = await import("@/lib/db-queries/testimonials");
+      const data = await listActiveTestimonials();
 
-    if (!data?.length) {
+      if (!data?.length) {
+        return TESTIMONIALS.map((t, i) => ({
+          id: `static-${i}`,
+          name: t.name,
+          city: t.city,
+          text: t.text,
+          rating: 5,
+          sortOrder: i + 1,
+        }));
+      }
+
+      return data
+        .map((row: TestimonialRow) => ({
+          id: row.id,
+          name: row.name,
+          city: row.city ?? "",
+          designation: row.designation ?? undefined,
+          text: row.review_text,
+          rating: Math.min(5, Math.max(1, Number(row.rating) || 5)),
+          photoUrl: row.photo_url ?? undefined,
+          sortOrder: Number(row.sort_order) || 0,
+        }))
+        .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
+    } catch {
       return TESTIMONIALS.map((t, i) => ({
         id: `static-${i}`,
         name: t.name,
@@ -790,115 +868,95 @@ export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
         sortOrder: i + 1,
       }));
     }
-
-    return data
-      .map((row: TestimonialRow) => ({
-        id: row.id,
-        name: row.name,
-        city: row.city ?? "",
-        designation: row.designation ?? undefined,
-        text: row.review_text,
-        rating: Math.min(5, Math.max(1, Number(row.rating) || 5)),
-        photoUrl: row.photo_url ?? undefined,
-        sortOrder: Number(row.sort_order) || 0,
-      }))
-      .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
-  } catch {
-    return TESTIMONIALS.map((t, i) => ({
-      id: `static-${i}`,
-      name: t.name,
-      city: t.city,
-      text: t.text,
-      rating: 5,
-      sortOrder: i + 1,
-    }));
-  }
+  });
 }
 
 export async function fetchPublicSiteSettings(): Promise<PublicSiteSettings> {
-  try {
-    const { getSiteSettings } = await import("@/lib/db-queries/site-settings");
-    const data = await getSiteSettings();
+  return cachedPublic("site-settings", async () => {
+    try {
+      const { getSiteSettings } = await import("@/lib/db-queries/site-settings");
+      const data = await getSiteSettings();
 
-    if (!data) return DEFAULT_SITE_SETTINGS;
+      if (!data) return DEFAULT_SITE_SETTINGS;
 
-    const row = data as SiteSettingsRow & {
-      legal_name?: string | null;
-      tagline?: string | null;
-      page_content?: unknown;
-    };
-    const whatsapp = row.contact_whatsapp ?? DEFAULT_SITE_SETTINGS.whatsapp;
-    const social =
-      row.social_links && typeof row.social_links === "object" && !Array.isArray(row.social_links)
-        ? (row.social_links as Record<string, string>)
-        : {};
-    const brand = brandFromSettings(row);
-    const pageContent = parsePageContent(row.page_content);
-    const siteBlock = pageContent.site ?? {};
-    const socialExt =
-      social && typeof social === "object"
-        ? (social as Record<string, string> & {
-            corporate_phone?: string;
-            corporate_phone_raw?: string;
-            corporate_email?: string;
-            corporate_hours?: string;
-          })
-        : {};
+      const row = data as SiteSettingsRow & {
+        legal_name?: string | null;
+        tagline?: string | null;
+        page_content?: unknown;
+      };
+      const whatsapp = row.contact_whatsapp ?? DEFAULT_SITE_SETTINGS.whatsapp;
+      const social =
+        row.social_links && typeof row.social_links === "object" && !Array.isArray(row.social_links)
+          ? (row.social_links as Record<string, string>)
+          : {};
+      const brand = brandFromSettings(row);
+      const pageContent = parsePageContent(row.page_content);
+      const siteBlock = pageContent.site ?? {};
+      const socialExt =
+        social && typeof social === "object"
+          ? (social as Record<string, string> & {
+              corporate_phone?: string;
+              corporate_phone_raw?: string;
+              corporate_email?: string;
+              corporate_hours?: string;
+            })
+          : {};
 
-    return {
-      phone: row.contact_phone ?? DEFAULT_SITE_SETTINGS.phone,
-      phoneRaw: row.contact_phone_raw ?? DEFAULT_SITE_SETTINGS.phoneRaw,
-      email: row.contact_email ?? DEFAULT_SITE_SETTINGS.email,
-      whatsapp,
-      whatsappBase: `https://wa.me/${whatsapp.replace(/\D/g, "")}`,
-      corporatePhone:
-        socialExt.corporate_phone?.trim() || DEFAULT_SITE_SETTINGS.corporatePhone,
-      corporatePhoneRaw:
-        socialExt.corporate_phone_raw?.trim() || DEFAULT_SITE_SETTINGS.corporatePhoneRaw,
-      corporateEmail:
-        socialExt.corporate_email?.trim() || DEFAULT_SITE_SETTINGS.corporateEmail,
-      corporateHours:
-        socialExt.corporate_hours?.trim() || DEFAULT_SITE_SETTINGS.corporateHours,
-      corporateWhatsappMessage:
-        siteBlock.corporateWhatsappMessage?.trim() ||
-        DEFAULT_SITE_SETTINGS.corporateWhatsappMessage,
-      address: normalizeCompanyAddress(row.address, DEFAULT_SITE_SETTINGS.address),
-      mapEmbedUrl: row.map_embed_url ?? "",
-      businessHours: row.business_hours ?? DEFAULT_SITE_SETTINGS.businessHours,
-      footerText: normalizeCompanyCopy(row.footer_text, DEFAULT_SITE_SETTINGS.footerText),
-      socialLinks: Object.fromEntries(
-        Object.entries(social).filter(
-          ([key]) =>
-            ![
-              "corporate_phone",
-              "corporate_phone_raw",
-              "corporate_email",
-              "corporate_hours",
-            ].includes(key),
+      return {
+        phone: row.contact_phone ?? DEFAULT_SITE_SETTINGS.phone,
+        phoneRaw: row.contact_phone_raw ?? DEFAULT_SITE_SETTINGS.phoneRaw,
+        email: row.contact_email ?? DEFAULT_SITE_SETTINGS.email,
+        whatsapp,
+        whatsappBase: `https://wa.me/${whatsapp.replace(/\D/g, "")}`,
+        corporatePhone:
+          socialExt.corporate_phone?.trim() || DEFAULT_SITE_SETTINGS.corporatePhone,
+        corporatePhoneRaw:
+          socialExt.corporate_phone_raw?.trim() || DEFAULT_SITE_SETTINGS.corporatePhoneRaw,
+        corporateEmail:
+          socialExt.corporate_email?.trim() || DEFAULT_SITE_SETTINGS.corporateEmail,
+        corporateHours:
+          socialExt.corporate_hours?.trim() || DEFAULT_SITE_SETTINGS.corporateHours,
+        corporateWhatsappMessage:
+          siteBlock.corporateWhatsappMessage?.trim() ||
+          DEFAULT_SITE_SETTINGS.corporateWhatsappMessage,
+        address: normalizeCompanyAddress(row.address, DEFAULT_SITE_SETTINGS.address),
+        mapEmbedUrl: row.map_embed_url ?? "",
+        businessHours: row.business_hours ?? DEFAULT_SITE_SETTINGS.businessHours,
+        footerText: normalizeCompanyCopy(row.footer_text, DEFAULT_SITE_SETTINGS.footerText),
+        socialLinks: Object.fromEntries(
+          Object.entries(social).filter(
+            ([key]) =>
+              ![
+                "corporate_phone",
+                "corporate_phone_raw",
+                "corporate_email",
+                "corporate_hours",
+              ].includes(key),
+          ),
         ),
-      ),
-      legalName: brand.legalName,
-      tagline: brand.tagline,
-      logoUrl: row.logo_url ?? undefined,
-      faviconUrl: row.favicon_url ?? undefined,
-      pageContent,
-      showInternational:
-        typeof siteBlock.showInternational === "boolean"
-          ? siteBlock.showInternational
-          : SHOW_INTERNATIONAL,
-      whatsappPreset:
-        siteBlock.whatsappPreset?.trim() || DEFAULT_SITE_SETTINGS.whatsappPreset,
-      seoTitle: siteBlock.seoTitle?.trim() || DEFAULT_SITE_SETTINGS.seoTitle,
-      seoDescription:
-        siteBlock.seoDescription?.trim() || DEFAULT_SITE_SETTINGS.seoDescription,
-      commonPackageExclusions:
-        siteBlock.commonPackageExclusions?.length
-          ? siteBlock.commonPackageExclusions
-          : DEFAULT_SITE_SETTINGS.commonPackageExclusions,
-    };
-  } catch {
-    return DEFAULT_SITE_SETTINGS;
-  }
+        legalName: brand.legalName,
+        tagline: brand.tagline,
+        logoUrl: row.logo_url ?? undefined,
+        faviconUrl: row.favicon_url ?? undefined,
+        pageContent,
+        showInternational:
+          typeof siteBlock.showInternational === "boolean"
+            ? siteBlock.showInternational
+            : SHOW_INTERNATIONAL,
+        whatsappPreset:
+          siteBlock.whatsappPreset?.trim() || DEFAULT_SITE_SETTINGS.whatsappPreset,
+        seoTitle: siteBlock.seoTitle?.trim() || DEFAULT_SITE_SETTINGS.seoTitle,
+        seoDescription:
+          siteBlock.seoDescription?.trim() || DEFAULT_SITE_SETTINGS.seoDescription,
+        commonPackageExclusions:
+          siteBlock.commonPackageExclusions?.length
+            ? siteBlock.commonPackageExclusions
+            : DEFAULT_SITE_SETTINGS.commonPackageExclusions,
+      };
+    } catch {
+      return DEFAULT_SITE_SETTINGS;
+    }
+  });
 }
 
 export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSettings> {
@@ -946,6 +1004,7 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
     ctaSubtitle: "",
   });
 
+  return cachedPublic("homepage-settings", async () => {
   try {
     const showInternational = await resolveShowInternational();
     const { getHomepageSettings } = await import("@/lib/db-queries/homepage");
@@ -1048,6 +1107,7 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
   } catch {
     return emptyFallback(SHOW_INTERNATIONAL);
   }
+  });
 }
 
 export async function fetchSitemapPackageSlugs(): Promise<string[]> {
@@ -1069,6 +1129,7 @@ function isHardcodedStockImage(url: string | null | undefined): boolean {
 function mapStaticDestination(d: Destination, scope: "domestic" | "international"): PublicDestination {
   return {
     ...d,
+    scope,
     name: toTitleCase(d.name),
     // Static seeds use Unsplash — do not serve those on the public site.
     image: isHardcodedStockImage(d.image) ? "" : d.image,
@@ -1084,6 +1145,7 @@ function mapDbDestination(row: DestinationRow): PublicDestination {
     image: isHardcodedStockImage(image) ? "" : image,
     blurb: row.blurb ?? "",
     highlights: row.highlights ?? [],
+    scope: row.scope,
   };
 }
 
@@ -1095,10 +1157,11 @@ function enrichDestinationFromStatic(
     scope === "international"
       ? INTERNATIONAL_COUNTRIES.find((d) => d.slug === dest.slug)
       : DOMESTIC_STATES.find((d) => d.slug === dest.slug);
-  if (!seed) return dest;
+  if (!seed) return { ...dest, scope: dest.scope ?? scope };
   // Copy text from seeds only — never overwrite CMS/DB images with hardcoded Unsplash.
   return {
     ...dest,
+    scope: dest.scope ?? scope,
     blurb: dest.blurb?.trim() ? dest.blurb : seed.blurb || dest.blurb,
     highlights: dest.highlights?.length ? dest.highlights : seed.highlights?.length ? seed.highlights : dest.highlights,
     region: dest.region || seed.region,
@@ -1122,33 +1185,36 @@ function staticDestinations(
 export async function fetchPublicDestinations(
   scope?: "domestic" | "international" | "all",
 ): Promise<PublicDestination[]> {
-  const showInternational = await resolveShowInternational();
-  try {
-    const { listActiveDestinations } = await import("@/lib/db-queries/destinations");
-    let data: DestinationRow[];
-    if (scope && scope !== "all") {
-      data = await listActiveDestinations(scope);
-    } else if (!showInternational) {
-      data = await listActiveDestinations("domestic");
-    } else {
-      data = await listActiveDestinations();
-    }
+  const scopeKey = scope ?? "all";
+  return cachedPublic(`destinations:${scopeKey}`, async () => {
+    const showInternational = await resolveShowInternational();
+    try {
+      const { listActiveDestinations } = await import("@/lib/db-queries/destinations");
+      let data: DestinationRow[];
+      if (scope && scope !== "all") {
+        data = await listActiveDestinations(scope);
+      } else if (!showInternational) {
+        data = await listActiveDestinations("domestic");
+      } else {
+        data = await listActiveDestinations();
+      }
 
-    if (!data?.length) {
+      if (!data?.length) {
+        return staticDestinations(scope ?? "all", showInternational);
+      }
+
+      const rows = data;
+      const mapped = rows.map((row) =>
+        enrichDestinationFromStatic(mapDbDestination(row), row.scope),
+      );
+      if (!showInternational && scope !== "international") {
+        return mapped.filter((_, i) => rows[i]?.scope !== "international");
+      }
+      return mapped;
+    } catch {
       return staticDestinations(scope ?? "all", showInternational);
     }
-
-    const rows = data;
-    const mapped = rows.map((row) =>
-      enrichDestinationFromStatic(mapDbDestination(row), row.scope),
-    );
-    if (!showInternational && scope !== "international") {
-      return mapped.filter((_, i) => rows[i]?.scope !== "international");
-    }
-    return mapped;
-  } catch {
-    return staticDestinations(scope ?? "all", showInternational);
-  }
+  });
 }
 
 export async function fetchPublicDestinationBySlug(
@@ -1320,28 +1386,32 @@ function staticServices(): PublicService[] {
 }
 
 export async function fetchPublicServices(): Promise<PublicService[]> {
-  try {
-    const { listActiveServices } = await import("@/lib/db-queries/services");
-    const data = await listActiveServices();
+  return cachedPublic("services", async () => {
+    try {
+      const { listActiveServices } = await import("@/lib/db-queries/services");
+      const data = await listActiveServices();
 
-    if (!data?.length) return staticServices();
-    return data.map(mapDbService);
-  } catch {
-    return staticServices();
-  }
+      if (!data?.length) return staticServices();
+      return data.map(mapDbService);
+    } catch {
+      return staticServices();
+    }
+  });
 }
 
 export async function fetchPublicServiceBySlug(slug: string): Promise<PublicService | null> {
-  try {
-    const { getServiceBySlug } = await import("@/lib/db-queries/services");
-    const data = await getServiceBySlug(slug);
+  return cachedPublic(`service:${slug}`, async () => {
+    try {
+      const { getServiceBySlug } = await import("@/lib/db-queries/services");
+      const data = await getServiceBySlug(slug);
 
-    if (data) return mapDbService(data);
-  } catch {
-    // fall through to static data
-  }
+      if (data) return mapDbService(data);
+    } catch {
+      // fall through to static data
+    }
 
-  return staticServices().find((s) => s.slug === slug) ?? null;
+    return staticServices().find((s) => s.slug === slug) ?? null;
+  });
 }
 
 export async function fetchPublicNavLinks(): Promise<PublicNavLink[]> {

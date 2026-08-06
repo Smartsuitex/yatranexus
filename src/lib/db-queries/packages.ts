@@ -43,6 +43,31 @@ export async function listActivePackages(): Promise<PackageRow[]> {
   return rows.map(mapPackageRow);
 }
 
+/**
+ * List columns only — skips itinerary / gallery / inclusions JSON for home & listing pages.
+ */
+export async function listActivePackagesSummary(): Promise<PackageRow[]> {
+  const rows = await query<RowDataPacket>(
+    `SELECT
+      id, slug, title, destination, scope, nights, days,
+      from_price, discount_price, package_code, image_url,
+      is_active, is_featured, meta_title, meta_description, sort_order,
+      created_at, updated_at
+    FROM packages
+    WHERE is_active = 1
+    ORDER BY sort_order, title`,
+  );
+  return rows.map((row) =>
+    mapPackageRow({
+      ...row,
+      gallery_urls: null,
+      inclusions: null,
+      exclusions: null,
+      itinerary: null,
+    }),
+  );
+}
+
 export async function getPackageBySlug(slug: string): Promise<PackageRow | null> {
   const row = await queryOne<RowDataPacket>("SELECT * FROM packages WHERE slug = ? LIMIT 1", [
     slug,

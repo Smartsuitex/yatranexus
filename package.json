@@ -20,6 +20,9 @@
     "test:mysql": "node scripts/test-mysql-connection.mjs",
     "apply:mysql-schema": "node scripts/apply-mysql-schema.mjs",
     "apply:mysql-indexes": "node scripts/apply-mysql-indexes.mjs",
+    "optimize:homepage-images": "node scripts/optimize-homepage-images.mjs",
+    "optimize:homepage-images:hostinger": "node scripts/optimize-homepage-images.mjs --hostinger",
+    "optimize:homepage-images:hostinger:apply-db": "node scripts/optimize-homepage-images.mjs --hostinger --apply-db",
     "remap:missing-images": "node scripts/remap-missing-images-mysql.mjs --apply",
     "remap:missing-images:hostinger": "node scripts/remap-missing-images-mysql.mjs --apply --hostinger",
     "export:hostinger-import": "node scripts/export-hostinger-import.mjs",
@@ -119,6 +122,7 @@
     "nitro": "3.0.260603-beta",
     "pg": "^8.22.0",
     "prettier": "^3.7.3",
+    "sharp": "^0.35.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.0.16"

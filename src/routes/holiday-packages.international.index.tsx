@@ -1,10 +1,11 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useMemo } from "react";
 import {
   destinationStartingPrices,
   fetchPublicDestinations,
   fetchPublicPackages,
+  fetchPublicSiteSettings,
   resolveShowInternational,
+  toPublicPackageCard,
 } from "@/lib/public-cms";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { DestinationCard } from "@/components/site/DestinationCard";
@@ -20,16 +21,24 @@ import {
 import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/holiday-packages/international/")({
+  staleTime: 5 * 60 * 1000,
   loader: async () => {
     const showInternational = await resolveShowInternational();
     if (!showInternational) {
       throw redirect({ to: "/holiday-packages/domestic" });
     }
-    const [destinations, packages] = await Promise.all([
+    const [destinations, packagesRaw, siteSettings] = await Promise.all([
       fetchPublicDestinations("international"),
       fetchPublicPackages(),
+      fetchPublicSiteSettings(),
     ]);
-    return { destinations, packages };
+    const packages = packagesRaw.map(toPublicPackageCard);
+    const destinationPrices = destinationStartingPrices(
+      packages,
+      destinations,
+      siteSettings.pageContent.homepage?.destinationPrices,
+    );
+    return { destinations, destinationPrices };
   },
   head: () =>
     buildPageSeo({
@@ -44,20 +53,11 @@ export const Route = createFileRoute("/holiday-packages/international/")({
 });
 
 function IntlIndex() {
-  const { destinations, packages } = Route.useLoaderData();
+  const { destinations, destinationPrices } = Route.useLoaderData();
   const site = useSiteConfig();
   const cmsHero =
     site.pageContent.holidayInternational ?? DEFAULT_PAGE_CONTENT.holidayInternational ?? {};
   const hero = resolveHolidayHubHero(cmsHero.bannerUrl);
-  const destinationPrices = useMemo(
-    () =>
-      destinationStartingPrices(
-        packages,
-        destinations,
-        site.pageContent.homepage?.destinationPrices,
-      ),
-    [packages, destinations, site.pageContent.homepage?.destinationPrices],
-  );
 
   return (
     <div className="holiday-packages-page">
