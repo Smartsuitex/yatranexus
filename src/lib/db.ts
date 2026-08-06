@@ -14,8 +14,14 @@ export function parseDatabaseUrl(url: string): DbConfig {
   if (!database) {
     throw new Error("DATABASE_URL must include a database name.");
   }
+  // Force IPv4 — `localhost` often resolves to ::1 and Hostinger MySQL
+  // rejects `user@'::1'` even when 127.0.0.1 works.
+  const host =
+    parsed.hostname === "localhost" || parsed.hostname === "::1"
+      ? "127.0.0.1"
+      : parsed.hostname;
   return {
-    host: parsed.hostname,
+    host,
     port: parsed.port ? Number(parsed.port) : 3306,
     user: decodeURIComponent(parsed.username),
     password: decodeURIComponent(parsed.password),
