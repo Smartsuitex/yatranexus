@@ -90,26 +90,60 @@ function normalizeHost(host: string): string {
  * "Invalid URL"). Fall back to DATABASE_URL for local / standard setups.
  */
 export function getDbConfig(): DbConfig {
-  const user = process.env.DB_USER?.trim();
-  const password = process.env.DB_PASSWORD ?? "";
-  const database = process.env.DB_NAME?.trim() || process.env.DB_DATABASE?.trim();
+  const user =
+    process.env.DB_USER?.trim() ||
+    process.env.MYSQL_USER?.trim() ||
+    undefined;
+  const password =
+    process.env.DB_PASSWORD ??
+    process.env.MYSQL_PASSWORD ??
+    "";
+  const database =
+    process.env.DB_NAME?.trim() ||
+    process.env.DB_DATABASE?.trim() ||
+    process.env.MYSQL_DATABASE?.trim() ||
+    undefined;
+  const hostRaw =
+    process.env.DB_HOST?.trim() ||
+    process.env.MYSQL_HOST?.trim() ||
+    "127.0.0.1";
+  const portRaw =
+    process.env.DB_PORT || process.env.MYSQL_PORT || "3306";
+
   if (user && database) {
     return {
-      host: normalizeHost(process.env.DB_HOST?.trim() || "127.0.0.1"),
-      port: Number(process.env.DB_PORT || 3306) || 3306,
+      host: normalizeHost(hostRaw),
+      port: Number(portRaw) || 3306,
       user,
       password,
       database,
     };
   }
 
-  const url = process.env.DATABASE_URL;
-  if (!url) {
-    throw new Error(
-      "Database is not configured. Set DB_HOST/DB_USER/DB_PASSWORD/DB_NAME (preferred on Hostinger) or DATABASE_URL.",
-    );
+  const url = process.env.DATABASE_URL?.trim();
+  if (url) {
+    return parseDatabaseUrl(url);
   }
-  return parseDatabaseUrl(url);
+
+  const present = [
+    "DB_HOST",
+    "DB_USER",
+    "DB_PASSWORD",
+    "DB_NAME",
+    "DATABASE_URL",
+    "MYSQL_HOST",
+    "MYSQL_USER",
+    "MYSQL_PASSWORD",
+    "MYSQL_DATABASE",
+  ]
+    .filter((k) => Boolean(process.env[k]?.trim()))
+    .join(", ");
+
+  throw new Error(
+    `Database is not configured. Add ALL of: DB_HOST, DB_USER, DB_PASSWORD, DB_NAME (then Redeploy). ` +
+      `Currently set: ${present || "(none)"}. ` +
+      `Example DB_USER=u391320881_mysql DB_NAME=u391320881_yatranexus`,
+  );
 }
 
 export function createPool(config?: DbConfig) {
