@@ -1,4 +1,5 @@
 import type { Json } from "@/lib/db-types";
+import { decodeHtmlEntities } from "@/lib/utils";
 
 export function parseBool(value: unknown): boolean {
   if (typeof value === "boolean") return value;
@@ -22,7 +23,9 @@ export function parseJson<T = Json>(value: unknown, fallback: T): T {
 
 export function parseStringArray(value: unknown): string[] {
   const parsed = parseJson<unknown>(value, []);
-  return Array.isArray(parsed) ? parsed.map(String) : [];
+  return Array.isArray(parsed)
+    ? parsed.map((item) => decodeHtmlEntities(String(item)))
+    : [];
 }
 
 export function toJson(value: unknown): string {

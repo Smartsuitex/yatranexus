@@ -12,6 +12,7 @@ import {
   Truck,
 } from "lucide-react";
 import type { ServiceHeroCopy, ServiceIconItem } from "@/components/site/service-premium/types";
+import { decodeHtmlEntities } from "@/lib/utils";
 
 export const FOREX_HERO: ServiceHeroCopy = {
   titleFirst: "Forex Cards",
@@ -166,12 +167,14 @@ export function resolveForexCardTypes(
   const accents = ["purple", "pink", "orange", "blue"] as const;
 
   return catalogItems.map((item, index) => {
-    const title = item.title.trim();
+    const title = decodeHtmlEntities(item.title.trim());
     const fallback =
       FOREX_CARD_TYPES.find((card) => card.title.toLowerCase() === title.toLowerCase()) ??
       FOREX_CARD_TYPES[index % FOREX_CARD_TYPES.length];
 
-    const points = (item.points ?? []).map((p) => p.trim()).filter(Boolean);
+    const points = (item.points ?? [])
+      .map((p) => decodeHtmlEntities(p.trim()))
+      .filter(Boolean);
     const accentRaw = item.accent?.trim().toLowerCase();
     const accent = (
       accents.includes(accentRaw as (typeof accents)[number])
@@ -182,7 +185,7 @@ export function resolveForexCardTypes(
     return {
       slug: forexCardSlug(title) || fallback?.slug || `forex-card-${index + 1}`,
       title: title || fallback?.title || `Forex Card ${index + 1}`,
-      description: item.detail.trim() || fallback?.description || "",
+      description: decodeHtmlEntities(item.detail.trim()) || fallback?.description || "",
       icon: fallback?.icon ?? CreditCard,
       image: item.image?.trim() || fallback?.image || "",
       features: points.length > 0 ? points : fallback?.features ?? [],

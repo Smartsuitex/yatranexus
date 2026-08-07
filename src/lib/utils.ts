@@ -5,9 +5,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** Turn common HTML entities (e.g. &amp;) into plain text for display. */
+export function decodeHtmlEntities(value: string): string {
+  if (!value || !value.includes("&")) return value;
+  return value
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&nbsp;/gi, " ");
+}
+
 /** Capitalize the first letter of each word (keeps tokens like 3N/4D, 24x7 intact). */
 export function toTitleCase(value: string): string {
-  return value
+  return decodeHtmlEntities(value)
     .trim()
     .split(/\s+/)
     .map((word) => {

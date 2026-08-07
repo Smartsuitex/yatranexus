@@ -8,7 +8,7 @@ import { ServiceHeroSection } from "@/components/site/service-premium/ServiceHer
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
 import { ServiceCtaBanner } from "@/components/site/service-premium/ServiceCtaBanner";
 import { useSiteConfig } from "@/contexts/site-config";
-import { resolveCmsIcon } from "@/lib/cms-icons";
+import { lookupCmsIcon } from "@/lib/cms-icons";
 import {
   CONTACT_CTA,
   CONTACT_FORM,
@@ -62,11 +62,16 @@ export function ContactLandingPage({
   const ctaSubtitle = contact.ctaSubtitle?.trim() || CONTACT_CTA.subtitle;
   const promises =
     contact.promises && contact.promises.length > 0
-      ? contact.promises.map((item, index) => ({
-          icon: resolveCmsIcon(item.icon) ?? CONTACT_PROMISES[index % CONTACT_PROMISES.length].icon,
-          title: item.title,
-          detail: item.detail,
-        }))
+      ? contact.promises.map((item, index) => {
+          const fallback =
+            CONTACT_PROMISES.find((p) => p.title === item.title) ??
+            CONTACT_PROMISES[index % CONTACT_PROMISES.length];
+          return {
+            icon: lookupCmsIcon(item.icon) ?? fallback.icon,
+            title: item.title,
+            detail: item.detail,
+          };
+        })
       : CONTACT_PROMISES;
 
   const whatsappHref = buildWhatsappHref(

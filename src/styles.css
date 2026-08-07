@@ -5379,7 +5379,7 @@
     color: #ffffff;
   }
 
-  /* Forex ribbon: wrap long labels on phones; one line from sm up. */
+  /* Forex ribbon: keep labels readable — wrap instead of clipping. */
   .service-premium-page--forex .service-trust-bar__title {
     font-size: 0.5625rem;
     font-weight: 700;
@@ -5387,33 +5387,44 @@
     letter-spacing: -0.01em;
     color: #ffffff;
     white-space: normal;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    overflow: visible;
+    display: block;
     overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: manual;
+    max-width: 100%;
   }
 
   .service-premium-page--forex .service-trust-bar__detail {
     display: none;
   }
 
+  .service-premium-page--forex .service-trust-bar__text {
+    min-width: 0;
+    max-width: 100%;
+    overflow: visible;
+  }
+
   @media (min-width: 640px) {
     .service-premium-page--forex .service-trust-bar__title {
-      font-size: 0.6875rem;
-      white-space: nowrap;
-      display: block;
-      -webkit-line-clamp: unset;
-      line-clamp: unset;
+      font-size: 0.625rem;
+      white-space: normal;
       overflow: visible;
-      text-overflow: clip;
+      text-overflow: unset;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .service-premium-page--forex .service-trust-bar__title {
+      font-size: 0.6875rem;
     }
   }
 
   @media (min-width: 1024px) {
     .service-premium-page--forex .service-trust-bar__title {
       font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
   }
 
@@ -5451,8 +5462,6 @@
 
     .service-premium-page--forex .service-trust-bar__title {
       font-size: 0.75rem;
-      font-weight: 600;
-      white-space: nowrap;
     }
 
     .service-premium-page--insurance .service-trust-bar__item:not(:has(.service-trust-bar__detail)) .service-trust-bar__title {
@@ -5527,6 +5536,21 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  .hotels-section__title-text {
+    min-width: 0;
+  }
+
+  @media (max-width: 639px) {
+    .hotels-section__title {
+      font-size: clamp(1rem, 4.6vw, 1.25rem);
+      gap: 0.5rem;
+    }
+
+    .hotels-section__title-text {
+      white-space: nowrap;
+    }
   }
 
   .hotels-section__title::before,
@@ -6837,37 +6861,38 @@
     .service-premium-page--visa .hotels-why-grid,
     .service-premium-page--visa .hotels-why-grid--5 {
       margin-top: 0.875rem;
-      gap: 0.4rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.625rem;
     }
 
     .service-premium-page--visa .hotels-why-card {
-      gap: 0.4rem;
-      padding: 0.5rem 0.35rem;
-      border-radius: 0.75rem;
+      gap: 0.5rem;
+      padding: 0.75rem 0.625rem;
+      border-radius: 0.875rem;
     }
 
     .service-premium-page--visa .hotels-why-card__icon {
-      height: 1.75rem;
-      width: 1.75rem;
+      height: 2.25rem;
+      width: 2.25rem;
     }
 
     .service-premium-page--visa .hotels-why-card__icon svg {
-      height: 0.875rem;
-      width: 0.875rem;
+      height: 1.05rem;
+      width: 1.05rem;
     }
 
     .service-premium-page--visa .hotels-why-card__title {
-      font-size: 0.625rem;
-      line-height: 1.2;
+      font-size: 0.8125rem;
+      line-height: 1.25;
     }
 
     .service-premium-page--visa .hotels-why-card__detail {
-      font-size: 0.5rem;
-      line-height: 1.3;
+      font-size: 0.6875rem;
+      line-height: 1.4;
       display: -webkit-box;
       overflow: hidden;
-      -webkit-line-clamp: 3;
-      line-clamp: 3;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
       -webkit-box-orient: vertical;
     }
 
@@ -7341,13 +7366,14 @@
     }
 
     .service-premium-page--forex .service-trust-bar__grid--5 {
-      gap: 0.25rem 0.2rem;
+      gap: 0.35rem 0.3rem;
     }
 
     .service-premium-page--forex .service-trust-bar__item {
       overflow: visible;
       gap: 0.3rem;
-      padding-inline: 0.05rem;
+      padding-inline: 0.1rem;
+      min-width: 0;
     }
 
     .service-premium-page--forex .service-trust-bar__icon {
@@ -7367,14 +7393,11 @@
       line-height: 1.2 !important;
       letter-spacing: -0.01em;
       white-space: normal !important;
-      overflow: hidden !important;
+      overflow: visible !important;
       text-overflow: unset !important;
       overflow-wrap: break-word !important;
       word-break: break-word;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
+      display: block;
       color: #ffffff;
       max-width: 100%;
     }
@@ -7426,10 +7449,22 @@
     }
 
     .service-premium-page--forex .forex-card .sp-plan-card__features {
-      margin-top: 0.4rem;
-      gap: 0.2rem;
-      font-size: 0.5rem;
-      line-height: 1.3;
+      margin-top: 0.5rem;
+      gap: 0.4rem;
+      font-size: 0.5625rem;
+      line-height: 1.35;
+    }
+
+    .service-premium-page--forex .sp-plan-card__features li {
+      min-height: 0.875rem;
+      padding-left: 1.15rem;
+    }
+
+    .service-premium-page--forex .sp-plan-card__features li::before {
+      top: 0.05rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      background-size: 0.5rem;
     }
 
     .service-premium-page--forex .hotels-cta-banner.hotels-cta-banner--flights {
@@ -8246,15 +8281,15 @@
 
   @media (min-width: 640px) {
     .service-premium-page--forex .service-trust-bar__title {
-      font-size: 0.6875rem;
+      font-size: 0.625rem;
       letter-spacing: -0.01em;
-      white-space: nowrap;
+      white-space: normal;
       display: block;
       -webkit-line-clamp: unset;
       line-clamp: unset;
       overflow: visible;
-      text-overflow: clip;
-      overflow-wrap: normal;
+      text-overflow: unset;
+      overflow-wrap: break-word;
     }
   }
 
@@ -9527,6 +9562,7 @@
 
   .service-premium-page--forex .forex-card .sp-plan-card__features {
     margin-top: 1rem;
+    gap: 0.55rem;
   }
 
   .service-premium-page--forex .hotels-section__lead {
@@ -9534,15 +9570,21 @@
   }
 
   .service-premium-page--forex .sp-plan-card__features li {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    min-height: 1.125rem;
     padding-left: 1.5rem;
   }
 
   .service-premium-page--forex .sp-plan-card__features li::before {
     content: "";
-    top: 0.2rem;
+    position: absolute;
+    top: 0.125rem;
     left: 0;
     width: 1rem;
     height: 1rem;
+    flex-shrink: 0;
     border-radius: 999px;
     background-color: currentColor;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.5L6.5 11.5L12.5 4.5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -9998,8 +10040,8 @@
   .service-premium-page--insurance .hotels-why-grid--5,
   .service-premium-page--about .hotels-why-grid--5,
   .service-premium-page--contact .hotels-why-grid--5 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
   }
 
   @media (min-width: 640px) {
@@ -13493,7 +13535,6 @@
   .service-premium-page--cabs .service-trust-bar__title,
   .service-premium-page--visa .service-trust-bar__title,
   .service-premium-page--insurance .service-trust-bar__title,
-  .service-premium-page--forex .service-trust-bar__title,
   .service-premium-page--about .service-trust-bar__title,
   .service-premium-page--contact .service-trust-bar__title {
     font-size: 0.5625rem;
@@ -13504,6 +13545,17 @@
     overflow-wrap: normal;
     overflow: visible;
     text-overflow: clip;
+  }
+
+  .service-premium-page--forex .service-trust-bar__title {
+    font-size: 0.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    white-space: normal;
+    overflow-wrap: break-word;
+    overflow: visible;
+    text-overflow: unset;
   }
 
   .service-premium-page--hotels .service-trust-bar__detail,
@@ -13528,8 +13580,11 @@
     }
 
     .service-premium-page--forex .service-trust-bar__title {
-      font-size: 0.375rem !important;
-      letter-spacing: -0.03em;
+      font-size: 0.5rem !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.01em;
+      white-space: normal !important;
+      line-height: 1.2;
     }
 
     .service-premium-page--hotels .service-trust-bar__inner,
@@ -13584,11 +13639,18 @@
     .service-premium-page--cabs .service-trust-bar__title,
     .service-premium-page--visa .service-trust-bar__title,
     .service-premium-page--insurance .service-trust-bar__title,
-    .service-premium-page--forex .service-trust-bar__title,
     .service-premium-page--about .service-trust-bar__title,
     .service-premium-page--contact .service-trust-bar__title {
       font-size: 0.6875rem;
       letter-spacing: -0.01em;
+    }
+
+    .service-premium-page--forex .service-trust-bar__title {
+      font-size: 0.625rem !important;
+      font-weight: 700 !important;
+      white-space: normal !important;
+      line-height: 1.2;
+      overflow: visible !important;
     }
   }
 
@@ -13607,18 +13669,26 @@
   }
 
   .service-premium-page--forex .service-trust-bar__title {
-    font-size: 0.5625rem !important;
-    font-weight: 600 !important;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    white-space: nowrap !important;
-    overflow: visible;
-    text-overflow: clip;
-    overflow-wrap: normal;
+    font-size: 0.5rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset;
+    overflow-wrap: break-word;
+    display: block;
   }
 
   .service-premium-page--forex .service-trust-bar__detail {
     display: none !important;
+  }
+
+  .service-premium-page--forex .service-trust-bar__text {
+    min-width: 0;
+    flex: 1;
+    overflow: visible !important;
+    max-width: 100%;
   }
 
   .service-premium-page--flights .service-trust-bar__text,
@@ -13658,6 +13728,7 @@
       font-size: 0.75rem !important;
       font-weight: 600 !important;
       white-space: nowrap !important;
+      overflow: visible !important;
     }
 
     .service-premium-page--flights .service-trust-bar__icon,

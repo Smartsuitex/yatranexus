@@ -2,7 +2,7 @@ import { CheckCircle2 } from "lucide-react";
 import { FeaturedPackageCard } from "@/components/site/FeaturedPackageCard";
 import { ServiceSectionHeading } from "@/components/site/service-premium/ServiceSectionHeading";
 import type { PublicPackage } from "@/lib/public-cms";
-import { toTitleCase } from "@/lib/utils";
+import { toTitleCase, decodeHtmlEntities } from "@/lib/utils";
 
 type Destination = {
   name: string;
@@ -30,7 +30,7 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
                 <span className="text-brand-gradient">{destName}</span>
               </span>
             }
-            subtitle={dest.blurb}
+            subtitle={decodeHtmlEntities(dest.blurb)}
           />
           <ul className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-3">
             {dest.highlights.map((h) => (

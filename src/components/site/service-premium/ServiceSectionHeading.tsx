@@ -18,10 +18,12 @@ export function ServiceSectionHeading({ id, title, subtitle }: Props) {
     <div className="hotels-section__header">
       {id ? (
         <h2 id={id} className="hotels-section__title">
-          {formatted}
+          <span className="hotels-section__title-text">{formatted}</span>
         </h2>
       ) : (
-        <h2 className="hotels-section__title">{formatted}</h2>
+        <h2 className="hotels-section__title">
+          <span className="hotels-section__title-text">{formatted}</span>
+        </h2>
       )}
       {subtitle ? <p className="hotels-section__lead">{subtitle}</p> : null}
     </div>

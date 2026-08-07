@@ -14,8 +14,11 @@ import {
   Handshake,
   Headphones,
   Hotel,
+  Mail,
   MapPin,
+  MessageCircle,
   Palmtree,
+  Phone,
   Plane,
   Shield,
   ShieldCheck,
@@ -26,6 +29,7 @@ import {
   UserCircle,
   Users,
   Wallet,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 
@@ -46,8 +50,11 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Handshake,
   Headphones,
   Hotel,
+  Mail,
   MapPin,
+  MessageCircle,
   Palmtree,
+  Phone,
   Plane,
   ProfessionalismClipboard: ClipboardCheck,
   Shield,
@@ -60,11 +67,17 @@ const ICON_MAP: Record<string, LucideIcon> = {
   UserCircle,
   Users,
   Wallet,
+  Zap,
 };
 
+/** Resolve a CMS icon name. Returns null when missing/unknown so callers can fall back. */
+export function lookupCmsIcon(name?: string | null): LucideIcon | null {
+  if (!name?.trim()) return null;
+  return ICON_MAP[name.trim()] ?? null;
+}
+
 export function resolveCmsIcon(name?: string | null): LucideIcon {
-  if (!name) return Sparkles;
-  return ICON_MAP[name] ?? Sparkles;
+  return lookupCmsIcon(name) ?? Sparkles;
 }
 
 export const CMS_ICON_OPTIONS = Object.keys(ICON_MAP);

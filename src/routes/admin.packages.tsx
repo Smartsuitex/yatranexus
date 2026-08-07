@@ -262,6 +262,7 @@ function AdminPackagesPage() {
       const itinerary = JSON.parse(
         itineraryToJson(parseItineraryJson(form.itinerary_json)),
       );
+      const existing = form.id ? items.find((row) => row.id === form.id) : undefined;
       await upsertPackage({
         id: form.id,
         slug: form.slug || slugify(form.title),
@@ -272,7 +273,10 @@ function AdminPackagesPage() {
         days: Number(form.days) || 1,
         from_price: form.from_price.trim(),
         discount_price: form.discount_price.trim() || null,
+        package_code: existing?.package_code ?? null,
         image_url: form.image_url.trim() || null,
+        gallery_urls: existing?.gallery_urls ?? [],
+        meta_title: existing?.meta_title ?? null,
         meta_description: form.overview.trim() || null,
         inclusions: linesToArray(form.inclusions),
         exclusions: linesToArray(form.exclusions),

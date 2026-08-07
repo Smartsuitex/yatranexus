@@ -9,6 +9,7 @@ import {
   toJson,
   toMysqlDatetime,
 } from "@/lib/db-json";
+import { decodeHtmlEntities } from "@/lib/utils";
 import type {
   AdminUserRow,
   BlogPostRow,
@@ -28,12 +29,21 @@ export function newId(): string {
   return randomUUID();
 }
 
+function decodeText(value: unknown): string {
+  return decodeHtmlEntities(String(value ?? ""));
+}
+
+function decodeNullableText(value: unknown): string | null {
+  if (value == null) return null;
+  return decodeHtmlEntities(String(value));
+}
+
 export function mapPackageRow(row: RowDataPacket): PackageRow {
   return {
     id: String(row.id),
     slug: row.slug,
-    title: row.title,
-    destination: row.destination,
+    title: decodeText(row.title),
+    destination: decodeText(row.destination),
     scope: row.scope,
     nights: Number(row.nights),
     days: Number(row.days),
@@ -47,8 +57,8 @@ export function mapPackageRow(row: RowDataPacket): PackageRow {
     itinerary: parseJson(row.itinerary, []),
     is_active: parseBool(row.is_active),
     is_featured: parseBool(row.is_featured),
-    meta_title: row.meta_title ?? null,
-    meta_description: row.meta_description ?? null,
+    meta_title: decodeNullableText(row.meta_title),
+    meta_description: decodeNullableText(row.meta_description),
     sort_order: Number(row.sort_order ?? 0),
     created_at: fromMysqlDatetime(row.created_at),
     updated_at: fromMysqlDatetime(row.updated_at),
@@ -142,10 +152,10 @@ export function mapDestinationRow(row: RowDataPacket): DestinationRow {
     id: String(row.id),
     slug: row.slug,
     scope: row.scope,
-    name: row.name,
-    region: row.region,
+    name: decodeText(row.name),
+    region: row.region == null ? row.region : decodeText(row.region),
     image_url: row.image_url,
-    blurb: row.blurb ?? null,
+    blurb: decodeNullableText(row.blurb),
     highlights: parseStringArray(row.highlights),
     is_active: parseBool(row.is_active),
     sort_order: Number(row.sort_order ?? 0),

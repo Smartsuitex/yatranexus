@@ -11,7 +11,7 @@ type FooterLinkListProps = {
 
 function FooterNavLink({ item }: { item: FooterNavItem }) {
   const className =
-    "inline-flex min-h-11 items-center text-[13px] leading-snug transition-colors duration-200 hover:text-[#F47C20]";
+    "inline-flex min-h-0 items-center py-0.5 text-[13px] leading-snug transition-colors duration-200 hover:text-[#F47C20]";
   const style = { color: `${FOOTER_COLORS.purple}D9` };
 
   if (item.href) {
@@ -175,10 +175,10 @@ export function FooterLinkColumn({ title, items }: FooterLinkListProps) {
           {title}
         </h3>
       ) : null}
-      <ul className={title ? "mt-2.5 space-y-1.5" : "space-y-1.5"}>
+      <ul className={title ? "mt-2 space-y-0.5" : "space-y-0.5"}>
         {items.map((item) => (
           <li key={`${item.label}-${item.to ?? item.href}`}>
-            <div className="inline-block transition-transform hover:translate-x-1">
+            <div className="inline-block whitespace-nowrap transition-transform hover:translate-x-1">
               <FooterNavLink item={item} />
             </div>
           </li>
@@ -188,7 +188,7 @@ export function FooterLinkColumn({ title, items }: FooterLinkListProps) {
   );
 }
 
-/** Services as one titled block with two compact link columns. */
+/** Services as one titled block with a compact single-column link list. */
 export function FooterServicesColumns({
   left,
   right,
@@ -196,6 +196,7 @@ export function FooterServicesColumns({
   left: FooterNavItem[];
   right: FooterNavItem[];
 }) {
+  const items = [...left, ...right];
   return (
     <div className="text-center sm:text-left">
       <h3
@@ -204,26 +205,15 @@ export function FooterServicesColumns({
       >
         Services
       </h3>
-      <div className="mt-2.5 grid grid-cols-1 gap-x-5 gap-y-0 min-[400px]:grid-cols-2 sm:gap-x-6">
-        <ul className="space-y-2 sm:space-y-1.5">
-          {left.map((item) => (
-            <li key={`${item.label}-${item.to ?? item.href}`}>
-              <div className="inline-block transition-transform hover:translate-x-1">
-                <FooterNavLink item={item} />
-              </div>
-            </li>
-          ))}
-        </ul>
-        <ul className="mt-2 space-y-2 min-[400px]:mt-0 sm:space-y-1.5">
-          {right.map((item) => (
-            <li key={`${item.label}-${item.to ?? item.href}`}>
-              <div className="inline-block transition-transform hover:translate-x-1">
-                <FooterNavLink item={item} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="mt-2 space-y-0.5">
+        {items.map((item) => (
+          <li key={`${item.label}-${item.to ?? item.href}`}>
+            <div className="inline-block whitespace-nowrap transition-transform hover:translate-x-1">
+              <FooterNavLink item={item} />
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
