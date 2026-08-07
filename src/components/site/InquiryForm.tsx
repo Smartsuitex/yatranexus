@@ -9,6 +9,7 @@ import { useSiteConfig } from "@/contexts/site-config";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RecaptchaField, isRecaptchaEnabled, type RecaptchaFieldRef } from "./RecaptchaField";
+import { isTravelDateAllowed, todayTravelDateValue } from "@/lib/travel-date";
 
 const ClientSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -16,7 +17,14 @@ const ClientSchema = z.object({
   email: z.string().trim().email("Invalid email").max(255).optional().or(z.literal("")),
   subject: z.string().trim().max(200).optional(),
   destination: z.string().trim().max(120).optional(),
-  travel_date: z.string().trim().max(20).optional(),
+  travel_date: z
+    .string()
+    .trim()
+    .max(20)
+    .optional()
+    .refine((value) => isTravelDateAllowed(value), {
+      message: "Travel date must be today or a future date.",
+    }),
   travelers: z.string().trim().max(3).optional(),
   company_name: z.string().trim().max(160).optional(),
   company_location: z.string().trim().max(160).optional(),
@@ -322,7 +330,12 @@ export function InquiryForm({
                 className="w-full rounded-md border border-border bg-background px-3 py-2.5 text-base sm:text-sm"
               />
             </label>
-            <Field name="travel_date" label="Travel date" type="date" />
+            <Field
+              name="travel_date"
+              label="Travel date"
+              type="date"
+              min={todayTravelDateValue()}
+            />
             <Field name="travelers" label="Travelers" type="number" min={1} max={99} />
           </>
         )}
@@ -427,8 +440,8 @@ function Field({
   label: string;
   placeholder?: string;
   type?: string;
-  min?: number;
-  max?: number;
+  min?: number | string;
+  max?: number | string;
   defaultValue?: string;
 }) {
   return (

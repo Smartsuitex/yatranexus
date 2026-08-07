@@ -4,6 +4,7 @@ import { toJson } from "@/lib/db-queries/helpers";
 import type { RowDataPacket } from "mysql2/promise";
 import { mapInquiryRow } from "@/lib/db-queries/helpers";
 import type { Inquiry } from "@/lib/db-types";
+import { isTravelDateAllowed } from "@/lib/travel-date";
 
 export type SubmitInquiryInput = {
   service_type: string;
@@ -44,9 +45,11 @@ function trimOrNull(value: string | null | undefined, max?: number): string | nu
 function parseTravelDate(value: string | null | undefined): string | null {
   const trimmed = trimOrNull(value ?? null);
   if (!trimmed) return null;
-  const d = new Date(trimmed);
-  if (Number.isNaN(d.getTime())) return null;
-  return d.toISOString().slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return null;
+  if (!isTravelDateAllowed(trimmed)) {
+    throw new Error("Travel date must be today or a future date.");
+  }
+  return trimmed;
 }
 
 export async function submitInquiryRecord(

@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { submitInquiryRecord } from "@/lib/inquiry-submit";
 import { normalizeInquiryPhone } from "@/lib/inquiry-dedupe";
+import { isTravelDateAllowed } from "@/lib/travel-date";
 
 const InquirySchema = z.object({
   service_type: z.string().trim().min(1).max(50),
@@ -10,7 +11,15 @@ const InquirySchema = z.object({
   email: z.string().trim().email().max(255).optional().or(z.literal("")),
   subject: z.string().trim().max(200).optional().or(z.literal("")),
   destination: z.string().trim().max(120).optional().or(z.literal("")),
-  travel_date: z.string().trim().max(20).optional().or(z.literal("")),
+  travel_date: z
+    .string()
+    .trim()
+    .max(20)
+    .optional()
+    .or(z.literal(""))
+    .refine((value) => isTravelDateAllowed(value), {
+      message: "Travel date must be today or a future date.",
+    }),
   travelers: z.coerce.number().int().min(1).max(99).optional(),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
   package_name: z.string().trim().max(160).optional().or(z.literal("")),
