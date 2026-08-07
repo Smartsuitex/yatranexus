@@ -25,7 +25,7 @@ import {
   travelPackageJsonLd,
 } from "@/lib/seo";
 import { PACKAGE_SLUG_ALIASES } from "@/lib/site-data";
-import { toTitleCase } from "@/lib/utils";
+import { decodeHtmlEntities, toTitleCase } from "@/lib/utils";
 
 export const Route = createFileRoute("/holiday-packages/package/$slug")({
   staleTime: 5 * 60 * 1000,
@@ -118,18 +118,21 @@ export const Route = createFileRoute("/holiday-packages/package/$slug")({
 function PackagePage() {
   const { pkg, dest } = Route.useLoaderData();
   const hero = resolveDestinationHero(pkg.image);
-  const overview =
+  const packageTitle = decodeHtmlEntities(pkg.title);
+  const packageDestination = decodeHtmlEntities(pkg.destination);
+  const overview = decodeHtmlEntities(
     pkg.overview?.trim() ||
-    pkg.metaDescription?.trim() ||
-    `${pkg.nights} nights / ${pkg.days} days in ${pkg.destination} — fully customisable with our travel experts.`;
+      pkg.metaDescription?.trim() ||
+      `${pkg.nights} nights / ${pkg.days} days in ${packageDestination} — fully customisable with our travel experts.`,
+  );
   const highlights =
     pkg.highlights && pkg.highlights.length > 0 ? pkg.highlights : pkg.inclusions;
 
   const inquiryProps = {
     defaultService: "packages" as const,
     hideServiceSelect: true,
-    defaultDestination: pkg.destination,
-    packageName: pkg.title,
+    defaultDestination: packageDestination,
+    packageName: packageTitle,
     sourcePage: `/holiday-packages/package/${pkg.slug}`,
   };
 
@@ -165,13 +168,13 @@ function PackagePage() {
           items={[
             { label: "Holiday packages", to: "/holiday-packages" },
             destinationCrumb,
-            { label: pkg.title },
+            { label: packageTitle },
           ]}
         />
         <HolidayPageHero
           headingId="holiday-package-hero-heading"
-          eyebrow={`${pkg.nights}N / ${pkg.days}D · ${pkg.destination}`}
-          titleFirst={pkg.title}
+          eyebrow={`${pkg.nights}N / ${pkg.days}D · ${packageDestination}`}
+          titleFirst={packageTitle}
           subtitle={
             <>
               <PackagePriceLabel amount={pkg.fromPrice} prefix="starting" variant="inline" /> — fully
@@ -244,8 +247,12 @@ function PackagePage() {
                 {pkg.itinerary.map((day) => (
                   <li key={day.day} className="package-itinerary-card">
                     <div className="package-itinerary-card__day">Day {day.day}</div>
-                    <h3 className="package-itinerary-card__title">{day.title}</h3>
-                    <p className="package-itinerary-card__detail">{day.detail}</p>
+                    <h3 className="package-itinerary-card__title">
+                      {decodeHtmlEntities(day.title)}
+                    </h3>
+                    <p className="package-itinerary-card__detail">
+                      {decodeHtmlEntities(day.detail)}
+                    </p>
                   </li>
                 ))}
               </ol>

@@ -32,14 +32,14 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
             }
             subtitle={decodeHtmlEntities(dest.blurb)}
           />
-          <ul className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-3">
+          <ul className="mt-8 grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 lg:grid-cols-3">
             {dest.highlights.map((h) => (
               <li
                 key={h}
                 className="flex items-start gap-2 rounded-xl border border-border bg-card p-4 text-sm shadow-soft"
               >
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--brand-orange)]" />
-                {toTitleCase(h)}
+                <span className="min-w-0 break-words">{toTitleCase(h)}</span>
               </li>
             ))}
           </ul>

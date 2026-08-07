@@ -4,9 +4,10 @@ import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
 import { SafeImage } from "@/components/site/SafeImage";
 import { resolvePackageImage } from "@/lib/package-images";
 import type { PublicPackage } from "@/lib/public-cms";
+import { decodeHtmlEntities } from "@/lib/utils";
 
 function packagePrimaryDestination(pkg: PublicPackage) {
-  return pkg.destination.split(",")[0]?.trim() || pkg.title;
+  return decodeHtmlEntities(pkg.destination.split(",")[0]?.trim() || pkg.title);
 }
 
 function formatPackagePrice(amount: string) {
@@ -31,6 +32,7 @@ export function FeaturedPackageCard({
     pkg.image,
   );
   const [imageSrc, setImageSrc] = useState(primary);
+  const title = decodeHtmlEntities(pkg.title);
 
   useEffect(() => {
     setImageSrc(primary);
@@ -41,7 +43,7 @@ export function FeaturedPackageCard({
       to="/holiday-packages/package/$slug"
       params={{ slug: pkg.slug }}
       className="home-featured-package-card group"
-      aria-label={`View ${pkg.title} package`}
+      aria-label={`View ${title} package`}
     >
       <div className="home-featured-package-card__media">
         <SafeImage
@@ -59,7 +61,7 @@ export function FeaturedPackageCard({
         <p className="home-featured-package-card__location">
           {packagePrimaryDestination(pkg)}
         </p>
-        <h3 className="home-featured-package-card__title">{pkg.title}</h3>
+        <h3 className="home-featured-package-card__title">{title}</h3>
         <div className="home-featured-package-card__footer">
           <div className="home-featured-package-card__price-block">
             <span className="home-featured-package-card__price-label">Starting From</span>
