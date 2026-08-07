@@ -37,7 +37,10 @@ export function AdminImageField({ label, hint, value, onChange, folder, required
   return (
     <AdminField
       label={label}
-      hint={hint ?? "Upload a file or paste an image URL (/images/... or external CDN)."}
+      hint={
+        hint ??
+        "JPEG/PNG/WebP uploads are saved as optimized WebP. GIF/SVG stay as-is. Or paste a /images/... URL."
+      }
     >
       <div className="space-y-3">
         {value.trim() ? (

@@ -5,6 +5,7 @@ import { HolidayPageHero } from "@/components/site/HolidayPageHero";
 import { InquirySection } from "@/components/site/InquirySection";
 import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
 import { resolveDestinationHero } from "@/lib/holiday-packages-page-data";
+import { heroPreloadLink } from "@/lib/site-images";
 import {
   fetchPackagesForDestination,
   fetchPublicDestinationBySlug,
@@ -33,14 +34,16 @@ export const Route = createFileRoute("/holiday-packages/domestic/$state")({
     if (!loaderData) return { meta: [] };
     const { dest } = loaderData;
     const path = `/holiday-packages/domestic/${dest.slug}`;
-    return mergeSeoHead(
+    const hero = resolveDestinationHero(dest.image);
+    const preload = heroPreloadLink(hero.primary);
+    const seo = mergeSeoHead(
       buildPageSeo({
         path,
         title: brandSeoTitle(`${dest.name} Holiday Packages & Tours`),
         description: brandSeoDescription(
           dest.blurb?.trim() || `${dest.name} holiday packages & custom tours`,
         ),
-        image: dest.image,
+        image: hero.primary || dest.image,
         keywords: `${dest.name} holiday packages, ${dest.name} tour package, ${dest.name} trip from Ahmedabad`,
       }),
       {
@@ -53,6 +56,11 @@ export const Route = createFileRoute("/holiday-packages/domestic/$state")({
         ],
       },
     );
+    return {
+      meta: seo.meta,
+      links: [...seo.links, ...(preload ? [preload] : [])],
+      scripts: seo.scripts,
+    };
   },
   errorComponent: () => <div className="p-10 text-center">Failed to load destination.</div>,
   notFoundComponent: () => (

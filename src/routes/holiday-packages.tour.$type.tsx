@@ -17,6 +17,7 @@ import {
   buildPageSeo,
   mergeSeoHead,
 } from "@/lib/seo";
+import { heroPreloadLink } from "@/lib/site-images";
 import { TOUR_TYPES } from "@/lib/site-data";
 import { toTitleCase } from "@/lib/utils";
 
@@ -36,14 +37,16 @@ export const Route = createFileRoute("/holiday-packages/tour/$type")({
     if (!loaderData) return { meta: [] };
     const { tour } = loaderData;
     const path = `/holiday-packages/tour/${tour.slug}`;
-    return mergeSeoHead(
+    const hero = resolveDestinationHero(tour.image);
+    const preload = heroPreloadLink(hero.primary);
+    const seo = mergeSeoHead(
       buildPageSeo({
         path,
         title: brandSeoTitle(`${tour.name} Holiday Packages`),
         description: brandSeoDescription(
           `${tour.name} holiday packages & custom itineraries across India`,
         ),
-        image: tour.image,
+        image: hero.primary || tour.image,
         keywords: `${tour.name} packages, ${tour.name} tour India, YatraNexus`,
       }),
       {
@@ -55,6 +58,11 @@ export const Route = createFileRoute("/holiday-packages/tour/$type")({
         ],
       },
     );
+    return {
+      meta: seo.meta,
+      links: [...seo.links, ...(preload ? [preload] : [])],
+      scripts: seo.scripts,
+    };
   },
   errorComponent: () => <div className="p-10 text-center">Failed to load tour type.</div>,
   notFoundComponent: () => (
@@ -104,8 +112,8 @@ function TourTypePage() {
           />
           {relatedPackages.length > 0 ? (
             <div className="holiday-featured-packages-row mt-8">
-              {relatedPackages.map((pkg) => (
-                <FeaturedPackageCard key={pkg.slug} pkg={pkg} />
+              {relatedPackages.map((pkg, index) => (
+                <FeaturedPackageCard key={pkg.slug} pkg={pkg} priority={index < 2} />
               ))}
             </div>
           ) : (

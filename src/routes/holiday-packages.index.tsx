@@ -16,6 +16,7 @@ import {
   toHeroSearchPackages,
 } from "@/lib/hero-search";
 import { buildPageSeo } from "@/lib/seo";
+import { heroPreloadLink } from "@/lib/site-images";
 import {
   HOLIDAY_THEMES,
   TOUR_TYPES,
@@ -94,8 +95,10 @@ export const Route = createFileRoute("/holiday-packages/")({
       },
     };
   },
-  head: ({ loaderData }) =>
-    buildPageSeo({
+  head: ({ loaderData }) => {
+    const hero = resolveHolidayHubHero(loaderData?.hubHero?.bannerUrl);
+    const preload = heroPreloadLink(hero.primary);
+    const seo = buildPageSeo({
       path: "/holiday-packages",
       title: loaderData?.showInternational
         ? "YatraNexus — Holiday Packages, Domestic & International"
@@ -105,7 +108,14 @@ export const Route = createFileRoute("/holiday-packages/")({
         : "YatraNexus Ventures LLP. Your Journey, Our Priority. Kashmir, Kerala, Goa, Rajasthan, Himachal & more — handled by real travel experts on WhatsApp.",
       keywords:
         "holiday packages India, Kashmir tour package, Kerala honeymoon package, domestic tour packages Ahmedabad",
-    }),
+      image: hero.primary,
+    });
+    return {
+      meta: seo.meta,
+      links: [...seo.links, ...(preload ? [preload] : [])],
+      scripts: seo.scripts,
+    };
+  },
   component: HolidayPackagesHub,
 });
 

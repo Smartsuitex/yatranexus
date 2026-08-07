@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type { ServiceIconItem } from "@/components/site/service-premium/types";
+import { preferWebpImage } from "@/lib/site-images";
 import {
   Briefcase,
   Building2,
@@ -56,12 +57,18 @@ export const ABOUT_TRUST_FOOTER: ServiceIconItem[] = [
   { icon: Shield, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
-/** Prefer CMS banner; fall back to local About hero. Reject Unsplash stock. */
+/** Prefer CMS banner; fall back to local About hero WebP. Reject Unsplash stock. */
 export function resolveAboutHero(bannerUrl?: string | null): { primary: string; fallback: string } {
   const cms = bannerUrl?.trim() || "";
-  const local = "/images/hero/about-hero.png";
+  const local = "/images/hero/about-hero.webp";
   if (cms && !cms.includes("unsplash.com")) {
-    return { primary: cms, fallback: local };
+    if (cms.startsWith("/images/hero/")) {
+      return { primary: preferWebpImage(cms), fallback: local };
+    }
+    if (/\.webp$/i.test(cms) && cms.startsWith("/images/")) {
+      return { primary: cms, fallback: local };
+    }
+    return { primary: local, fallback: local };
   }
   return { primary: local, fallback: local };
 }

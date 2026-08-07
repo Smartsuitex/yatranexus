@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import fs from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 import { requireAdminFromRequest } from "@/lib/admin-auth";
 import {
   CMS_IMAGE_FOLDERS,
@@ -9,7 +10,8 @@ import {
   type MediaLibraryItem,
 } from "@/lib/image-upload.shared";
 
-const MAX_BYTES = 5 * 1024 * 1024;
+/** Accept large camera/PNG uploads; we compress to WebP before saving. */
+const MAX_INPUT_BYTES = 15 * 1024 * 1024;
 const ALLOWED_TYPES = new Set([
   "image/jpeg",
   "image/png",
@@ -17,14 +19,15 @@ const ALLOWED_TYPES = new Set([
   "image/gif",
   "image/svg+xml",
 ]);
+/** Raster types we optimize and store as WebP for fast public pages. */
+const CONVERT_TO_WEBP = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 const IMAGES_ROOT = path.join(process.cwd(), "public", "images");
 
-function sanitizeFilename(name: string): string {
+function sanitizeBasename(name: string): string {
   const base = name.replace(/\.[^.]+$/, "").toLowerCase();
-  const ext = name.includes(".") ? name.slice(name.lastIndexOf(".")).toLowerCase() : ".jpg";
   const safe = base.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "image";
-  return `${safe}${ext}`;
+  return safe;
 }
 
 function publicUrl(relativePath: string): string {
@@ -33,6 +36,11 @@ function publicUrl(relativePath: string): string {
 
 async function ensureDir(dir: string) {
   await fs.mkdir(dir, { recursive: true });
+}
+
+function shouldConvertToWebp(contentType: string, filename: string): boolean {
+  if (CONVERT_TO_WEBP.has(contentType)) return true;
+  return /\.(jpe?g|png|webp)$/i.test(filename);
 }
 
 const UploadSchema = z.object({
@@ -54,12 +62,36 @@ export const uploadCmsImageFn = createServerFn({ method: "POST" })
     }
 
     const buffer = Buffer.from(data.base64, "base64");
-    if (buffer.length > MAX_BYTES) {
-      throw new Error("Image must be 5 MB or smaller.");
+    if (buffer.length > MAX_INPUT_BYTES) {
+      throw new Error("Image must be 15 MB or smaller.");
     }
 
     const folder = data.folder as CmsImageFolder;
-    const relativePath = `${folder}/${Date.now()}-${sanitizeFilename(data.filename)}`;
+    const stamp = Date.now();
+    const base = sanitizeBasename(data.filename);
+
+    if (shouldConvertToWebp(data.contentType, data.filename)) {
+      const webpBuffer = await sharp(buffer)
+        .rotate()
+        .resize({ width: 1600, height: 1600, fit: "inside", withoutEnlargement: true })
+        .webp({ quality: 75, effort: 4 })
+        .toBuffer();
+
+      const relativePath = `${folder}/${stamp}-${base}.webp`;
+      const absPath = path.join(IMAGES_ROOT, relativePath);
+      await ensureDir(path.dirname(absPath));
+      await fs.writeFile(absPath, webpBuffer);
+      return publicUrl(relativePath);
+    }
+
+    // GIF / SVG — keep original format (animation / vectors).
+    const ext =
+      data.contentType === "image/svg+xml"
+        ? ".svg"
+        : data.contentType === "image/gif"
+          ? ".gif"
+          : path.extname(data.filename).toLowerCase() || ".bin";
+    const relativePath = `${folder}/${stamp}-${base}${ext}`;
     const absPath = path.join(IMAGES_ROOT, relativePath);
     await ensureDir(path.dirname(absPath));
     await fs.writeFile(absPath, buffer);

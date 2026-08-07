@@ -18,7 +18,7 @@ export const SITE_IMAGES = {
     favicon: "/images/logo/favicon.png",
   },
   corporate: {
-    banner: "/images/corporate/corporatebanner.png",
+    banner: "/images/corporate/corporatebanner.webp",
   },
 } as const;
 
@@ -35,12 +35,23 @@ export const SITE_IMAGE_FOLDERS = {
   misc: "/images/misc",
 } as const;
 
-/** Prefer optimized WebP for local `/images/hero/*` assets when available. */
+/**
+ * Prefer optimized WebP for local image folders that have `.webp` siblings
+ * (created by `optimize:homepage-images` / `optimize:holiday-images` / `optimize:site-images`).
+ */
 export function preferWebpImage(url: string): string {
   const trimmed = url.trim();
-  if (!trimmed.startsWith("/images/hero/")) return trimmed;
+  if (!trimmed.startsWith("/images/")) return trimmed;
   if (/\.webp$/i.test(trimmed)) return trimmed;
-  return trimmed.replace(/\.(png|jpe?g)$/i, ".webp");
+  if (!/\.(png|jpe?g)$/i.test(trimmed)) return trimmed;
+  if (
+    /^\/images\/(hero|destinations|packages|banners|about|corporate|Forex|gallery|homepage)\//i.test(
+      trimmed,
+    )
+  ) {
+    return trimmed.replace(/\.(png|jpe?g)$/i, ".webp");
+  }
+  return trimmed;
 }
 
 /** Build a public URL for a file placed under `public/images/` */

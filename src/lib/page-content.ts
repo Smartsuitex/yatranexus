@@ -98,7 +98,7 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
     titleAccent: "Our Priority",
     subtitle:
       "At YatraNexus, we believe every journey should be simple, memorable and stress-free. We are here to make your travel planning easy, reliable and truly special.",
-    bannerUrl: "/images/hero/about-hero.png",
+    bannerUrl: "/images/hero/about-hero.webp",
     whoWeAreTitle: "Who We Are",
     whoWeAreBody:
       "YatraNexus is a new-age travel startup built around one simple idea — every traveller deserves a real expert, not a chatbot.\n\nWhether you're booking a family holiday, a business trip or a group tour, our team handles the details so you can focus on the experience.\n\nFrom the first call to your return home, we're with you on WhatsApp and phone — transparent pricing, honest advice and support when you need it most.",
@@ -177,7 +177,7 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
     titleAccent: "Next Trip",
     subtitle:
       "Send an inquiry and our travel expert will call you back the same day — or reach us on phone, email or WhatsApp anytime.",
-    bannerUrl: "/images/hero/contact-hero.png",
+    bannerUrl: "/images/hero/contact-hero.webp",
     promisesTitle: "Why Contact Us",
     promises: [
       {
@@ -217,7 +217,7 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
     titleAccent: "To Travel",
     subtitle:
       "From a single flight to a full honeymoon itinerary — pick a service below and our team will handle the rest on WhatsApp or phone.",
-    bannerUrl: "/images/hero/flights-hero.png",
+    bannerUrl: "/images/hero/flights-hero.webp",
   },
   blog: {
     eyebrow: "Blog",
@@ -248,14 +248,14 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
     titleFirst: "Explore India",
     titleAccent: "by State",
     subtitle: "Pick a state to view highlights, sample packages and request a quote.",
-    bannerUrl: "/images/hero/holiday-packages-hero-desktop.png",
+    bannerUrl: "/images/hero/holiday-packages-hero-desktop.webp",
   },
   holidayInternational: {
     eyebrow: "Beyond borders",
     titleFirst: "Explore the",
     titleAccent: "World",
     subtitle: "Pick a destination to view highlights, sample packages and request a quote.",
-    bannerUrl: "/images/hero/holiday-packages-hero-desktop.png",
+    bannerUrl: "/images/hero/holiday-packages-hero-desktop.webp",
   },
   homepage: {
     trustPills: [

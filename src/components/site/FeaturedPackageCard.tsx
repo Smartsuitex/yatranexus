@@ -17,13 +17,24 @@ function formatPackagePrice(amount: string) {
 }
 
 /** Same card UI as homepage “Featured Holiday Plans”. */
-export function FeaturedPackageCard({ pkg }: { pkg: PublicPackage }) {
-  const [imageSrc, setImageSrc] = useState(pkg.image);
-  const fallback = resolvePackageImage(pkg.slug, packagePrimaryDestination(pkg));
+export function FeaturedPackageCard({
+  pkg,
+  priority = false,
+}: {
+  pkg: PublicPackage;
+  /** Eager-load above-the-fold cards on destination/package grids. */
+  priority?: boolean;
+}) {
+  const primary = resolvePackageImage(
+    pkg.slug,
+    packagePrimaryDestination(pkg),
+    pkg.image,
+  );
+  const [imageSrc, setImageSrc] = useState(primary);
 
   useEffect(() => {
-    setImageSrc(pkg.image);
-  }, [pkg.image]);
+    setImageSrc(primary);
+  }, [primary]);
 
   return (
     <Link
@@ -36,13 +47,9 @@ export function FeaturedPackageCard({ pkg }: { pkg: PublicPackage }) {
         <SafeImage
           src={imageSrc}
           alt=""
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : undefined}
           className="home-featured-package-card__img"
-          onError={() => {
-            setImageSrc((prev) =>
-              fallback && prev !== fallback ? fallback : prev,
-            );
-          }}
         />
         <span className="home-featured-package-card__duration">
           {pkg.nights}N - {pkg.days}D

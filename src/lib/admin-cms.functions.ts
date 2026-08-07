@@ -160,7 +160,7 @@ const CORE_SERVICE_DEFAULTS: Omit<ServiceRow, "id" | "created_at" | "updated_at"
           title: "Corporate Travel Management",
           detail:
             "End-to-end management of business trips — flights, hotels, cabs and approvals handled by your dedicated desk.",
-          image: "/images/corporate/corporatebanner.png",
+          image: "/images/corporate/corporatebanner.webp",
           accent: "purple",
         },
         {
@@ -184,7 +184,7 @@ const CORE_SERVICE_DEFAULTS: Omit<ServiceRow, "id" | "created_at" | "updated_at"
           title: "Dealer Meets & Exhibitions",
           detail:
             "Logistics for dealer meets, trade shows and exhibitions — travel, stay and local transport bundled.",
-          image: "/images/corporate/corporatebanner.png",
+          image: "/images/corporate/corporatebanner.webp",
           accent: "green",
         },
       ],

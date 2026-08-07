@@ -60,8 +60,8 @@ export function HolidayDestinationSections({ dest, relatedPackages }: Props) {
           />
           {relatedPackages.length > 0 ? (
             <div className="holiday-featured-packages-row mt-8">
-              {relatedPackages.map((p) => (
-                <FeaturedPackageCard key={p.slug} pkg={p} />
+              {relatedPackages.map((p, index) => (
+                <FeaturedPackageCard key={p.slug} pkg={p} priority={index < 2} />
               ))}
             </div>
           ) : (

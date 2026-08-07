@@ -10,6 +10,7 @@ import { ServiceSectionHeading } from "@/components/site/service-premium/Service
 import { CheckCircle2 } from "lucide-react";
 import { PackagePriceLabel } from "@/components/site/PackagePriceLabel";
 import { resolveDestinationHero } from "@/lib/holiday-packages-page-data";
+import { heroPreloadLink } from "@/lib/site-images";
 import {
   fetchPublicDestinations,
   fetchPublicPackageBySlug,
@@ -57,13 +58,15 @@ export const Route = createFileRoute("/holiday-packages/package/$slug")({
     if (!loaderData) return { meta: [] };
     const { pkg } = loaderData;
     const path = `/holiday-packages/package/${pkg.slug}`;
+    const hero = resolveDestinationHero(pkg.image);
+    const preload = heroPreloadLink(hero.primary);
     const description =
       pkg.metaDescription ??
       brandSeoDescription(
         pkg.overview?.trim() ||
           `${pkg.nights}N/${pkg.days}D ${pkg.destination} holiday package`,
       );
-    return mergeSeoHead(
+    const seo = mergeSeoHead(
       buildPageSeo({
         path,
         title:
@@ -72,7 +75,7 @@ export const Route = createFileRoute("/holiday-packages/package/$slug")({
             pkg.fromPrice ? `${pkg.title}, from ${pkg.fromPrice}` : pkg.title,
           ),
         description,
-        image: pkg.image,
+        image: hero.primary || pkg.image,
         type: "product",
         keywords: `${pkg.title}, ${pkg.destination} tour package, ${pkg.destination} holiday, YatraNexus`,
       }),
@@ -85,7 +88,7 @@ export const Route = createFileRoute("/holiday-packages/package/$slug")({
           travelPackageJsonLd({
             name: pkg.title,
             description,
-            image: pkg.image,
+            image: hero.primary || pkg.image,
             path,
             priceLabel: pkg.fromPrice,
             destination: pkg.destination,
@@ -95,6 +98,11 @@ export const Route = createFileRoute("/holiday-packages/package/$slug")({
         ],
       },
     );
+    return {
+      meta: seo.meta,
+      links: [...seo.links, ...(preload ? [preload] : [])],
+      scripts: seo.scripts,
+    };
   },
   notFoundComponent: () => (
     <div className="p-20 text-center">

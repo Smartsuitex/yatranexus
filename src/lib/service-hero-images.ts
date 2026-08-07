@@ -34,12 +34,16 @@ export function resolveServiceHero(
   const cms = cmsBannerUrl?.trim() || "";
   const local = preferWebpImage(SERVICE_HERO_FALLBACKS[slug] || "");
   if (cms && !cms.includes("images.unsplash.com") && !cms.includes("unsplash.com/")) {
-    // Prefer optimized local WebP over heavy CMS dual-panel / PNG uploads for heroes.
+    // Prefer dedicated local hero WebP over heavy CMS package/banner PNGs for LCP.
     if (cms.startsWith("/images/hero/")) {
       const optimized = preferWebpImage(cms);
       return { primary: optimized, fallback: local || optimized };
     }
-    return { primary: cms, fallback: local || cms };
+    if (/\.webp$/i.test(cms) && cms.startsWith("/images/")) {
+      return { primary: cms, fallback: local || cms };
+    }
+    // Non-hero CMS uploads (banners/packages) are often multi‑MB — use local hero.
+    return { primary: local || preferWebpImage(cms), fallback: local || cms };
   }
   return { primary: local, fallback: local };
 }

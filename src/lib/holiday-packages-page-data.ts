@@ -1,8 +1,9 @@
-import { SITE_IMAGES } from "@/lib/site-images";
+import { preferWebpImage, SITE_IMAGES } from "@/lib/site-images";
 
 /** Use CMS / DB image URLs only — never inject Unsplash. */
 export function sanitizePublicImageUrl(image: string | null | undefined): string {
-  return image?.trim() || "";
+  const trimmed = image?.trim() || "";
+  return trimmed ? preferWebpImage(trimmed) : "";
 }
 
 export const HOLIDAY_HUB_HERO = {
@@ -27,15 +28,25 @@ export const HOLIDAY_INTERNATIONAL_HERO = {
   subtitle: "Pick a destination to view highlights, sample packages and request a quote.",
 } as const;
 
-const HOLIDAY_HUB_LOCAL_HERO = "/images/hero/holiday-packages-hero-desktop.png";
+const HOLIDAY_HUB_LOCAL_HERO = "/images/hero/holiday-packages-hero-desktop.webp";
 
-/** Prefer CMS banner; fall back to local holiday hub hero. Reject Unsplash. */
+/**
+ * Prefer the dedicated hub WebP for LCP.
+ * CMS banners under `/images/hero/` are allowed (WebP preferred).
+ * Heavy package/banner PNGs are ignored so the hub stays fast.
+ */
 export function resolveHolidayHubHero(bannerUrl?: string): { primary: string; fallback: string } {
   const cms = bannerUrl?.trim() || "";
+  const local = HOLIDAY_HUB_LOCAL_HERO;
   if (cms && !cms.includes("unsplash.com")) {
-    return { primary: cms, fallback: HOLIDAY_HUB_LOCAL_HERO };
+    if (cms.startsWith("/images/hero/")) {
+      return { primary: preferWebpImage(cms), fallback: local };
+    }
+    if (/\.webp$/i.test(cms) && cms.startsWith("/images/")) {
+      return { primary: cms, fallback: local };
+    }
   }
-  return { primary: HOLIDAY_HUB_LOCAL_HERO, fallback: HOLIDAY_HUB_LOCAL_HERO };
+  return { primary: local, fallback: local };
 }
 
 export function resolveHolidayHubContent(

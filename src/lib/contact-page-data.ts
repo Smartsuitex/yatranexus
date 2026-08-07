@@ -1,6 +1,7 @@
 import { Clock, Headphones, MapPin, MessageCircle, Phone, Mail, ShieldCheck, Zap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ServiceIconItem } from "@/components/site/service-premium/types";
+import { preferWebpImage } from "@/lib/site-images";
 
 export const CONTACT_HERO = {
   eyebrow: "Contact Us",
@@ -31,15 +32,21 @@ export const CONTACT_TRUST_FOOTER: ServiceIconItem[] = [
   { icon: Headphones, title: "100% Safe & Secure", detail: "Data always protected" },
 ];
 
-/** Prefer CMS banner; fall back to local Contact hero. Reject Unsplash stock. */
+/** Prefer CMS banner; fall back to local Contact hero WebP. Reject Unsplash stock. */
 export function resolveContactHero(bannerUrl?: string | null): {
   primary: string;
   fallback: string;
 } {
   const cms = bannerUrl?.trim() || "";
-  const local = "/images/hero/contact-hero.png";
+  const local = "/images/hero/contact-hero.webp";
   if (cms && !cms.includes("unsplash.com")) {
-    return { primary: cms, fallback: local };
+    if (cms.startsWith("/images/hero/")) {
+      return { primary: preferWebpImage(cms), fallback: local };
+    }
+    if (/\.webp$/i.test(cms) && cms.startsWith("/images/")) {
+      return { primary: cms, fallback: local };
+    }
+    return { primary: local, fallback: local };
   }
   return { primary: local, fallback: local };
 }

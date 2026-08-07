@@ -41,6 +41,8 @@ import {
 import { toTitleCase } from "@/lib/utils";
 import { resolvePackageImage } from "@/lib/package-images";
 import { sanitizePublicImageUrl } from "@/lib/holiday-packages-page-data";
+import { preferWebpImage } from "@/lib/site-images";
+import { createServerFn } from "@tanstack/react-start";
 import { cachedPublic } from "@/lib/public-cms-cache";
 type HomepageRowExtended = HomepageRow;
 
@@ -435,7 +437,9 @@ function mapDbBlog(row: BlogRow): PublicBlogPost {
     category: row.category ?? "Travel",
     date: row.published_at ?? row.created_at,
     readMinutes: row.read_minutes,
-    image: isHardcodedStockImage(row.featured_image_url) ? "" : (row.featured_image_url ?? ""),
+    image: isHardcodedStockImage(row.featured_image_url)
+      ? ""
+      : preferWebpImage(row.featured_image_url ?? ""),
     content,
     metaTitle: row.meta_title,
     metaDescription: row.meta_description,
@@ -495,9 +499,9 @@ function hideInternationalContent(
 }
 
 /** Resolve CMS show-international flag (with static fallback). */
-export async function resolveShowInternational(): Promise<boolean> {
+async function resolveShowInternationalImpl(): Promise<boolean> {
   try {
-    const settings = await fetchPublicSiteSettings();
+    const settings = await fetchPublicSiteSettingsImpl();
     return settings.showInternational;
   } catch {
     return SHOW_INTERNATIONAL;
@@ -516,8 +520,14 @@ export function packageMatchesDestination(
   const pkgSlug = pkg.slug.trim().toLowerCase();
 
   if (!name && !slug) return false;
-  if (destField && (destField.includes(name) || name.includes(destField))) return true;
-  if (destField && (destField.includes(slugWords) || slugWords.includes(destField))) return true;
+
+  // Require meaningful destination tokens (avoid "a"/"go" matching "Goa").
+  if (destField.length >= 3) {
+    if (destField.includes(name) || name.includes(destField)) return true;
+    if (destField.includes(slugWords) || (slugWords.length >= 3 && slugWords.includes(destField))) {
+      return true;
+    }
+  }
   if (slug && (pkgSlug === slug || pkgSlug.startsWith(`${slug}-`) || pkgSlug.includes(`-${slug}-`))) {
     return true;
   }
@@ -534,7 +544,7 @@ export async function fetchPackagesForDestination(dest: {
   slug: string;
   scope?: "domestic" | "international";
 }): Promise<PublicPackage[]> {
-  const all = await fetchPublicPackages(
+  const all = await fetchPublicPackagesImpl(
     dest.scope ? { scope: dest.scope } : undefined,
   );
   const fromDb = all.filter((pkg) => packageMatchesDestination(pkg, dest));
@@ -590,10 +600,10 @@ export function filterPackages(
   return result;
 }
 
-export async function fetchPublicPackages(filters?: PackageFilters): Promise<PublicPackage[]> {
+async function fetchPublicPackagesImpl(filters?: PackageFilters): Promise<PublicPackage[]> {
   const cacheKey = `packages:${filters ? JSON.stringify(filters) : "all"}`;
   return cachedPublic(cacheKey, async () => {
-    const showInternational = await resolveShowInternational();
+    const showInternational = await resolveShowInternationalImpl();
     try {
       const { listActivePackagesSummary } = await import("@/lib/db-queries/packages");
       const data = await listActivePackagesSummary();
@@ -630,7 +640,7 @@ export async function fetchPackagesForTourType(tour: {
   slug: string;
   name: string;
 }): Promise<PublicPackage[]> {
-  const all = await fetchPublicPackages();
+  const all = await fetchPublicPackagesImpl();
   return all.filter((pkg) => packageMatchesTourType(pkg, tour));
 }
 
@@ -706,9 +716,9 @@ export function filterPackagesByHolidayTheme(
   return packages.filter((pkg) => packageMatchesHolidayTheme(pkg, trimmed));
 }
 
-export async function fetchPublicPackageBySlug(slug: string): Promise<PublicPackage | null> {
+async function fetchPublicPackageBySlugImpl(slug: string): Promise<PublicPackage | null> {
   const resolvedSlug = PACKAGE_SLUG_ALIASES[slug] ?? slug;
-  const showInternational = await resolveShowInternational();
+  const showInternational = await resolveShowInternationalImpl();
   try {
     const { getPackageBySlug } = await import("@/lib/db-queries/packages");
     const data = await getPackageBySlug(resolvedSlug);
@@ -727,7 +737,7 @@ export async function fetchPublicPackageBySlug(slug: string): Promise<PublicPack
   }
 }
 
-export async function fetchPublicBlogPosts(): Promise<PublicBlogPost[]> {
+async function fetchPublicBlogPostsImpl(): Promise<PublicBlogPost[]> {
   try {
     const { listPublishedBlogPosts } = await import("@/lib/db-queries/blog");
     const data = await listPublishedBlogPosts();
@@ -759,12 +769,12 @@ export async function fetchPublicBlogPosts(): Promise<PublicBlogPost[]> {
   }
 }
 
-export async function fetchPublicBlogPostBySlug(slug: string): Promise<PublicBlogPost | null> {
-  const posts = await fetchPublicBlogPosts();
+async function fetchPublicBlogPostBySlugImpl(slug: string): Promise<PublicBlogPost | null> {
+  const posts = await fetchPublicBlogPostsImpl();
   return posts.find((p) => p.slug === slug) ?? null;
 }
 
-export async function fetchPublicFaqs(): Promise<PublicFaq[]> {
+async function fetchPublicFaqsImpl(): Promise<PublicFaq[]> {
   try {
     const { listActiveFaqs } = await import("@/lib/db-queries/faqs");
     const data = await listActiveFaqs();
@@ -790,8 +800,8 @@ function filterGalleryImages(
   return images.filter((img) => img.album !== "International");
 }
 
-export async function fetchPublicGallery(): Promise<PublicGalleryImage[]> {
-  const showInternational = await resolveShowInternational();
+async function fetchPublicGalleryImpl(): Promise<PublicGalleryImage[]> {
+  const showInternational = await resolveShowInternationalImpl();
   try {
     const { listActiveGalleryImages } = await import("@/lib/db-queries/gallery");
     const data = await listActiveGalleryImages();
@@ -812,7 +822,9 @@ export async function fetchPublicGallery(): Promise<PublicGalleryImage[]> {
         id: row.id,
         title: row.title,
         album: row.album,
-        image: isHardcodedStockImage(row.image_url) ? "" : row.image_url,
+        image: isHardcodedStockImage(row.image_url)
+          ? ""
+          : preferWebpImage(row.image_url || ""),
       })),
       showInternational,
     );
@@ -829,7 +841,7 @@ export async function fetchPublicGallery(): Promise<PublicGalleryImage[]> {
   }
 }
 
-export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
+async function fetchPublicTestimonialsImpl(): Promise<PublicTestimonial[]> {
   return cachedPublic("testimonials", async () => {
     try {
       const { listActiveTestimonials } = await import("@/lib/db-queries/testimonials");
@@ -854,7 +866,9 @@ export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
           designation: row.designation ?? undefined,
           text: row.review_text,
           rating: Math.min(5, Math.max(1, Number(row.rating) || 5)),
-          photoUrl: row.photo_url ?? undefined,
+          photoUrl: row.photo_url
+            ? preferWebpImage(row.photo_url)
+            : undefined,
           sortOrder: Number(row.sort_order) || 0,
         }))
         .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
@@ -871,7 +885,7 @@ export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
   });
 }
 
-export async function fetchPublicSiteSettings(): Promise<PublicSiteSettings> {
+async function fetchPublicSiteSettingsImpl(): Promise<PublicSiteSettings> {
   return cachedPublic("site-settings", async () => {
     try {
       const { getSiteSettings } = await import("@/lib/db-queries/site-settings");
@@ -959,7 +973,7 @@ export async function fetchPublicSiteSettings(): Promise<PublicSiteSettings> {
   });
 }
 
-export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSettings> {
+async function fetchPublicHomepageSettingsImpl(): Promise<PublicHomepageSettings> {
   const defaultWhy = WHY_CHOOSE_US.map((w) => ({
     icon: w.icon,
     title: w.title,
@@ -1006,7 +1020,7 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
 
   return cachedPublic("homepage-settings", async () => {
   try {
-    const showInternational = await resolveShowInternational();
+    const showInternational = await resolveShowInternationalImpl();
     const { getHomepageSettings } = await import("@/lib/db-queries/homepage");
     const data = await getHomepageSettings();
 
@@ -1035,7 +1049,7 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
             return {
               name: h.name ?? "",
               tag: h.tag ?? "",
-              image: isHardcodedStockImage(image) ? "" : image,
+              image: isHardcodedStockImage(image) ? "" : preferWebpImage(image),
               slug: h.slug,
             };
           })
@@ -1089,7 +1103,7 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
               return {
                 slug: t.slug ?? "",
                 name: t.name ?? "",
-                image: isHardcodedStockImage(image) ? "" : image,
+                image: isHardcodedStockImage(image) ? "" : preferWebpImage(image),
               };
             })
           : defaultTourTypes,
@@ -1111,12 +1125,12 @@ export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSetti
 }
 
 export async function fetchSitemapPackageSlugs(): Promise<string[]> {
-  const packages = await fetchPublicPackages();
+  const packages = await fetchPublicPackagesImpl();
   return packages.map((p) => p.slug);
 }
 
 export async function fetchSitemapBlogSlugs(): Promise<string[]> {
-  const posts = await fetchPublicBlogPosts();
+  const posts = await fetchPublicBlogPostsImpl();
   return posts.map((p) => p.slug);
 }
 
@@ -1182,12 +1196,12 @@ function staticDestinations(
   return [...domestic, ...international];
 }
 
-export async function fetchPublicDestinations(
+async function fetchPublicDestinationsImpl(
   scope?: "domestic" | "international" | "all",
 ): Promise<PublicDestination[]> {
   const scopeKey = scope ?? "all";
   return cachedPublic(`destinations:${scopeKey}`, async () => {
-    const showInternational = await resolveShowInternational();
+    const showInternational = await resolveShowInternationalImpl();
     try {
       const { listActiveDestinations } = await import("@/lib/db-queries/destinations");
       let data: DestinationRow[];
@@ -1217,11 +1231,11 @@ export async function fetchPublicDestinations(
   });
 }
 
-export async function fetchPublicDestinationBySlug(
+async function fetchPublicDestinationBySlugImpl(
   slug: string,
   scope: "domestic" | "international",
 ): Promise<PublicDestination | null> {
-  const showInternational = await resolveShowInternational();
+  const showInternational = await resolveShowInternationalImpl();
   if (!showInternational && scope === "international") return null;
 
   try {
@@ -1243,7 +1257,11 @@ function parseContentBlocks(value: unknown): PublicServiceContentBlocks {
   if (!value || typeof value !== "object") return {};
   const raw = value as PublicServiceContentBlocks;
   const mapFeature = (f: PublicServiceFeature): PublicServiceFeature => {
-    const image = f.image ? String(f.image) : undefined;
+    const rawImage = f.image ? String(f.image) : undefined;
+    const image =
+      rawImage && !isHardcodedStockImage(rawImage)
+        ? preferWebpImage(rawImage)
+        : undefined;
     const points = Array.isArray(f.points)
       ? f.points.map((p) => String(p).trim()).filter(Boolean)
       : undefined;
@@ -1251,7 +1269,7 @@ function parseContentBlocks(value: unknown): PublicServiceContentBlocks {
       icon: String(f.icon ?? "Sparkles"),
       title: String(f.title ?? ""),
       detail: String(f.detail ?? ""),
-      ...(image && !isHardcodedStockImage(image) ? { image } : {}),
+      ...(image ? { image } : {}),
       ...(f.accent ? { accent: f.accent } : {}),
       ...(points && points.length ? { points } : {}),
     };
@@ -1270,7 +1288,9 @@ function parseContentBlocks(value: unknown): PublicServiceContentBlocks {
     titleFirst: raw.titleFirst,
     titleAccent: raw.titleAccent,
     layout: raw.layout,
-    heroBannerUrl: raw.heroBannerUrl ? String(raw.heroBannerUrl) : undefined,
+    heroBannerUrl: raw.heroBannerUrl
+      ? preferWebpImage(String(raw.heroBannerUrl))
+      : undefined,
     features: Array.isArray(raw.features) ? raw.features.map(mapFeature) : [],
     detailedServices: Array.isArray(raw.detailedServices)
       ? raw.detailedServices.map(mapFeature)
@@ -1340,7 +1360,11 @@ function mapDbService(row: ServiceRow): PublicService {
     shortDescription: row.short_description ?? "",
     description: row.description ?? row.short_description ?? "",
     icon: row.icon ?? "Sparkles",
-    bannerUrl: isHardcodedStockImage(row.banner_url) ? undefined : (row.banner_url ?? undefined),
+    bannerUrl: isHardcodedStockImage(row.banner_url)
+      ? undefined
+      : row.banner_url
+        ? preferWebpImage(row.banner_url)
+        : undefined,
     metaTitle: row.meta_title,
     metaDescription: row.meta_description,
     inclusions,
@@ -1385,7 +1409,7 @@ function staticServices(): PublicService[] {
   }));
 }
 
-export async function fetchPublicServices(): Promise<PublicService[]> {
+async function fetchPublicServicesImpl(): Promise<PublicService[]> {
   return cachedPublic("services", async () => {
     try {
       const { listActiveServices } = await import("@/lib/db-queries/services");
@@ -1399,7 +1423,7 @@ export async function fetchPublicServices(): Promise<PublicService[]> {
   });
 }
 
-export async function fetchPublicServiceBySlug(slug: string): Promise<PublicService | null> {
+async function fetchPublicServiceBySlugImpl(slug: string): Promise<PublicService | null> {
   return cachedPublic(`service:${slug}`, async () => {
     try {
       const { getServiceBySlug } = await import("@/lib/db-queries/services");
@@ -1414,8 +1438,8 @@ export async function fetchPublicServiceBySlug(slug: string): Promise<PublicServ
   });
 }
 
-export async function fetchPublicNavLinks(): Promise<PublicNavLink[]> {
-  const services = await fetchPublicServices();
+async function fetchPublicNavLinksImpl(): Promise<PublicNavLink[]> {
+  const services = await fetchPublicServicesImpl();
   return services.map((s) => ({
     to: serviceNavPath(s.slug),
     title: s.title,
@@ -1428,11 +1452,123 @@ export async function fetchPublicNavLinks(): Promise<PublicNavLink[]> {
 export async function fetchSitemapDestinationSlugs(
   scope: "domestic" | "international",
 ): Promise<string[]> {
-  const destinations = await fetchPublicDestinations(scope);
+  const destinations = await fetchPublicDestinationsImpl(scope);
   return destinations.map((d) => d.slug);
 }
 
 export async function fetchSitemapServiceSlugs(): Promise<string[]> {
-  const services = await fetchPublicServices();
+  const services = await fetchPublicServicesImpl();
   return services.map((s) => s.slug);
 }
+
+
+/* —— isomorphic exports: loaders run on client, so DB reads go through server fns —— */
+const resolveShowInternationalFn = createServerFn({ method: "GET" }).handler(async () =>
+  resolveShowInternationalImpl(),
+);
+export async function resolveShowInternational(): Promise<boolean> {
+  return resolveShowInternationalFn();
+}
+
+const fetchPublicPackagesFn = createServerFn({ method: "GET" })
+  .validator((data: PackageFilters | null | undefined) => data ?? null)
+  .handler(async ({ data }) => fetchPublicPackagesImpl(data ?? undefined));
+export async function fetchPublicPackages(filters?: PackageFilters): Promise<PublicPackage[]> {
+  return fetchPublicPackagesFn({ data: filters ?? null });
+}
+
+const fetchPublicPackageBySlugFn = createServerFn({ method: "GET" })
+  .validator((data: string) => data)
+  .handler(async ({ data }) => fetchPublicPackageBySlugImpl(data));
+export async function fetchPublicPackageBySlug(slug: string): Promise<PublicPackage | null> {
+  return fetchPublicPackageBySlugFn({ data: slug });
+}
+
+const fetchPublicBlogPostsFn = createServerFn({ method: "GET" }).handler(async () =>
+  fetchPublicBlogPostsImpl(),
+);
+export async function fetchPublicBlogPosts(): Promise<PublicBlogPost[]> {
+  return fetchPublicBlogPostsFn();
+}
+
+const fetchPublicBlogPostBySlugFn = createServerFn({ method: "GET" })
+  .validator((data: string) => data)
+  .handler(async ({ data }) => fetchPublicBlogPostBySlugImpl(data));
+export async function fetchPublicBlogPostBySlug(slug: string): Promise<PublicBlogPost | null> {
+  return fetchPublicBlogPostBySlugFn({ data: slug });
+}
+
+const fetchPublicFaqsFn = createServerFn({ method: "GET" }).handler(async () => fetchPublicFaqsImpl());
+export async function fetchPublicFaqs(): Promise<PublicFaq[]> {
+  return fetchPublicFaqsFn();
+}
+
+const fetchPublicGalleryFn = createServerFn({ method: "GET" }).handler(async () =>
+  fetchPublicGalleryImpl(),
+);
+export async function fetchPublicGallery(): Promise<PublicGalleryImage[]> {
+  return fetchPublicGalleryFn();
+}
+
+const fetchPublicTestimonialsFn = createServerFn({ method: "GET" }).handler(async () =>
+  fetchPublicTestimonialsImpl(),
+);
+export async function fetchPublicTestimonials(): Promise<PublicTestimonial[]> {
+  return fetchPublicTestimonialsFn();
+}
+
+const fetchPublicSiteSettingsFn = createServerFn({ method: "GET" }).handler(async () =>
+  fetchPublicSiteSettingsImpl(),
+);
+export async function fetchPublicSiteSettings(): Promise<PublicSiteSettings> {
+  return fetchPublicSiteSettingsFn();
+}
+
+const fetchPublicHomepageSettingsFn = createServerFn({ method: "GET" }).handler(async () =>
+  fetchPublicHomepageSettingsImpl(),
+);
+export async function fetchPublicHomepageSettings(): Promise<PublicHomepageSettings> {
+  return fetchPublicHomepageSettingsFn();
+}
+
+type DestScope = "all" | "domestic" | "international";
+const fetchPublicDestinationsFn = createServerFn({ method: "GET" })
+  .validator((data: DestScope) => data)
+  .handler(async ({ data }) => fetchPublicDestinationsImpl(data));
+export async function fetchPublicDestinations(
+  scope: DestScope = "all",
+): Promise<PublicDestination[]> {
+  return fetchPublicDestinationsFn({ data: scope });
+}
+
+const fetchPublicDestinationBySlugFn = createServerFn({ method: "GET" })
+  .validator((data: { slug: string; scope: "domestic" | "international" }) => data)
+  .handler(async ({ data }) => fetchPublicDestinationBySlugImpl(data.slug, data.scope));
+export async function fetchPublicDestinationBySlug(
+  slug: string,
+  scope: "domestic" | "international",
+): Promise<PublicDestination | null> {
+  return fetchPublicDestinationBySlugFn({ data: { slug, scope } });
+}
+
+const fetchPublicServicesFn = createServerFn({ method: "GET" }).handler(async () =>
+  fetchPublicServicesImpl(),
+);
+export async function fetchPublicServices(): Promise<PublicService[]> {
+  return fetchPublicServicesFn();
+}
+
+const fetchPublicServiceBySlugFn = createServerFn({ method: "GET" })
+  .validator((data: string) => data)
+  .handler(async ({ data }) => fetchPublicServiceBySlugImpl(data));
+export async function fetchPublicServiceBySlug(slug: string): Promise<PublicService | null> {
+  return fetchPublicServiceBySlugFn({ data: slug });
+}
+
+const fetchPublicNavLinksFn = createServerFn({ method: "GET" }).handler(async () =>
+  fetchPublicNavLinksImpl(),
+);
+export async function fetchPublicNavLinks(): Promise<PublicNavLink[]> {
+  return fetchPublicNavLinksFn();
+}
+
