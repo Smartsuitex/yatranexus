@@ -58,37 +58,37 @@ export const HOTELS_POPULAR_DESTINATIONS: HotelPopularDestination[] = [
     slug: "delhi",
     name: "Delhi",
     priceLabel: "",
-    image: "",
+    image: "/images/destinations/1785076174298-chatgpt-image-jul-26-2026-07-58-56-pm.webp",
   },
   {
     slug: "mumbai",
     name: "Mumbai",
     priceLabel: "",
-    image: "",
+    image: "/images/destinations/1785233303513-chatgpt-image-jul-28-2026-03-38-09-pm.webp",
   },
   {
     slug: "bangalore",
     name: "Bangalore",
     priceLabel: "",
-    image: "",
+    image: "/images/packages/1785074521978-chatgpt-image-jul-26-2026-07-31-32-pm.webp",
   },
   {
     slug: "singapore",
     name: "Singapore",
     priceLabel: "",
-    image: "",
+    image: "/images/packages/1785069204318-chatgpt-image-jul-26-2026-06-03-12-pm.webp",
   },
   {
     slug: "dubai",
     name: "Dubai",
     priceLabel: "",
-    image: "",
+    image: "/images/homepage/hero/1786035390433-chatgpt-image-aug-6-2026-10-26-18-pm.webp",
   },
   {
     slug: "new-york",
     name: "New York",
     priceLabel: "",
-    image: "",
+    image: "/images/hero/flights-hero.webp",
   },
 ];
 

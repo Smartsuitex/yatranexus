@@ -61,7 +61,7 @@ export const FOREX_CARD_TYPES: ForexCardType[] = [
     title: "Single Currency Forex Card",
     description: "Perfect for travelers visiting a single destination.",
     icon: CreditCard,
-    image: "/images/Forex/Forex_Single-Currency.png",
+    image: "/images/Forex/Forex_Single-Currency.webp",
     accent: "purple",
     features: [
       "Load one foreign currency",
@@ -76,7 +76,7 @@ export const FOREX_CARD_TYPES: ForexCardType[] = [
     title: "Multi Currency Forex Card",
     description: "One card for multiple international destinations.",
     icon: Globe2,
-    image: "/images/Forex/Forex_Multi-Currency.png",
+    image: "/images/Forex/Forex_Multi-Currency.webp",
     accent: "pink",
     features: [
       "Load multiple currencies on one card",
@@ -91,7 +91,7 @@ export const FOREX_CARD_TYPES: ForexCardType[] = [
     title: "Student Forex Card",
     description: "Specially designed for students studying abroad.",
     icon: GraduationCap,
-    image: "/images/Forex/ForexCard-GlobalJourney.png",
+    image: "/images/Forex/ForexCard-GlobalJourney.webp",
     accent: "orange",
     features: [
       "Ideal for tuition & living expenses",
@@ -106,7 +106,7 @@ export const FOREX_CARD_TYPES: ForexCardType[] = [
     title: "Corporate Forex Card",
     description: "Smart travel solution for business professionals.",
     icon: Briefcase,
-    image: "/images/Forex/Single Currency Forex card (1).png",
+    image: "/images/Forex/Single Currency Forex card (1).webp",
     accent: "blue",
     features: [
       "Manage international business expenses",

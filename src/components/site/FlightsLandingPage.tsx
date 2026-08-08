@@ -163,6 +163,26 @@ export function FlightsLandingPage({ service }: Props) {
                   alt={dest.name}
                   loading="lazy"
                   className="hotels-dest-card__img"
+                  onError={() => {
+                    // #region agent log
+                    fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        "X-Debug-Session-Id": "00bc0d",
+                      },
+                      body: JSON.stringify({
+                        sessionId: "00bc0d",
+                        runId: "popular-dest",
+                        hypothesisId: "B",
+                        location: "FlightsLandingPage.tsx:dest-card",
+                        message: "Popular destination card image failed",
+                        data: { name: dest.name, image: dest.image },
+                        timestamp: Date.now(),
+                      }),
+                    }).catch(() => {});
+                    // #endregion
+                  }}
                 />
                 <div className="hotels-dest-card__overlay">
                   <h3 className="hotels-dest-card__name">{dest.name}</h3>
