@@ -1058,31 +1058,6 @@ async function fetchPublicHomepageSettingsImpl(): Promise<PublicHomepageSettings
           })
         : defaultHero;
 
-    // #region agent log
-    fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "00bc0d",
-      },
-      body: JSON.stringify({
-        sessionId: "00bc0d",
-        runId: "hero-pre",
-        hypothesisId: "E",
-        location: "public-cms.ts:homepage-settings",
-        message: "Public homepage hero loaded from DB",
-        data: {
-          usedDefaultHero: heroRaw.length === 0,
-          rawCount: heroRaw.length,
-          outCount: heroSlides.length,
-          heroIntervalMs,
-          slides: heroSlides.map((s) => ({ name: s.name, image: s.image })),
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     return {
       heroSlides,
       heroIntervalMs,

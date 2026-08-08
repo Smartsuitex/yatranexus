@@ -77,24 +77,6 @@ export function ServicePremiumHero({
             fetchPriority="high"
             decoding="async"
             onError={() => {
-              // #region agent log
-              fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "X-Debug-Session-Id": "00bc0d",
-                },
-                body: JSON.stringify({
-                  sessionId: "00bc0d",
-                  runId: "service-hero",
-                  hypothesisId: "B",
-                  location: "ServicePremiumHero.tsx:onError",
-                  message: "Service hero image failed — falling back to old hero",
-                  data: { failedSrc: src, imageFallback, imagePrimary },
-                  timestamp: Date.now(),
-                }),
-              }).catch(() => {});
-              // #endregion
               if (hasImageSrc(imageFallback) && src !== imageFallback) {
                 setSrc(imageFallback);
               }
