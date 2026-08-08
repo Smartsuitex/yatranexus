@@ -1232,7 +1232,7 @@ export function ServiceContentEditor({
                 : isForexCatalog
                   ? "Each card below = one Forex Card on the website. Use Upload image to change the card photo, then Save the service."
                   : isDestCatalog
-                    ? "Title = city name. Upload image for each card. Description is optional (e.g. From ₹4,999)."
+                    ? "Title = city name. Upload image for each card — path is saved in MySQL and the live page reads that DB path (not a code hardcode). Description is optional (e.g. From ₹4,999)."
                     : undefined
             }
             items={form.catalogItems}

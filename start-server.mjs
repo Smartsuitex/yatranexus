@@ -1,16 +1,90 @@
-import { createReadStream, existsSync, statSync } from "node:fs";
+import {
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { createServer } from "node:http";
 import { createGzip } from "node:zlib";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { fileURLToPath } from "node:url";
 import { pipeline } from "node:stream/promises";
+import mysql from "mysql2/promise";
 import handler from "./dist/server/server.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientRoot = path.resolve(path.join(__dirname, "dist/client"));
+const publicImagesRoot = path.resolve(path.join(__dirname, "public", "images"));
 const port = Number(process.env.PORT || 3000);
 const host = process.env.HOST || "0.0.0.0";
+
+/** Lazy MySQL pool for restoring CMS images wiped by redeploys. */
+let mediaPool = null;
+let mediaPoolFailed = false;
+const restoreInFlight = new Map();
+
+function getMediaPool() {
+  if (mediaPoolFailed) return null;
+  if (mediaPool) return mediaPool;
+  const user = process.env.DB_USER?.trim();
+  const database = process.env.DB_NAME?.trim();
+  const password = process.env.DB_PASSWORD ?? "";
+  if (!user || !database) {
+    mediaPoolFailed = true;
+    return null;
+  }
+  mediaPool = mysql.createPool({
+    host: process.env.DB_HOST || "127.0.0.1",
+    port: Number(process.env.DB_PORT || 3306) || 3306,
+    user,
+    password,
+    database,
+    waitForConnections: true,
+    connectionLimit: 2,
+  });
+  return mediaPool;
+}
+
+async function restoreCmsImageFromDb(relativePath) {
+  const key = relativePath.replace(/^\/+/, "").replace(/^images\//, "");
+  if (!key || key.includes("..")) return null;
+  if (restoreInFlight.has(key)) return restoreInFlight.get(key);
+
+  const job = (async () => {
+    const pool = getMediaPool();
+    if (!pool) return null;
+    try {
+      const [rows] = await pool.query(
+        "SELECT content_type, bytes FROM cms_media WHERE path = ? LIMIT 1",
+        [key],
+      );
+      const row = rows?.[0];
+      if (!row?.bytes) return null;
+      const bytes = Buffer.isBuffer(row.bytes)
+        ? row.bytes
+        : Buffer.from(row.bytes);
+      const targets = [
+        path.join(clientRoot, "images", key),
+        path.join(publicImagesRoot, key),
+      ];
+      for (const abs of targets) {
+        mkdirSync(path.dirname(abs), { recursive: true });
+        writeFileSync(abs, bytes);
+      }
+      return path.join(clientRoot, "images", key);
+    } catch (err) {
+      console.warn("[cms_media] restore failed:", key, err?.message || err);
+      return null;
+    } finally {
+      restoreInFlight.delete(key);
+    }
+  })();
+
+  restoreInFlight.set(key, job);
+  return job;
+}
 
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
@@ -105,20 +179,30 @@ function cacheControlForPath(pathname, ext) {
   return null;
 }
 
-function tryServeStatic(req, res) {
-  if (req.method !== "GET" && req.method !== "HEAD") return false;
+function resolveStaticFile(pathname) {
+  const relative = pathname.replace(/^\//, "");
+  const primary = path.resolve(path.join(clientRoot, relative));
+  if (primary.startsWith(clientRoot) && existsSync(primary) && statSync(primary).isFile()) {
+    return primary;
+  }
+  // Runtime CMS uploads often land under public/images while static serve uses dist/client.
+  if (pathname.startsWith("/images/")) {
+    const pub = path.resolve(
+      path.join(publicImagesRoot, pathname.slice("/images/".length)),
+    );
+    if (
+      pub.startsWith(publicImagesRoot) &&
+      existsSync(pub) &&
+      statSync(pub).isFile()
+    ) {
+      return pub;
+    }
+  }
+  return null;
+}
 
-  const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
-  const pathname = decodeURIComponent(url.pathname);
-  if (!pathname || pathname.includes("..")) return false;
-
-  const filePath = path.resolve(path.join(clientRoot, pathname.replace(/^\//, "")));
-  if (!filePath.startsWith(clientRoot)) return false;
-  if (!existsSync(filePath)) return false;
-
+function sendStaticFile(req, res, filePath, pathname) {
   const stats = statSync(filePath);
-  if (!stats.isFile()) return false;
-
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] ?? "application/octet-stream";
   const acceptsGzip = String(req.headers["accept-encoding"] ?? "").includes("gzip");
@@ -158,6 +242,32 @@ function tryServeStatic(req, res) {
   return true;
 }
 
+function tryServeStatic(req, res) {
+  if (req.method !== "GET" && req.method !== "HEAD") return false;
+
+  const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
+  const pathname = decodeURIComponent(url.pathname);
+  if (!pathname || pathname.includes("..")) return false;
+
+  const filePath = resolveStaticFile(pathname);
+  if (!filePath) return false;
+  return sendStaticFile(req, res, filePath, pathname);
+}
+
+async function tryServeCmsImage(req, res) {
+  if (req.method !== "GET" && req.method !== "HEAD") return false;
+  const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
+  const pathname = decodeURIComponent(url.pathname);
+  if (!pathname.startsWith("/images/") || pathname.includes("..")) return false;
+
+  const existing = resolveStaticFile(pathname);
+  if (existing) return sendStaticFile(req, res, existing, pathname);
+
+  const restored = await restoreCmsImageFromDb(pathname.slice("/images/".length));
+  if (!restored || !existsSync(restored)) return false;
+  return sendStaticFile(req, res, restored, pathname);
+}
+
 async function handleSsr(req, res) {
   try {
     const response = await handler.fetch(requestFromNode(req));
@@ -172,7 +282,10 @@ async function handleSsr(req, res) {
 
 const server = createServer((req, res) => {
   if (tryServeStatic(req, res)) return;
-  void handleSsr(req, res);
+  void (async () => {
+    if (await tryServeCmsImage(req, res)) return;
+    await handleSsr(req, res);
+  })();
 });
 
 server.listen(port, host, () => {

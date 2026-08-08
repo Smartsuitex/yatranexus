@@ -347,7 +347,7 @@ function AdminServicesPage() {
                   ? "Hero on /holiday-packages. Uploads are stored in MySQL so they survive Hostinger redeploys — save the service after upload."
                   : form.slug === "corporate"
                     ? "Hero on /corporate. Photo-only image recommended. Uploads persist in MySQL across redeploys; hard-refresh /corporate after save."
-                    : "Hero on this service page. Uploads persist in MySQL across Hostinger redeploys — click Save service after changing the image."
+                    : "Hero on this service page. Upload stores a path in MySQL (`banner_url`); the live page reads that DB path. Save the service after changing the image."
               }
               folder={form.slug === "corporate" ? "corporate" : "services"}
               value={form.banner_url}

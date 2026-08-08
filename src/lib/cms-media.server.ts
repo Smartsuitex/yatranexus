@@ -7,6 +7,11 @@ import { execute, getDbPool, query } from "@/lib/db-server";
 export function getCmsImagesRoot(): string {
   const custom = process.env.CMS_IMAGES_DIR?.trim();
   if (custom) return path.resolve(custom);
+  // Production Node host (`start-server.mjs`) serves static files from dist/client.
+  // Runtime admin uploads must land there or they 404 until the next full rebuild.
+  if (process.env.NODE_ENV === "production") {
+    return path.join(process.cwd(), "dist", "client", "images");
+  }
   return path.join(process.cwd(), "public", "images");
 }
 

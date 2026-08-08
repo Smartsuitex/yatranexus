@@ -6,6 +6,11 @@ let pool: DbPool | null = null;
 export function getDbPool(): DbPool {
   if (!pool) {
     pool = createPool();
+    // Restore CMS images wiped by Hostinger redeploys (bytes live in MySQL cms_media).
+    // Dynamic import avoids circular dependency with cms-media.server.ts.
+    void import("@/lib/cms-media.server")
+      .then((m) => m.scheduleCmsMediaHydrate())
+      .catch(() => {});
   }
   return pool;
 }
