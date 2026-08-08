@@ -9,7 +9,7 @@ import {
   publicUrlFromRelative,
   saveCmsMediaToDb,
   scheduleCmsMediaHydrate,
-} from "@/lib/cms-media";
+} from "@/lib/cms-media.server";
 import { execute } from "@/lib/db-server";
 import {
   CMS_IMAGE_FOLDERS,

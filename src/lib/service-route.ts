@@ -1,5 +1,4 @@
 import { notFound } from "@tanstack/react-router";
-import { ensureCmsMediaFileOnDisk, scheduleCmsMediaHydrate } from "@/lib/cms-media";
 import { fetchPublicServiceBySlug, type PublicService } from "@/lib/public-cms";
 import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
 import { resolveServiceHero, type ServiceHeroSlug } from "@/lib/service-hero-images";
@@ -53,16 +52,8 @@ export function serviceRouteMeta(service: PublicService) {
 }
 
 export async function loadService(slug: string) {
-  scheduleCmsMediaHydrate();
   const service = await fetchPublicServiceBySlug(slug);
   if (!service) throw notFound();
-  const banner =
-    service.bannerUrl?.trim() ||
-    service.contentBlocks.heroBannerUrl?.trim() ||
-    "";
-  if (banner.startsWith("/images/")) {
-    await ensureCmsMediaFileOnDisk(banner).catch(() => false);
-  }
   return { service };
 }
 
