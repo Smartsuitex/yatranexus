@@ -1038,9 +1038,10 @@ async function fetchPublicHomepageSettingsImpl(): Promise<PublicHomepageSettings
     const heroRaw = Array.isArray(row.hero_slides) ? row.hero_slides : [];
     const rowExt = row as HomepageRowExtended & { hero_interval_ms?: number | null };
     const intervalRaw = Number(rowExt.hero_interval_ms);
+    // Floor at 5s so a mis-set 1–2s interval cannot make the hero look broken.
     const heroIntervalMs =
       Number.isFinite(intervalRaw) && intervalRaw >= 1000
-        ? Math.min(120_000, intervalRaw)
+        ? Math.min(120_000, Math.max(5_000, intervalRaw))
         : 10_000;
 
     const heroSlides =
@@ -1056,6 +1057,31 @@ async function fetchPublicHomepageSettingsImpl(): Promise<PublicHomepageSettings
             };
           })
         : defaultHero;
+
+    // #region agent log
+    fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "00bc0d",
+      },
+      body: JSON.stringify({
+        sessionId: "00bc0d",
+        runId: "hero-pre",
+        hypothesisId: "E",
+        location: "public-cms.ts:homepage-settings",
+        message: "Public homepage hero loaded from DB",
+        data: {
+          usedDefaultHero: heroRaw.length === 0,
+          rawCount: heroRaw.length,
+          outCount: heroSlides.length,
+          heroIntervalMs,
+          slides: heroSlides.map((s) => ({ name: s.name, image: s.image })),
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
 
     return {
       heroSlides,

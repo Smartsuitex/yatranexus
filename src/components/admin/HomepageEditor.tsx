@@ -7,7 +7,12 @@ import {
 } from "@/components/admin/AdminPageHeader";
 import { CMS_ICON_OPTIONS, resolveCmsIcon } from "@/lib/cms-icons";
 import type { HomepageFormState } from "@/lib/homepage-admin";
-import { DEFAULT_HOME_HERO_TAGLINE, MAX_HERO_SLIDES } from "@/lib/homepage-admin";
+import {
+  DEFAULT_HOME_HERO_TAGLINE,
+  MAX_HERO_INTERVAL_SECONDS,
+  MAX_HERO_SLIDES,
+  MIN_HERO_INTERVAL_SECONDS,
+} from "@/lib/homepage-admin";
 
 type SlugOption = { slug: string; label: string };
 
@@ -186,21 +191,29 @@ export function HomepageEditor({
         <div className="mb-4">
           <h2 className="text-base font-semibold text-[color:var(--brand-navy)]">Hero slides</h2>
           <p className="text-sm text-muted-foreground">
-            Add up to {MAX_HERO_SLIDES} images for the homepage hero. They auto-rotate on the live
-            site — change any slide image anytime.
+            Add up to {MAX_HERO_SLIDES} images for the homepage hero. With 2+ slides they auto-rotate
+            on the live site. For a single fixed image, keep only one slide.
           </p>
         </div>
         <AdminField
           label="Auto-rotate interval (seconds)"
-          hint="How long each image stays before the next one (default 10 seconds)."
+          hint={`How long each image stays before the next (min ${MIN_HERO_INTERVAL_SECONDS}s, default 10s).`}
         >
           <input
             type="number"
-            min={1}
-            max={120}
+            min={MIN_HERO_INTERVAL_SECONDS}
+            max={MAX_HERO_INTERVAL_SECONDS}
             value={value.heroIntervalSeconds}
             onChange={(e) =>
-              patch({ heroIntervalSeconds: Math.max(1, Number(e.target.value) || 10) })
+              patch({
+                heroIntervalSeconds: Math.max(
+                  MIN_HERO_INTERVAL_SECONDS,
+                  Math.min(
+                    MAX_HERO_INTERVAL_SECONDS,
+                    Number(e.target.value) || 10,
+                  ),
+                ),
+              })
             }
             className={`${adminInputClass} max-w-[10rem]`}
           />

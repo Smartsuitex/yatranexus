@@ -29,7 +29,7 @@ export function HeroBackgroundSlider({ slides, intervalMs = 10_000 }: Props) {
 
   useEffect(() => {
     if (images.length <= 1) return;
-    const delay = Math.max(1000, intervalMs);
+    const delay = Math.max(5_000, intervalMs);
     const id = window.setInterval(() => {
       setIndex((current) => (current + 1) % images.length);
     }, delay);

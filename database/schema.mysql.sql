@@ -243,4 +243,14 @@ INSERT IGNORE INTO homepage_settings (id) VALUES (1);
 INSERT IGNORE INTO site_settings (id) VALUES (1);
 INSERT IGNORE INTO email_settings (id) VALUES (1);
 
+-- Admin uploads survive Hostinger redeploys (bytes restored to disk on boot).
+CREATE TABLE IF NOT EXISTS cms_media (
+  path VARCHAR(512) NOT NULL PRIMARY KEY,
+  content_type VARCHAR(128) NOT NULL DEFAULT 'image/webp',
+  bytes MEDIUMBLOB NOT NULL,
+  byte_length INT NOT NULL DEFAULT 0,
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;

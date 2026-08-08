@@ -5,6 +5,13 @@ import path from "node:path";
 import sharp from "sharp";
 import { requireAdminFromRequest } from "@/lib/admin-auth";
 import {
+  getCmsImagesRoot,
+  publicUrlFromRelative,
+  saveCmsMediaToDb,
+  scheduleCmsMediaHydrate,
+} from "@/lib/cms-media";
+import { execute } from "@/lib/db-server";
+import {
   CMS_IMAGE_FOLDERS,
   type CmsImageFolder,
   type MediaLibraryItem,
@@ -22,7 +29,9 @@ const ALLOWED_TYPES = new Set([
 /** Raster types we optimize and store as WebP for fast public pages. */
 const CONVERT_TO_WEBP = new Set(["image/jpeg", "image/png", "image/webp"]);
 
-const IMAGES_ROOT = path.join(process.cwd(), "public", "images");
+function imagesRoot(): string {
+  return getCmsImagesRoot();
+}
 
 function sanitizeBasename(name: string): string {
   const base = name.replace(/\.[^.]+$/, "").toLowerCase();
@@ -31,11 +40,25 @@ function sanitizeBasename(name: string): string {
 }
 
 function publicUrl(relativePath: string): string {
-  return `/images/${relativePath.replace(/^\/+/, "")}`;
+  return publicUrlFromRelative(relativePath);
 }
 
 async function ensureDir(dir: string) {
   await fs.mkdir(dir, { recursive: true });
+}
+
+async function writeCmsImage(
+  relativePath: string,
+  data: Buffer,
+  contentType: string,
+): Promise<string> {
+  const root = imagesRoot();
+  const absPath = path.join(root, relativePath);
+  await ensureDir(path.dirname(absPath));
+  await fs.writeFile(absPath, data);
+  // Survive Hostinger redeploys that wipe public/images runtime uploads.
+  await saveCmsMediaToDb(relativePath, data, contentType);
+  return publicUrl(relativePath);
 }
 
 function shouldConvertToWebp(contentType: string, filename: string): boolean {
@@ -78,10 +101,7 @@ export const uploadCmsImageFn = createServerFn({ method: "POST" })
         .toBuffer();
 
       const relativePath = `${folder}/${stamp}-${base}.webp`;
-      const absPath = path.join(IMAGES_ROOT, relativePath);
-      await ensureDir(path.dirname(absPath));
-      await fs.writeFile(absPath, webpBuffer);
-      return publicUrl(relativePath);
+      return writeCmsImage(relativePath, webpBuffer, "image/webp");
     }
 
     // GIF / SVG — keep original format (animation / vectors).
@@ -92,15 +112,14 @@ export const uploadCmsImageFn = createServerFn({ method: "POST" })
           ? ".gif"
           : path.extname(data.filename).toLowerCase() || ".bin";
     const relativePath = `${folder}/${stamp}-${base}${ext}`;
-    const absPath = path.join(IMAGES_ROOT, relativePath);
-    await ensureDir(path.dirname(absPath));
-    await fs.writeFile(absPath, buffer);
-    return publicUrl(relativePath);
+    return writeCmsImage(relativePath, buffer, data.contentType);
   });
 
 export const listMediaLibraryFn = createServerFn({ method: "GET" }).handler(async () => {
   await requireAdminFromRequest();
+  scheduleCmsMediaHydrate();
   const items: MediaLibraryItem[] = [];
+  const IMAGES_ROOT = imagesRoot();
 
   for (const folder of CMS_IMAGE_FOLDERS) {
     const dir = path.join(IMAGES_ROOT, folder);
@@ -135,11 +154,15 @@ export const deleteCmsImageFn = createServerFn({ method: "POST" })
   .validator((data: unknown) => DeleteSchema.parse(data))
   .handler(async ({ data }) => {
     await requireAdminFromRequest();
+    const IMAGES_ROOT = imagesRoot();
     const normalized = data.path.replace(/^\/+/, "").replace(/^images\//, "");
     const abs = path.resolve(path.join(IMAGES_ROOT, normalized));
-    if (!abs.startsWith(IMAGES_ROOT)) {
+    if (!abs.startsWith(path.resolve(IMAGES_ROOT))) {
       throw new Error("Invalid image path.");
     }
-    await fs.unlink(abs);
+    await fs.unlink(abs).catch(() => undefined);
+    await execute(`DELETE FROM cms_media WHERE path = ?`, [normalized]).catch(
+      () => undefined,
+    );
     return { ok: true };
   });

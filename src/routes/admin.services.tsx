@@ -344,10 +344,10 @@ function AdminServicesPage() {
               }
               hint={
                 form.slug === "packages"
-                  ? "Hero background on /holiday-packages. Saved immediately when you upload."
+                  ? "Hero on /holiday-packages. Uploads are stored in MySQL so they survive Hostinger redeploys — save the service after upload."
                   : form.slug === "corporate"
-                    ? "Hero background on /corporate. Upload a photo-only image (no text in the file). Saved immediately when you upload — then hard-refresh /corporate."
-                    : "Hero background on this service page. Upload or choose from library to replace the default."
+                    ? "Hero on /corporate. Photo-only image recommended. Uploads persist in MySQL across redeploys; hard-refresh /corporate after save."
+                    : "Hero on this service page. Uploads persist in MySQL across Hostinger redeploys — click Save service after changing the image."
               }
               folder={form.slug === "corporate" ? "corporate" : "services"}
               value={form.banner_url}

@@ -18,7 +18,11 @@ import {
   type HeroSearchDestination,
   type HeroSearchPackage,
 } from "@/lib/hero-search";
-import { MAX_HERO_SLIDES, DEFAULT_HOME_HERO_TAGLINE } from "@/lib/homepage-admin";
+import {
+  MAX_HERO_SLIDES,
+  DEFAULT_HOME_HERO_TAGLINE,
+  MIN_HERO_INTERVAL_SECONDS,
+} from "@/lib/homepage-admin";
 import { resolveHeroBackground, preferWebpImage } from "@/lib/site-images";
 import { encodeImageSrc } from "@/components/site/SafeImage";
 import { homeServiceLinkRoute, type HomeServiceLink } from "@/lib/nav-links";
@@ -115,18 +119,92 @@ export function HomepageHero({
   const nextSlide =
     slides.length > 0 ? (slides[(slide + 1) % slides.length] ?? slides[0]) : undefined;
 
+  // #region agent log
+  useEffect(() => {
+    fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "00bc0d",
+      },
+      body: JSON.stringify({
+        sessionId: "00bc0d",
+        runId: "hero-pre",
+        hypothesisId: "A",
+        location: "HomepageHero.tsx:slides-init",
+        message: "Hero slides normalized from CMS",
+        data: {
+          inputCount: heroSlides?.length ?? 0,
+          slideCount: slides.length,
+          heroIntervalMs,
+          names: slides.map((s) => s.name),
+          images: slides.map((s) => s.image),
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+  }, [heroSlides, slides, heroIntervalMs]);
+  // #endregion
+
   useEffect(() => {
     setSlide(0);
   }, [slides]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
-    const delay = Math.max(1000, heroIntervalMs);
+    const delay = Math.max(MIN_HERO_INTERVAL_SECONDS * 1000, heroIntervalMs);
+    // #region agent log
+    fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "00bc0d",
+      },
+      body: JSON.stringify({
+        sessionId: "00bc0d",
+        runId: "hero-pre",
+        hypothesisId: "A",
+        location: "HomepageHero.tsx:auto-rotate-armed",
+        message: "Hero auto-rotate timer armed",
+        data: { slideCount: slides.length, delayMs: delay, heroIntervalMs },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
     const id = window.setInterval(() => {
-      setSlide((index) => (index + 1) % slides.length);
+      setSlide((index) => {
+        const next = (index + 1) % slides.length;
+        // #region agent log
+        fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Debug-Session-Id": "00bc0d",
+          },
+          body: JSON.stringify({
+            sessionId: "00bc0d",
+            runId: "hero-pre",
+            hypothesisId: "A",
+            location: "HomepageHero.tsx:auto-rotate-tick",
+            message: "Hero auto-rotated to next slide",
+            data: {
+              from: index,
+              to: next,
+              fromName: slides[index]?.name,
+              toName: slides[next]?.name,
+              fromImage: slides[index]?.image,
+              toImage: slides[next]?.image,
+              delayMs: delay,
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
+        return next;
+      });
     }, delay);
     return () => window.clearInterval(id);
-  }, [slides.length, heroIntervalMs]);
+  }, [slides.length, heroIntervalMs, slides]);
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -166,6 +244,74 @@ export function HomepageHero({
     if (!src || failedImages[src]) return "";
     return encodeImageSrc(preferWebpImage(src));
   }
+
+  // #region agent log
+  useEffect(() => {
+    if (!current?.image) return;
+    const src = imageSrc(current.image);
+    if (!src) {
+      fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "00bc0d",
+        },
+        body: JSON.stringify({
+          sessionId: "00bc0d",
+          runId: "hero-pre",
+          hypothesisId: "B",
+          location: "HomepageHero.tsx:active-image-skipped",
+          message: "Active hero image skipped (failed or empty)",
+          data: { name: current.name, image: current.image, failedFlag: !!failedImages[current.image] },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      return;
+    }
+    fetch(src, { method: "HEAD", cache: "no-store" })
+      .then((r) => {
+        fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Debug-Session-Id": "00bc0d",
+          },
+          body: JSON.stringify({
+            sessionId: "00bc0d",
+            runId: "hero-pre",
+            hypothesisId: "B",
+            location: "HomepageHero.tsx:active-image-head",
+            message: "Active hero image HEAD check",
+            data: {
+              name: current.name,
+              image: current.image,
+              src,
+              status: r.status,
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+      })
+      .catch((err) => {
+        fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Debug-Session-Id": "00bc0d",
+          },
+          body: JSON.stringify({
+            sessionId: "00bc0d",
+            runId: "hero-pre",
+            hypothesisId: "B",
+            location: "HomepageHero.tsx:active-image-head-error",
+            message: "Active hero image HEAD failed",
+            data: { image: current.image, error: String(err) },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+      });
+  }, [current?.image, current?.name, failedImages]);
+  // #endregion
 
   return (
     <section className="relative isolate overflow-hidden bg-paper" aria-labelledby="hero-heading">

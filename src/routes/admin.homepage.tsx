@@ -101,7 +101,55 @@ function AdminHomepagePage() {
         toast.warning(`Some featured items no longer exist (${parts.join(" · ")}).`);
       }
 
-      const { skippedHeroInterval } = await saveHomepageSettings(homepageFormToPayload(form));
+      const payload = homepageFormToPayload(form);
+      // #region agent log
+      fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "00bc0d",
+        },
+        body: JSON.stringify({
+          sessionId: "00bc0d",
+          runId: "hero-pre",
+          hypothesisId: "C",
+          location: "admin.homepage.tsx:save",
+          message: "Admin homepage save payload hero fields",
+          data: {
+            slideCount: Array.isArray(payload.hero_slides)
+              ? payload.hero_slides.length
+              : 0,
+            intervalSeconds: form.heroIntervalSeconds,
+            slides: Array.isArray(payload.hero_slides)
+              ? payload.hero_slides.map((s) => {
+                  const slide = s as { name?: string; image?: string };
+                  return { name: slide.name, image: slide.image };
+                })
+              : [],
+          },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
+      const { skippedHeroInterval } = await saveHomepageSettings(payload);
+      // #region agent log
+      fetch("http://127.0.0.1:7377/ingest/fa815d2a-6e74-490b-be7b-8bf8047ce565", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "00bc0d",
+        },
+        body: JSON.stringify({
+          sessionId: "00bc0d",
+          runId: "hero-pre",
+          hypothesisId: "C",
+          location: "admin.homepage.tsx:save-result",
+          message: "Admin homepage save finished",
+          data: { skippedHeroInterval: !!skippedHeroInterval },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
       if (skippedHeroInterval) {
         toast.warning(
           "Homepage saved, but hero slide interval could not be updated. Check MySQL schema (homepage_settings.hero_interval_ms).",

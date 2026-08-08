@@ -86,6 +86,9 @@ export type HomepageFormState = {
 };
 
 export const DEFAULT_HERO_INTERVAL_SECONDS = 10;
+/** Minimum auto-rotate interval — sub-5s feels like the hero is “glitching”. */
+export const MIN_HERO_INTERVAL_SECONDS = 5;
+export const MAX_HERO_INTERVAL_SECONDS = 120;
 /** Homepage hero supports up to 10 rotating images. */
 export const MAX_HERO_SLIDES = 10;
 
@@ -183,7 +186,10 @@ export function homepageRowToForm(row: HomepageRow | null | undefined): Homepage
   const intervalMs = Number(rowExt.hero_interval_ms);
   const heroIntervalSeconds =
     Number.isFinite(intervalMs) && intervalMs > 0
-      ? Math.max(1, Math.round(intervalMs / 1000))
+      ? Math.max(
+          MIN_HERO_INTERVAL_SECONDS,
+          Math.min(MAX_HERO_INTERVAL_SECONDS, Math.round(intervalMs / 1000)),
+        )
       : DEFAULT_HERO_INTERVAL_SECONDS;
 
   return {
@@ -218,7 +224,13 @@ function cleanIconFeatures(items: IconFeatureForm[]) {
 export function homepageFormToPayload(
   form: HomepageFormState,
 ): Partial<HomepageRow> {
-  const seconds = Math.max(1, Math.min(120, Number(form.heroIntervalSeconds) || DEFAULT_HERO_INTERVAL_SECONDS));
+  const seconds = Math.max(
+    MIN_HERO_INTERVAL_SECONDS,
+    Math.min(
+      MAX_HERO_INTERVAL_SECONDS,
+      Number(form.heroIntervalSeconds) || DEFAULT_HERO_INTERVAL_SECONDS,
+    ),
+  );
   return {
     hero_slides: form.heroSlides
       .filter((s) => s.name.trim() || s.image.trim())
