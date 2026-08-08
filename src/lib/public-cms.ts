@@ -544,7 +544,9 @@ export async function fetchPackagesForDestination(dest: {
   slug: string;
   scope?: "domestic" | "international";
 }): Promise<PublicPackage[]> {
-  const all = await fetchPublicPackagesImpl(
+  // Must use the server-fn wrapper — loaders also run on the client during SPA
+  // navigations, and direct DB access silently falls back to image-less seeds.
+  const all = await fetchPublicPackages(
     dest.scope ? { scope: dest.scope } : undefined,
   );
   const fromDb = all.filter((pkg) => packageMatchesDestination(pkg, dest));
@@ -640,7 +642,7 @@ export async function fetchPackagesForTourType(tour: {
   slug: string;
   name: string;
 }): Promise<PublicPackage[]> {
-  const all = await fetchPublicPackagesImpl();
+  const all = await fetchPublicPackages();
   return all.filter((pkg) => packageMatchesTourType(pkg, tour));
 }
 
