@@ -388,13 +388,14 @@ function HolidayPackagesHub() {
           </div>
 
           <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
-            {filteredDomestic.map((d) => (
+            {filteredDomestic.map((d, index) => (
               <DestinationCard
                 key={d.slug}
                 d={d}
                 to="/holiday-packages/domestic/$state"
                 params={{ state: d.slug }}
                 fromPrice={destinationPrices[d.slug]}
+                priority={index < 4}
               />
             ))}
             {filteredDomestic.length === 0 && <EmptyFilterMessage />}

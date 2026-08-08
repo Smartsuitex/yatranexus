@@ -43,11 +43,14 @@ function DomesticDestinationsGrid({
 }) {
   return (
     <div className="home-domestic-dest-row mt-8">
-      {destinations.map((d) => {
+      {destinations.map((d, index) => {
         const price = prices?.[d.slug]?.trim();
         const rawTagline = taglines?.[d.slug]?.trim() || "";
         const tagline =
           rawTagline && !/^india$/i.test(rawTagline) ? rawTagline : "";
+        // First row (~4 on mobile / 5 on tablet) should paint immediately —
+        // lazy + opacity-0 skeleton was leaving blank cards in-viewport.
+        const eager = index < 4;
         return (
           <Link
             key={d.slug}
@@ -60,7 +63,8 @@ function DomesticDestinationsGrid({
               <SafeImage
                 src={d.image}
                 alt={d.name}
-                loading="lazy"
+                loading={eager ? "eager" : "lazy"}
+                fetchPriority={eager ? "high" : undefined}
                 className="home-domestic-dest-card__img"
               />
             </div>

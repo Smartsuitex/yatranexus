@@ -117,7 +117,22 @@ export function SafeImage({
     const markIfReady = () => {
       if (gen !== loadGen.current) return true;
       const img = imgRef.current;
-      if (img?.complete && img.naturalWidth > 0) {
+      if (!img) return false;
+      if (img.complete && img.naturalWidth > 0) {
+        setLoaded(true);
+        return true;
+      }
+      // Broken responses (e.g. HTML 404) often complete with naturalWidth 0
+      // without a reliable onError — promote to raster fallback / failure.
+      if (img.complete && img.naturalWidth === 0 && (img.getAttribute("src") || "")) {
+        const erroredSrc = img.getAttribute("src") || "";
+        const raster = nextRasterFallback(erroredSrc, fallbackAttempt.current);
+        if (raster && raster !== erroredSrc) {
+          fallbackAttempt.current += 1;
+          setCurrentSrc(encodeImageSrc(raster));
+          return true;
+        }
+        setFailed(true);
         setLoaded(true);
         return true;
       }
