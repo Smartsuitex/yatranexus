@@ -45,37 +45,37 @@ export const FLIGHTS_POPULAR_DESTINATIONS: FlightPopularDestination[] = [
     slug: "delhi",
     name: "Delhi",
     priceLabel: "",
-    image: "/images/destinations/1785076174298-chatgpt-image-jul-26-2026-07-58-56-pm.webp",
+    image: "",
   },
   {
     slug: "mumbai",
     name: "Mumbai",
     priceLabel: "",
-    image: "/images/destinations/1785233303513-chatgpt-image-jul-28-2026-03-38-09-pm.webp",
+    image: "",
   },
   {
     slug: "bangalore",
     name: "Bangalore",
     priceLabel: "",
-    image: "/images/packages/1785074521978-chatgpt-image-jul-26-2026-07-31-32-pm.webp",
+    image: "",
   },
   {
     slug: "singapore",
     name: "Singapore",
     priceLabel: "",
-    image: "/images/packages/1785069204318-chatgpt-image-jul-26-2026-06-03-12-pm.webp",
+    image: "",
   },
   {
     slug: "dubai",
     name: "Dubai",
     priceLabel: "",
-    image: "/images/homepage/hero/1786035390433-chatgpt-image-aug-6-2026-10-26-18-pm.webp",
+    image: "",
   },
   {
     slug: "new-york",
     name: "New York",
     priceLabel: "",
-    image: "/images/hero/flights-hero.webp",
+    image: "",
   },
 ];
 
