@@ -8,12 +8,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { adminInputClass } from "@/components/admin/AdminPageHeader";
+import { AdminMediaUploader } from "@/components/admin/AdminMediaUploader";
 import { MediaLibraryGrid, useFilteredMediaItems } from "@/components/admin/MediaLibraryGrid";
 import {
   CMS_IMAGE_FOLDERS,
   CMS_IMAGE_FOLDER_LABELS,
   deleteCmsImage,
   listMediaLibrary,
+  type CmsImageFolder,
   type MediaLibraryItem,
 } from "@/lib/image-upload";
 
@@ -21,6 +23,8 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (url: string) => void;
+  /** Preferred upload folder when adding new images from this picker. */
+  uploadFolder?: CmsImageFolder;
   title?: string;
   description?: string;
 };
@@ -29,14 +33,16 @@ export function MediaLibraryPicker({
   open,
   onOpenChange,
   onSelect,
+  uploadFolder = "packages",
   title = "Choose from media library",
-  description = "Pick an image you have already uploaded.",
+  description = "Upload a new image or pick one you already uploaded.",
 }: Props) {
   const [items, setItems] = useState<MediaLibraryItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [folderFilter, setFolderFilter] = useState("all");
+  const [folder, setFolder] = useState<CmsImageFolder>(uploadFolder);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -51,8 +57,11 @@ export function MediaLibraryPicker({
   }, []);
 
   useEffect(() => {
-    if (open) void load();
-  }, [open, load]);
+    if (open) {
+      setFolder(uploadFolder);
+      void load();
+    }
+  }, [open, load, uploadFolder]);
 
   const filtered = useFilteredMediaItems(items, query, folderFilter);
 
@@ -68,6 +77,38 @@ export function MediaLibraryPicker({
         </DialogHeader>
 
         <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden">
+          <div className="shrink-0 space-y-3 rounded-xl border border-border bg-muted/20 p-3">
+            <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+              <label className="block text-xs font-medium text-muted-foreground">
+                Upload to folder
+                <select
+                  value={folder}
+                  onChange={(e) => setFolder(e.target.value as CmsImageFolder)}
+                  className={`${adminInputClass} mt-1`}
+                >
+                  {CMS_IMAGE_FOLDERS.map((entry) => (
+                    <option key={entry} value={entry}>
+                      {CMS_IMAGE_FOLDER_LABELS[entry]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <AdminMediaUploader
+              folder={folder}
+              multiple={false}
+              showDropzone={false}
+              buttonLabel="Select & upload image"
+              onUploaded={(url) => {
+                onSelect(url);
+                onOpenChange(false);
+              }}
+              onBatchComplete={() => {
+                void load();
+              }}
+            />
+          </div>
+
           <div className="grid shrink-0 gap-3 sm:grid-cols-[1fr_12rem]">
             <input
               value={query}
@@ -81,9 +122,9 @@ export function MediaLibraryPicker({
               className={adminInputClass}
             >
               <option value="all">All folders</option>
-              {CMS_IMAGE_FOLDERS.map((folder) => (
-                <option key={folder} value={folder}>
-                  {CMS_IMAGE_FOLDER_LABELS[folder]}
+              {CMS_IMAGE_FOLDERS.map((entry) => (
+                <option key={entry} value={entry}>
+                  {CMS_IMAGE_FOLDER_LABELS[entry]}
                 </option>
               ))}
             </select>
@@ -95,7 +136,7 @@ export function MediaLibraryPicker({
             </p>
           ) : null}
 
-          <div className="max-h-[min(58dvh,560px)] min-h-[12rem] flex-1 overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
+          <div className="max-h-[min(50dvh,480px)] min-h-[12rem] flex-1 overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
             <MediaLibraryGrid
               items={filtered}
               loading={loading}
@@ -109,7 +150,7 @@ export function MediaLibraryPicker({
               }}
               emptyMessage={
                 items.length === 0
-                  ? "No uploaded images yet. Upload one first, then pick it here."
+                  ? "No images yet. Use Select & upload image above to add one."
                   : "No images match your search."
               }
             />

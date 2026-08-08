@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
-import { ImagePlus, Images, Loader2, X } from "lucide-react";
-import { toast } from "sonner";
+import { useState } from "react";
+import { Images, X } from "lucide-react";
 import { AdminField, adminInputClass } from "@/components/admin/AdminPageHeader";
+import { AdminMediaUploader } from "@/components/admin/AdminMediaUploader";
 import { MediaLibraryPicker } from "@/components/admin/MediaLibraryPicker";
-import { uploadCmsImage, type CmsImageFolder } from "@/lib/image-upload";
+import type { CmsImageFolder } from "@/lib/image-upload";
 
 type Props = {
   label: string;
@@ -15,31 +15,14 @@ type Props = {
 };
 
 export function AdminImageField({ label, hint, value, onChange, folder, required }: Props) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
   const [libraryOpen, setLibraryOpen] = useState(false);
-
-  async function handleFile(file: File | undefined) {
-    if (!file) return;
-    setUploading(true);
-    try {
-      const url = await uploadCmsImage(file, folder);
-      onChange(url);
-      toast.success("Image uploaded");
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploading(false);
-      if (inputRef.current) inputRef.current.value = "";
-    }
-  }
 
   return (
     <AdminField
       label={label}
       hint={
         hint ??
-        "JPEG/PNG/WebP uploads are saved as optimized WebP. GIF/SVG stay as-is. Or paste a /images/... URL."
+        "Select an image from your device or library. JPEG/PNG/WebP are saved as optimized WebP."
       }
     >
       <div className="space-y-3">
@@ -66,26 +49,13 @@ export function AdminImageField({ label, hint, value, onChange, folder, required
         ) : null}
 
         <div className="flex flex-wrap items-center gap-2">
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
-            className="hidden"
-            onChange={(e) => void handleFile(e.target.files?.[0])}
+          <AdminMediaUploader
+            folder={folder}
+            multiple={false}
+            showDropzone={false}
+            buttonLabel="Select & upload"
+            onUploaded={onChange}
           />
-          <button
-            type="button"
-            disabled={uploading}
-            onClick={() => inputRef.current?.click()}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-muted/50 disabled:opacity-60"
-          >
-            {uploading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <ImagePlus className="h-4 w-4" />
-            )}
-            {uploading ? "Uploading…" : "Upload image"}
-          </button>
           <button
             type="button"
             onClick={() => setLibraryOpen(true)}
@@ -100,6 +70,7 @@ export function AdminImageField({ label, hint, value, onChange, folder, required
           open={libraryOpen}
           onOpenChange={setLibraryOpen}
           onSelect={onChange}
+          uploadFolder={folder}
         />
 
         <input

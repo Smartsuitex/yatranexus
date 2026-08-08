@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ImagePlus, Loader2, RefreshCw } from "lucide-react";
-import { toast } from "sonner";
+import { useCallback, useEffect, useState } from "react";
+import { RefreshCw } from "lucide-react";
 import {
   AdminCard,
   AdminErrorBanner,
@@ -10,13 +9,13 @@ import {
   AdminPageHeader,
   adminInputClass,
 } from "@/components/admin/AdminPageHeader";
+import { AdminMediaUploader } from "@/components/admin/AdminMediaUploader";
 import { MediaLibraryGrid, useFilteredMediaItems } from "@/components/admin/MediaLibraryGrid";
 import {
   CMS_IMAGE_FOLDERS,
   CMS_IMAGE_FOLDER_LABELS,
   deleteCmsImage,
   listMediaLibrary,
-  uploadCmsImage,
   type CmsImageFolder,
   type MediaLibraryItem,
 } from "@/lib/image-upload";
@@ -27,10 +26,8 @@ export const Route = createFileRoute("/admin/media")({
 });
 
 function AdminMediaPage() {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<MediaLibraryItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
   const [dbError, setDbError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [folderFilter, setFolderFilter] = useState("all");
@@ -54,21 +51,6 @@ function AdminMediaPage() {
 
   const filtered = useFilteredMediaItems(items, query, folderFilter);
 
-  async function handleUpload(file: File | undefined) {
-    if (!file) return;
-    setUploading(true);
-    try {
-      await uploadCmsImage(file, uploadFolder);
-      toast.success("Image uploaded");
-      await load();
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploading(false);
-      if (inputRef.current) inputRef.current.value = "";
-    }
-  }
-
   async function handleDelete(item: MediaLibraryItem) {
     await deleteCmsImage(item.path);
     setItems((current) => current.filter((entry) => entry.path !== item.path));
@@ -78,13 +60,13 @@ function AdminMediaPage() {
     <div className="space-y-6">
       <AdminPageHeader
         title="Media library"
-        description="Browse, upload, copy, and reuse images in public/images/."
+        description="Select images from your device or drag & drop to upload. Then copy URLs or reuse them in packages, destinations, and services."
       />
 
       {dbError ? <AdminErrorBanner message={dbError} /> : null}
 
       <AdminCard>
-        <div className="grid gap-4 md:grid-cols-[1fr_auto_auto] md:items-end">
+        <div className="space-y-4">
           <AdminField label="Upload to folder">
             <select
               value={uploadFolder}
@@ -99,27 +81,14 @@ function AdminMediaPage() {
             </select>
           </AdminField>
 
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
-            className="hidden"
-            onChange={(e) => void handleUpload(e.target.files?.[0])}
+          <AdminMediaUploader
+            folder={uploadFolder}
+            multiple
+            buttonLabel="Select & upload images"
+            onBatchComplete={() => {
+              void load();
+            }}
           />
-
-          <button
-            type="button"
-            disabled={uploading}
-            onClick={() => inputRef.current?.click()}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-          >
-            {uploading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <ImagePlus className="h-4 w-4" />
-            )}
-            {uploading ? "Uploading…" : "Upload image"}
-          </button>
         </div>
       </AdminCard>
 
@@ -165,7 +134,7 @@ function AdminMediaPage() {
             onDelete={handleDelete}
             emptyMessage={
               items.length === 0
-                ? "No uploaded images yet. Use Upload image above to add your first file."
+                ? "No uploaded images yet. Select images above to add your first files."
                 : "No images match your filters."
             }
           />
