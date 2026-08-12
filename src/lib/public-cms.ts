@@ -272,7 +272,7 @@ export const DEFAULT_SITE_SETTINGS: PublicSiteSettings = {
     "YatraNexus | Tour Packages, Flights, Hotels & Cabs India",
   seoDescription:
     DEFAULT_PAGE_CONTENT.site?.seoDescription ??
-    "Book affordable tour packages, flights, hotels, cabs & corporate travel with YatraNexus. Explore India with trusted travel experts.",
+    "YatraNexus is your one-stop travel partner for flights, hotels, holidays, visa, insurance, forex & corporate travel — handled by real experts, not chatbots.",
   commonPackageExclusions: DEFAULT_PAGE_CONTENT.site?.commonPackageExclusions ?? [],
 };
 

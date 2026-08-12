@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AboutLandingPage } from "@/components/site/AboutLandingPage";
 import { resolveAboutHero } from "@/lib/about-page-data";
 import { fetchPublicHomepageSettings } from "@/lib/public-cms";
-import { brandSeoDescription, brandSeoTitle, buildPageSeo } from "@/lib/seo";
+import { buildPageSeo } from "@/lib/seo";
 import { heroPreloadLink } from "@/lib/site-images";
 
 export const Route = createFileRoute("/about")({
@@ -15,10 +15,9 @@ export const Route = createFileRoute("/about")({
     const preload = heroPreloadLink(hero.primary);
     const seo = buildPageSeo({
       path: "/about",
-      title: brandSeoTitle("Travel Agency in Ahmedabad"),
-      description: brandSeoDescription(
-        "Flights, hotels, holidays, visa, insurance, forex & corporate travel",
-      ),
+      title: "About YatraNexus – Your Trusted Travel Partner",
+      description:
+        "YatraNexus is a travel partner built on one idea — every traveller deserves a real expert, not a chatbot. Discover our mission, values & how we work.",
       keywords: "about YatraNexus, travel agency Ahmedabad, YatraNexus Ventures LLP",
       image: hero.primary,
     });

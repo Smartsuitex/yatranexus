@@ -9,7 +9,7 @@ export const HOME_SEO_TITLE =
 
 /** Homepage / default SERP-style description. */
 export const HOME_SEO_DESCRIPTION =
-  "Book affordable tour packages, flights, hotels, cabs & corporate travel with YatraNexus. Explore India with trusted travel experts.";
+  "YatraNexus is your one-stop travel partner for flights, hotels, holidays, visa, insurance, forex & corporate travel — handled by real experts, not chatbots.";
 
 /** Brand-first title: `YatraNexus — Keywords`. */
 export function brandSeoTitle(keywords: string): string {
@@ -270,7 +270,8 @@ export function blogPostJsonLd(input: {
 /** Build title/description/OG/Twitter/canonical tags for a public page. */
 export function buildPageSeo(input: PageSeoInput): SeoHeadResult {
   const title = input.title.trim();
-  const description = truncate(input.description);
+  // Keep the provided meta description intact (do not truncate/rewrite for SERP display).
+  const description = input.description.replace(/\s+/g, " ").trim();
   const url = absoluteUrl(input.path);
   const image = absoluteImageUrl(input.image);
   const type = input.type ?? "website";

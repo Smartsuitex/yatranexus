@@ -297,7 +297,7 @@ export const DEFAULT_PAGE_CONTENT: PublicPageContent = {
       "Hi YatraNexus corporate desk, we'd like to discuss business travel for our company.",
     seoTitle: "YatraNexus | Tour Packages, Flights, Hotels & Cabs India",
     seoDescription:
-      "Book affordable tour packages, flights, hotels, cabs & corporate travel with YatraNexus. Explore India with trusted travel experts.",
+      "YatraNexus is your one-stop travel partner for flights, hotels, holidays, visa, insurance, forex & corporate travel — handled by real experts, not chatbots.",
     commonPackageExclusions: [
       "Flights / airfare",
       "Travel insurance",
